@@ -52,9 +52,11 @@ function createAscender(params) {
     resources.push(resource)
     incomeMultipliers.push(resource)
   }
+
+  var idleMultiplier = calculatable(() => Math.floor(Math.pow(idleTime.get(), Math.log(idleTime.get()+1))))
   
   income = calculatable(() => {
-    return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1) * Math.floor(idleTime.get()) / 1
+    return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1) * idleMultiplier.get() / 1
   })
   
   ascender = {
@@ -72,7 +74,8 @@ function createAscender(params) {
       }
 
       setFormattedText($('.moneyIncome'), large((income.get())))
-      
+      setFormattedText($('.idleMultiplier'), large((idleMultiplier.get())))
+
       debug.unprofile('paint')
     },
     tick: function() {
