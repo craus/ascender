@@ -1,4 +1,4 @@
-var createAscendResource = function(i, resources, getLevel) {
+var createAscendResource = function(i, resources, getLevel, idleTime) {
   var previous = resources[i-1]
   var name
   if (i == 0) {
@@ -11,42 +11,34 @@ var createAscendResource = function(i, resources, getLevel) {
     name = "Income multiplier #" + (i-1)
   }
   var id = "resource" + i
+  
+  var result = variable(1, id, name)
+  
   var panel = instantiate("resourcePanelSample")
   panel.find('.value').addClass(id)
   panel.find('.name').text(name)
   $('.resources').append(panel)
-  
-  var result = variable(1, id, name)
-  
-  if (i == 0) {
-    panel.find('.ascend').toggle(false)
-    var basePaint = result.paint
-    result.paint = function() {
-      panel.toggle(i <= getLevel()+1)
-      setFormattedText(panel.find('.income'), "+"+large(income.get()))
-      
-      basePaint.apply(this)
-    }    
-  } else {
-    panel.find('.income').remove()
-    var ascendValue = () => Math.floor(Math.sqrt(previous.get()))
-  
-    var basePaint = result.paint
-    result.paint = function() {
-      panel.toggle(i <= getLevel()+1)
-      panel.find('.ascend').prop('disabled', ascendValue() <= result.value)
-      setFormattedText(panel.find('.newValue'), large(ascendValue()))
-      
-      basePaint.apply(this)
-    }
+
+  panel.find('.income').remove()
+
+  var ascendValue = () => Math.floor(Math.pow(Math.floor(previous.get()) * (i == 1 ? 1 : 1), i == 1 ? 0.5 : 0.5))
+
+  var basePaint = result.paint
+  result.paint = function() {
+    panel.toggle(i <= getLevel()+1)
+    panel.find('.ascend').prop('disabled', ascendValue() <= result.value)
+    setFormattedText(panel.find('.newValue'), large(ascendValue()))
     
-    panel.find('.ascend').click(() => {
-      result.value = ascendValue()
-      for (var j = 0; j < i; j++) {
-        resources[j].value = 1
-      }
-    })
+    basePaint.apply(this)
   }
+  
+  panel.find('.ascend').click(() => {
+    result.value = ascendValue()
+    for (var j = 0; j < i; j++) {
+      resources[j].value = 1
+    }
+    idleTime.value = 0
+  })
   
   return result
 }

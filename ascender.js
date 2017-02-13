@@ -24,6 +24,7 @@ function createAscender(params) {
     resources.forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
+    savedata.idleTime = idleTime.value
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -35,27 +36,25 @@ function createAscender(params) {
   }
   
   var level
-  
-  resources = [
-    
-  ]
+
   
   incomeMultipliers = []
-  var money
-  
-  for (var i = 0; i < 100; i++) {
+  var idleTime = variable(0, 'idleTime', 'Idle time')
+  var money = variable(1, 'money')
 
-    var resource = createAscendResource(i, resources, () => level)
+  resources = [
+    money
+  ]
+  
+  for (var i = 1; i < 100; i++) {
+
+    var resource = createAscendResource(i, resources, () => level, idleTime)
     resources.push(resource)
-    if (i > 0) {
-      incomeMultipliers.push(resource)
-    } else {
-      money = resource
-    }
+    incomeMultipliers.push(resource)
   }
   
   income = calculatable(() => {
-    return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1)
+    return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1) * Math.floor(idleTime.get()) / 1
   })
   
   ascender = {
@@ -63,6 +62,7 @@ function createAscender(params) {
       debug.profile('paint')
       
       resources.each('paint')
+      idleTime.paint()
       
       for (var i = resources.length-1; i >= 0; i--) {
         if (resources[i].get() > 1) {
@@ -70,6 +70,8 @@ function createAscender(params) {
           break
         }
       }
+
+      setFormattedText($('.moneyIncome'), large((income.get())))
       
       debug.unprofile('paint')
     },
@@ -79,6 +81,7 @@ function createAscender(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
       money.value += income.get() * deltaTime
+      idleTime.value += deltaTime
       
       save(currentTime)
       debug.unprofile('tick')
