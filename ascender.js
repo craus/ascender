@@ -21,7 +21,7 @@ function createAscender(params) {
       return
     }
     savedata = {}
-    resources.forEach(function(resource) {
+    allResources.forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
     savedata.idleTime = idleTime.value
@@ -39,7 +39,11 @@ function createAscender(params) {
 
   
   incomeMultipliers = []
+  var time = variable(0, 'time', 'Time')
   var idleTime = variable(0, 'idleTime', 'Idle time')
+  var actionPoints = variable(10, 'actionPoints', 'Action points', {
+    formatter: (x) => x.toFixed(2)
+  })
   var money = variable(1, 'money')
 
   resources = [
@@ -48,23 +52,28 @@ function createAscender(params) {
   
   for (var i = 1; i < 100; i++) {
 
-    var resource = createAscendResource(i, resources, () => level, idleTime)
+    var resource = createAscendResource(i, resources, () => level, idleTime, actionPoints)
     resources.push(resource)
     incomeMultipliers.push(resource)
   }
 
+  allResources = resources.concat([
+    idleTime, 
+    actionPoints,
+    time
+  ])
+
   var idleMultiplier = calculatable(() => Math.floor(Math.pow(idleTime.get(), Math.log(idleTime.get()+1)/5)))
   
   income = calculatable(() => {
-    return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1) * idleMultiplier.get() / 1
+    return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1)
   })
   
   ascender = {
     paint: function() {
       debug.profile('paint')
       
-      resources.each('paint')
-      idleTime.paint()
+      allResources.each('paint')
       
       for (var i = resources.length-1; i >= 0; i--) {
         if (resources[i].get() > 1) {
@@ -85,6 +94,8 @@ function createAscender(params) {
       
       money.value += income.get() * deltaTime
       idleTime.value += deltaTime
+      time.value += deltaTime
+      actionPoints.value += deltaTime / 100
       
       save(currentTime)
       debug.unprofile('tick')

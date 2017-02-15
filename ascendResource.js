@@ -1,4 +1,4 @@
-var createAscendResource = function(i, resources, getLevel, idleTime) {
+var createAscendResource = function(i, resources, getLevel, idleTime, actionPoints) {
   var previous = resources[i-1]
   var name
   if (i == 0) {
@@ -23,16 +23,24 @@ var createAscendResource = function(i, resources, getLevel, idleTime) {
 
   var ascendValue = () => Math.floor(Math.pow(Math.floor(previous.get()) * (i == 1 ? 1 : 1), i == 1 ? 0.5 : 0.5))
 
+  var actionCost = 1
+
+  var available = () => actionPoints.get() >= actionCost
+
   var basePaint = result.paint
   result.paint = function() {
     panel.toggle(i <= getLevel()+1)
-    panel.find('.ascend').prop('disabled', ascendValue() <= result.value)
+    panel.find('.ascend').prop('disabled', ascendValue() <= result.value && available())
     setFormattedText(panel.find('.newValue'), large(ascendValue()))
     
     basePaint.apply(this)
   }
   
   panel.find('.ascend').click(() => {
+    if (!available()) {
+      return
+    }
+    actionPoints.value -= actionCost
     result.value = ascendValue()
     for (var j = 0; j < i; j++) {
       resources[j].value = 1
