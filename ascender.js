@@ -53,7 +53,7 @@ function createAscender(params) {
     incomeMultipliers.push(resource)
   }
 
-  var idleMultiplier = calculatable(() => Math.floor(Math.pow(idleTime.get(), Math.log(idleTime.get()+1))))
+  var idleMultiplier = calculatable(() => Math.floor(Math.pow(idleTime.get(), Math.log(idleTime.get()+1)/5)))
   
   income = calculatable(() => {
     return incomeMultipliers.reduce((acc, im) => acc * im.get(), 1) * idleMultiplier.get() / 1
