@@ -26,6 +26,16 @@ Array.prototype.find = function(criteria) {
   return null
 }
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
+String.prototype.i = function() {
+  var args = Array.prototype.slice.call(arguments,0)
+  return Object.entries(args).reduce((s, entry) => s.replaceAll('#{'+entry[0]+'}', entry[1]), this.toString())
+}
+
 Math.sign = function(x) {
   if (x > 0) {
     return 1

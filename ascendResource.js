@@ -23,7 +23,7 @@ var createAscendResource = function(i, resources, getLevel, idleTime, actionPoin
 
   var ascendValue = () => Math.floor(Math.pow(Math.floor(previous.get()) * (i == 1 ? 1 : 1), i == 1 ? 0.5 : 0.5))
 
-  var actionCost = 1
+  var actionCost = 0
 
   var available = () => actionPoints.get() >= actionCost
 
