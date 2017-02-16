@@ -33,23 +33,31 @@ function createCivilization(params) {
     localStorage.removeItem(saveName)
     location.reload()
   }
-  
   resources = {
     time: variable(0, 'time'),
     money: variable(0, 'money'),
     population: variable(1, 'population'),
     science: variable(0, 'science'),
     totalTech: variable(0, 'totalTech'),
-    scientists: variable(0, 'scientists')
+    scientists: variable(0, 'scientists'),
   }
   resources.science.income = resources.scientists
+  resources.money.income = resources.population
   resources.time.income = (() => 1)
+
+  commands = {
+    hireScientists: command('hireScientists', z => ({
+      money: -Math.pow(10, z),
+      scientists: +Math.pow(5, z)
+    }))
+  }
   
   civilization = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
+      Object.values(commands).each('paint')
       setFormattedText($('.populationIncome'), noZero(signed(0)))
 
       debug.unprofile('paint')
@@ -59,7 +67,6 @@ function createCivilization(params) {
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
 
-      resources.time.value += deltaTime
       Object.values(resources).each('tick', deltaTime)
       
       save(currentTime)

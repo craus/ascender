@@ -27,7 +27,7 @@
   <script src="colors.js"></script>
   <script src="dev.js"></script>
   <script src="contestant.js"></script>
-  <script src="clicker_command.js"></script>
+  <script src="command.js"></script>
   <script src="buy_event.js"></script>  
   <script src="event.js"></script>  
   <script src="unlinear_event.js"></script> 
@@ -59,7 +59,7 @@
 <div class="container">
   <br>
   <div class="row centered">
-    <div class="col-sm-6">       
+    <div class="col-sm-4">       
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Time</span></h2></div>
         <div class="panel-body big">
@@ -67,7 +67,15 @@
         </div>
       </div>   
     </div>
-    <div class="col-sm-6">       
+    <div class="col-sm-4">       
+      <div class="panel panel-default panel-readiness">
+        <div class="panel-heading"><h2><span class="name">Money</span></h2></div>
+        <div class="panel-body big">
+          <span class="money value">?</span> <span class="label label-success money income">+?</span>
+        </div>
+      </div>   
+    </div>
+    <div class="col-sm-4">       
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Population</span></h2></div>
         <div class="panel-body big">
@@ -81,7 +89,14 @@
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Scientists</span></h2></div>
         <div class="panel-body big scientists">
-          <span class="value">?</span> <span class="label label-success population income">+?</span>
+          <span class="value">?</span> <span class="label label-success income">+?</span>
+        </div>
+        <div class="panel-body big scientists">
+          <div class="btn-group btn-group-lg hireScientists">
+            <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
+            <button tab-index="-1" type="button" class="btn btn-primary buy nohover">Hire <span class="reward">?</span> (<span class="cost">?</span> money)</button>
+            <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
+          </div>
         </div>
       </div>   
     </div>

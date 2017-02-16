@@ -1,9 +1,6 @@
-variable = function(initialValue, id, name, params) {
+variable = function(initialValue, id, params) {
   if (params == undefined) {
     params = {}
-  }
-  if (name == undefined) {
-    name = id
   }
   var income = params.income || (() => 0)
   if (savedata[id] != undefined) {
@@ -14,17 +11,23 @@ variable = function(initialValue, id, name, params) {
   var result = () => {
     return result.value
   }
-  result.name = name
   return Object.assign(result, {
     value: initialValue, 
     id: id,
+    income: income,
+    backup: function() {
+      this.backupValue = this.value
+    },
+    restore: function() {
+      this.value = this.backupValue
+    },
     paint: function() {
       var variable = this
       setFormattedText($('.#{0}.value, .#{0} .value'.i(id)), formatter(variable()))
-      setFormattedText($('.#{0}.income, .#{0} .income'.i(id)), incomeFormatter(income()))
+      setFormattedText($('.#{0}.income, .#{0} .income'.i(id)), incomeFormatter(this.income()))
     },
     tick: function(deltaTime) {
-      this.value += income()
+      this.value += this.income() * deltaTime
     }
   })
 }  
