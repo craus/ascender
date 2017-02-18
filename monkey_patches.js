@@ -46,6 +46,6 @@ Math.sign = function(x) {
   }
 }
 
-Number.prototype.clamp = function(min, max) {
-  return Math.min(Math.max(this, min), max);
+Math.clamp = function(x, min, max) {
+  return Math.min(Math.max(x, min), max);
 };

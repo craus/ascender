@@ -1,49 +1,50 @@
-var createSpell = function(params) {
-  params.cost = params.cost || {}
-  if (params.cost.get) {
-    params.cost = {mana: params.cost}
-  }
-  params.cost.readiness = constant(1)
-  var panel = $('.' + params.name)
-  var available = function() {
-    return Object.entries(params.cost).every(r => resources[r[0]].get() > r[1].get() - eps)
-  }
-  var cast = function() {
-    if (!available()) {
-      return
+var spell = function(params) {
+  var panel = instantiate('spellSample')
+  $('.spells').append(panel)
+  
+  setFormattedText(panel.find('.name'), params.name)
+  setFormattedText(panel.find('.reward'), params.reward)
+  setFormattedText(panel.find('.spellPower'), params.power)
+  setFormattedText(panel.find('.decay'), Format.time(params.decay))
+  
+  Object.entries(params.cooldowns).forEach(c => {
+    var cd = cooldowns[c[0]]
+    var duration = c[1]
+    var cooldownPanel = instantiate('spellCooldownSample')
+    panel.find('.spellCooldowns').append(cooldownPanel)
+    setFormattedText(cooldownPanel.find('.name'), cd.Name)
+    setFormattedText(cooldownPanel.find('.duration'), duration)
+  })
+
+  var spell = Object.assign({ 
+    available: function() {
+      return Object.entries(params.cooldowns).every(c => cooldowns[c[0]]() == 0)
+    },
+    cast: function() { 
+      if (!this.available()) {
+        return
+      }
+      console.log('cast, available')
+      Object.entries(params.cooldowns).forEach(c => cooldowns[c[0]].value = c[1])
+      this.action()
+    },
+    action: function() {
+      resources.wisdom.value += this.reward * wisdomMultiplier()
+      effects.push(powerEffect({
+        power: params.power,
+        decay: params.decay
+      })) 
+    },   
+    paint: function() {
+      enable(panel.find(".cast"), this.available())
     }
-    Object.entries(params.cost).forEach(r => resources[r[0]].value -= r[1].get())
-    params.action()
-  }
-  panel.find(".cast").click(cast)
+  }, params)
+  
+  panel.find(".cast").click(() => spell.cast())
   window.addEventListener("keydown", (e) => {
     if (e.key == params.hotkey) {
       cast()
     }
   })
-  return Object.assign({
-    available: available,
-    panel: panel,
-  }, params, {    
-    paint: function() {
-      if (params.cost) {
-        setFormattedText(panel.find(".cost"), Object.entries(params.cost).filter(r => r[0] != 'readiness').map(r => large(r[1].get()) + " " + resources[r[0]].name).join(', '))
-      }
-      panel.find(".cast").prop('disabled', !this.available())
-      
-      if (this.power) {
-        setFormattedText(panel.find(".power"), large(this.power.get()))
-      }
-      if (this.power2) {
-        setFormattedText(panel.find(".power2"), large(this.power2.get()))
-      }
-      if (this.duration) {
-        setFormattedText(panel.find(".duration"), large(this.duration.get()))
-      }
-      
-      if (params.paint) {
-        params.paint.apply(this)
-      }
-    }
-  })
+  return spell
 }

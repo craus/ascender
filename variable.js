@@ -8,6 +8,7 @@ variable = function(initialValue, id, params) {
   }
   var formatter = params.formatter || (function(x) { return large(Math.floor(x+eps)) })
   var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large(Math.floor(x+eps)))) })
+
   var result = () => {
     return result.value
   }
@@ -28,6 +29,9 @@ variable = function(initialValue, id, params) {
     },
     tick: function(deltaTime) {
       this.value += this.income() * deltaTime
+    },
+    save: function() {
+      savedata[id] = this.value
     }
   })
 }  

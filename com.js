@@ -158,6 +158,13 @@ round = function(x) {
 noZero = function(x, func = x => x) {
   return x == 0 || x == null ? "" : func(x)
 }
+const Format = {
+  time: function(x) {
+    return '#{0} s'.i(x)
+  }
+}
+
+
 setTitle = function(el, title) {
   el.attr('data-original-title', title)
 }

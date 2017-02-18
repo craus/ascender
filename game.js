@@ -21,8 +21,11 @@ function createGame(params) {
       return
     }
     savedata = {}
+    Object.values(resources).each('save', savedata)
+    Object.values(cooldowns).each('save', savedata)
+    effects.each('save', savedata)
     savedata.realTime = timestamp || Date.now()
-    //localStorage[saveName] = JSON.stringify(savedata)
+    localStorage[saveName] = JSON.stringify(savedata)
   } 
   
   wipeSave = function() {
@@ -32,10 +35,10 @@ function createGame(params) {
   }
   
   cooldowns = {
-    fire: variable(0, 'fire'),
-    earth: variable(0, 'earth'),
-    air: variable(0, 'air'),
-    water: variable(0, 'water'),
+    fire: cooldown('fire', 'Fire'),
+    earth: cooldown('earth', 'Earth'),
+    air: cooldown('air', 'Air'),
+    water: cooldown('water', 'Water'),
   }
   
   resources = {
@@ -48,25 +51,22 @@ function createGame(params) {
   }
 
   effects = []
+  if (savedata.effects) {
+    savedata.effects.forEach(e => effects.push(powerEffect(e)))
+  }
   var power = () => effects.reduce((acc, cur) => acc + cur.power(), 0)
-  var wisdomMultiplier = () => Math.pow(2, power())
+  wisdomMultiplier = () => Math.pow(2, power())
   
   spells = {
-    empower: createSpell({
-      action: function() {
-        wisdom.value += 300 * wisdomMultiplier()
-        effects.push(createEffect({
-          name: 'empower',
-          createdAt: Date.now(),
-          power: function() { 1 * Math.pow(0.5, (Date.now()-this.createdAt)/1000/this.decay) },
-          decay: 10,
-          paint: function() {
-            setFormattedText(this.panel.find(".effectMultiplier"), large(this.effectMultiplier))
-            setFormattedText(this.panel.find(".costMultiplier"), large(this.costMultiplier))
-          }
-        })) 
-      },
-      hotkey: "3"
+    headbang: spell({
+      name: 'Headbang',
+      reward: 300,
+      power: 4,
+      decay: 10,
+      cooldowns: {
+        fire: 2,
+        water: 6
+      },      
     })
   }
 
@@ -75,8 +75,12 @@ function createGame(params) {
       debug.profile('paint')
       
       effects.each('paint')
+      Object.values(resources).each('paint')
+      Object.values(cooldowns).each('paint')
+      Object.values(spells).each('paint')
       
-      setFormattedText($(".wisdomIncome"), signed(noZero(effects.reduce((acc, cur) => acc + (cur.wisdomIncome || 0), 0))))
+      setFormattedText($(".power"), large(power()))
+      setFormattedText($(".wisdomMultiplier"), large(wisdomMultiplier()))
       
       debug.unprofile('paint')
     },
@@ -87,8 +91,12 @@ function createGame(params) {
       
       effects.filter(e => e.expired()).each('destroy')
       effects = effects.filter(e => !e.expired())
-      effects.each('tick', deltaTime)
 
+      resources.time.value += deltaTime
+      Object.values(cooldowns).forEach(c => {
+        c.value = Math.clamp(c.value - deltaTime, 0, 1e9)
+      })
+      
       save(currentTime)
       debug.unprofile('tick')
     }
