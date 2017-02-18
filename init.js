@@ -19,7 +19,7 @@ var init = function() {
   //     // Sorry! No Web Storage support..
   // } 
 
-  game = createCivilization()
+  game = createGame()
   
   realTime = 0
   var secondTime = 0

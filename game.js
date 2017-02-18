@@ -1,8 +1,8 @@
-function createSpellcaster(params) {
+function createGame(params) {
   
   // Rules common things
     
-  var gameName = "spellcaster"
+  var gameName = "cooldowner"
   var saveName = gameName+"SaveData"
 
   if (localStorage[saveName] != undefined) {
