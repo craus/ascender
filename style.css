@@ -4,6 +4,9 @@
 .btn {
   outline: none
 }
+a {
+  cursor: pointer;
+}
 .btn.disabled.nohover, .btn[disabled].nohover {
   cursor: default;
   outline: none
