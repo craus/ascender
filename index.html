@@ -42,6 +42,9 @@
   <script src="cooldown.js"></script> 
   <script src="game.js"></script> 
   
+  <script src="names.js"></script>
+  <script src="hero.js"></script>
+  
   <script src="init.js"></script>
 </head>
 
@@ -50,7 +53,7 @@
 <div class="container">
   <br>
   <div class="row centered">
-    <div class="col-sm-4">       
+    <div class="col-sm-6">       
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Time</span></h2></div>
         <div class="panel-body big">
@@ -58,64 +61,36 @@
         </div>
       </div>   
     </div>
-    <div class="col-sm-4">       
+    <div class="col-sm-6">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Wisdom</span></h2></div>
+        <div class="panel-heading"><h2><span class="name">Money</span></h2></div>
         <div class="panel-body big">
-          <span class="wisdom value">?</span>
+          <span class="money value">?</span>
         </div>
       </div>   
     </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Power</span></h2></div>
-        <div class="panel-body big">
-          <span class="power">?</span>
-          <span class="badge">
-            Wisdom income x<span class='wisdomMultiplier'>?</span>
-          </span>
-        </div>
-      </div>   
-    </div>   
   </div>
-  <div class="row centered cooldowns">
-    <h2><span class="name">Cooldowns</span></h2>
-    <div class="col-sm-3 cooldownSample hidden">       
+  <div class="row centered">
+    <h2><span class="name">Heroes</span></h2>
+    <span class="heroes">
+      <div class="col-sm-3 heroSample hidden">       
+        <div class="panel panel-default panel-readiness">
+          <div class="panel-heading"><h2><span class="name">?</span></h2></div>
+          <div class="panel-body">
+            <button tabindex="-1" class="btn btn-default nohover cast disabled">Idle</button>
+          </div>
+        </div>   
+      </div>   
+    </span>
+    <div class="col-sm-3 newHeroPanel">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">?</span></h2></div>
-        <div class="panel-body big">
-          <span class="value">?</span> 
+        <div class="panel-heading"><h2><span class="name">New Hero</span></h2></div>
+        <div class="panel-body">
+          <button tabindex="-1" class="btn btn-default nohover newHero">Hire</button>
         </div>
       </div>   
     </div>
   </div> 
-  <div class="row centered spells">
-    <h2><span class="name">Spells</span></h2>
-    <div class="col-sm-3 spellSample hidden">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">?</span></h2></div>
-        <div class="panel-body">
-          <p class="spellCooldowns">
-            <span class="hidden spellCooldownSample">
-              <span class="badge label-default">
-                <span class="name">?</span> 
-                <span class="duration big">?</span>
-              </span> 
-              &nbsp;
-            </span>
-          </p>
-          <p>Instant: +<span class="reward">?</span> Wisdom</p>
-          <p>
-            +<span class="spellPower">?</span> Power
-            <br>
-            (halves each <span class="decay">?</span>)
-          </p>
-          <button tabindex="-1" class="btn btn-default nohover cast">Cast</button>
-          <button tabindex="-1" class="btn btn-default nohover replace">Replace</button>
-        </div>
-      </div>   
-    </div>
-  </div>
   <div class="row centered">
     <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
     <br>
