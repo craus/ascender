@@ -12,11 +12,25 @@ quest = (params={}) => {
       quests.each('deselect')
       this.selected = true
     },
+    status: function() {
+      if (this.hero) {
+        return "In Progress"
+      }
+      if (this.selected) {
+        return "Waiting for a hero"
+      }
+      return "Idle"
+    },
     paint: function() {
-      panel.find('.selected').toggle(this.selected)
-      panel.find('.select').toggle(!this.selected)
+      setFormattedText(panel.find('.status'), this.status())
+      enable(panel.find('.select'), !this.selected && !this.hero)
+    },
+    save: function() {
+      this.heroIndex = heroes.indexOf(hero)
     }
-  }, params)
+  }, params, {
+    hero: params.heroIndex ? heroes[params.heroIndex] : null
+  })
   
   setFormattedText(panel.find('.name'), quest.name)
   panel.find('.select').click(() => quest.select())

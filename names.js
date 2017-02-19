@@ -46,6 +46,5 @@ Forrest
 Rosario
 Howard
 Isidro
-Numbers
 Frankie`.split(`
 `)
