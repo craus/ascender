@@ -21,9 +21,10 @@ function createGame(params) {
       return
     }
     savedata = {}
-    Object.values(resources).each('save', savedata)
-    Object.values(cooldowns).each('save', savedata)
-    effects.each('save', savedata)
+    Object.values(resources).each('save')
+    Object.values(cooldowns).each('save')
+    effects.each('save')
+    spells.each('save')
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -58,11 +59,17 @@ function createGame(params) {
   wisdomMultiplier = () => Math.pow(2, power())
   
   spells = []
-  for (var i = 0; i < 4; i++) {
-    spells.push(createSpell({
-      level: i,
-      hotkey: String.fromCharCode('1'.charCodeAt()+i)
-    }))
+  if (savedata.spells) {
+    console.log('loading spells')
+    savedata.spells.forEach(s => spells.push(createSpell(s)))
+  } else {
+    console.log('creating new spells')
+    for (var i = 0; i < 4; i++) {
+      spells.push(createSpell({
+        level: i,
+        hotkey: String.fromCharCode('1'.charCodeAt()+i)
+      }))
+    }
   }
 
   spellcaster = {

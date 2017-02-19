@@ -1,6 +1,11 @@
 var spell = function(params) {
   var panel = instantiate('spellSample')
-  $('.spells').append(panel)
+  if (params.place) {
+    params.place.replaceWith(panel)
+    params.place = null
+  } else {
+    $('.spells').append(panel)
+  }
   
   setFormattedText(panel.find('.name'), params.name)
   setFormattedText(panel.find('.reward'), params.reward)
@@ -37,15 +42,24 @@ var spell = function(params) {
     },   
     paint: function() {
       enable(panel.find(".cast"), this.available())
+    },
+    save: function() {
+      savedata.spells = savedata.spells || []
+      savedata.spells.push(this)
+    },
+    onHotKey: function(e) {
+      if (e.key == params.hotkey) {
+        spell.cast()
+      }
+    },
+    destroy: function() {
+      window.removeEventListener("keydown", this.onHotKey)    
     }
-  }, params)
-  
-  panel.find(".cast").click(() => spell.cast())
-  window.addEventListener("keydown", (e) => {
-    if (e.key == params.hotkey) {
-      spell.cast()
-    }
+  }, params, {
+    panel: panel
   })
+  panel.find(".cast").click(() => spell.cast())
+  window.addEventListener("keydown", spell.onHotKey)
   return spell
 }
 
@@ -84,14 +98,28 @@ var createSpell = (() => {
       spellCooldowns[elements[i].id] = d
       totalCooldown += d
     }
-    return Object.assign(spell({
+    var result = spell(Object.assign({
+      level: level,
       name: names.rnd(),
       reward: Math.max(1, Math.round(10 * rewardQuality)),
       power: quality*powered,
       decay: totalCooldown/powered,
       cooldowns: spellCooldowns,
-      hotkey: params.hotkey
-    }), params)
+      hotkey: params.hotkey,
+      replace: function() {
+        var newSpell = createSpell({
+          place: this.panel,
+          level: this.level,
+          hotkey: this.hotkey
+        })
+        var index = spells.indexOf(this)
+        spells[index] = newSpell
+        this.destroy()
+      }
+    }, params))
+    
+    result.panel.find(".replace").click(() => result.replace())
+    return result
   }
   
   return createSpell
