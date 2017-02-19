@@ -60,6 +60,10 @@ Math.sign = function(x) {
   }
 }
 
+Math.lg = function(x, y) {
+  return Math.log(x) / Math.log(y)
+}
+
 Math.clamp = function(x, min, max) {
   return Math.min(Math.max(x, min), max);
 };

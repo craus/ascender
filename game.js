@@ -38,7 +38,9 @@ function createGame(params) {
   
   resources = {
     gold: variable(0, 'gold'),
-    time: variable(0, 'time')
+    time: variable(0, 'time'),
+    questLimit: variable(2, 'questLimit'),
+    heroLimit: variable(1, 'heroLimit')
   }
   
   matchHeroAndQuest = function() {
@@ -59,13 +61,15 @@ function createGame(params) {
   })
   if (savedata.heroes) {
     heroes = savedata.heroes.map(h => hero(h))
+  } else {
+    heroes.push(hero())
   }
   
   quests = []
   if (savedata.quests) {
     quests = savedata.quests.map(q => quest(q))
   } else {
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 1; i++) {
       quests.push(quest({level: 0}))
     }
   }
@@ -81,6 +85,38 @@ function createGame(params) {
     selectedQuest = quests.find(q => q.selected)
   }
   
+  buys = {
+    buyQuestSlot: buy({
+      id: 'buyQuestSlot',
+      cost: {
+        gold: () => 25 * (Math.pow(2, resources.questLimit()))
+      }, 
+      reward: {
+        questLimit: () => 1
+      }
+    }),
+    buyHeroSlot: buy({
+      id: 'buyHeroSlot',
+      cost: {
+        gold: () => 25 * (Math.pow(2, resources.heroLimit()))
+      }, 
+      reward: {
+        heroLimit: () => 1
+      }
+    })
+  }
+  
+  //limitExceeded
+  
+  heroesArrival = poisson({
+    trigger: function() {
+      if (heroes.length < resources.heroLimit()) {
+        heroes.push(hero())
+      }
+    },
+    period: () => heroes.length < resources.heroLimit() ? 10 * Math.pow(1.2, heroes.length) : Number.POSITIVE_INFINITY
+  })
+  
   spellcaster = {
     paint: function() {
       debug.profile('paint')
@@ -88,6 +124,11 @@ function createGame(params) {
       Object.values(resources).each('paint')
       heroes.each('paint')
       quests.each('paint')
+      setFormattedText($('.heroCount'), heroes.length)
+      setFormattedText($('.questCount'), quests.length)
+      Object.values(buys).each('paint')
+      
+      setFormattedText($('.heroesArrival.period'), Format.time(heroesArrival.period()))
       
       debug.unprofile('paint')
     },
@@ -97,6 +138,7 @@ function createGame(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
       resources.time.value += deltaTime
+      heroesArrival.tick(deltaTime)
       
       save(currentTime)
       debug.unprofile('tick')

@@ -34,6 +34,8 @@
   <script src="setter.js"></script>  
   <script src="unpredictable_event.js"></script>  
   <script src="gaussed.js"></script>
+  <script src="poisson-process.js"></script>
+  <script src="poisson.js"></script>
   
   <script src="effect.js"></script> 
   <script src="powerEffect.js"></script> 
@@ -41,6 +43,7 @@
   <script src="spell.js"></script> 
   <script src="cooldown.js"></script> 
   <script src="game.js"></script> 
+  <script src="buy.js"></script>
   
   <script src="names.js"></script>
   <script src="questNames.js"></script>
@@ -139,25 +142,38 @@
         </div>   
       </div>   
     </span>
-    <div class="col-sm-3 newHeroPanel">       
+    <div class="col-sm-3 heroLimitPanel">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">New Hero</span></h2></div>
+        <div class="panel-heading"><h2><span class="name">Hero Limit</span></h2></div>
         <div class="panel-body">
           <div class="btn-group btn-group-justified">
             <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover disabled status">Heroes: 3/5</button>
+              <button tabindex="-1" class="btn btn-default nohover disabled status">
+                Heroes: <span class="heroCount">3</span> / <span class="heroLimit value">5</span>
+              </button>
             </div>
           </div>  
         </div>
         <div class="panel-body">
           <div class="btn-group btn-group-justified">
             <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover newHero">Hire</button>
+              <button tabindex="-1" class="btn btn-default nohover disabled status">
+                +1 Hero each ~<span class="heroesArrival period">?</span>
+              </button>
+            </div>
+          </div>  
+        </div>
+        <div class="panel-body">
+          <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+              <button tabindex="-1" class="btn btn-default nohover buyHeroSlot">
+                Buy Hero Slot (<span class="gold cost">?</span> gold)
+              </button>
             </div>
           </div>          
         </div>
       </div>   
-    </div>
+    </div>  
   </div> 
   <div class="row centered">
     <h2><span class="name">Quests</span></h2>
@@ -231,6 +247,29 @@
         </div>   
       </div>   
     </span>
+    <div class="col-sm-3 questLimitPanel">       
+      <div class="panel panel-default panel-readiness">
+        <div class="panel-heading"><h2><span class="name">Quest Limit</span></h2></div>
+        <div class="panel-body">
+          <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+              <button tabindex="-1" class="btn btn-default nohover disabled status">
+                Quests: <span class="questCount">3</span> / <span class="questLimit value">5</span>
+              </button>
+            </div>
+          </div>  
+        </div>
+        <div class="panel-body">
+          <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+              <button tabindex="-1" class="btn btn-default nohover buyQuestSlot">
+                Buy Quest Slot (<span class="gold cost">?</span> gold)
+              </button>
+            </div>
+          </div>          
+        </div>
+      </div>   
+    </div>    
   </div> 
   <div class="row centered">
     <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>

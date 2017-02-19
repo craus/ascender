@@ -169,7 +169,7 @@ const Format = {
     return '#{0} s'.i(large(x))
   },
   percent: function(x) {
-    return '#{0} %'.i(Math.round(x*100))
+    return '#{0}&nbsp;%'.i(Math.round(x*100))
   }
 }
 
@@ -188,7 +188,7 @@ setFormattedText = function(el, text, text1) {
   var t = formatText(el, text, text1)
   if (el.length > 0 && el.text() != t) {
     //console.log("setting text", el, "was: ", el.text(), "is: ", t)
-    el.text(t)
+    el.html(t)
   }
 }
 needResort = false
