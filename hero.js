@@ -32,11 +32,9 @@ hero = (params={}) => {
       panel.find('.abandon').toggle(!!this.quest)
     },
     save: function() {
-      savedata.heroes.push({
-        name: this.name,
-        selected: this.selected,
+      savedata.heroes.push(Object.assign({
         questIndex: quests.indexOf(this.quest)
-      })
+      }, _.omit(this, 'quest', 'questIndex')))
     }
   }, params)
   

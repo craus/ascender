@@ -2,7 +2,7 @@ quest = (params={}) => {
   var panel = instantiate('questSample')
   $('.quests').append(panel)
   
-  var quest = Object.assign({
+  var result = Object.assign({
     name: questNames.rnd(),
     selected: false,
     duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
@@ -85,10 +85,10 @@ quest = (params={}) => {
     }
   }, params)
   
-  setFormattedText(panel.find('.name'), quest.name)
-  panel.find('.select').click(() => quest.select())
-  panel.find('.abandon').click(() => quest.abandon())
-  panel.find('.claimReward').click(() => quest.claimReward())
+  setFormattedText(panel.find('.name'), result.name)
+  panel.find('.select').click(() => result.select())
+  panel.find('.abandon').click(() => result.abandon())
+  panel.find('.claimReward').click(() => result.claimReward())
   
-  return quest
+  return result
 }
