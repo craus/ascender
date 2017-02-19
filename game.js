@@ -22,8 +22,10 @@ function createGame(params) {
     }
     savedata = {}
     Object.values(resources).each('save')
-    savedata.quests = quests
-    savedata.heroes = heroes
+    savedata.quests = []
+    savedata.heroes = []
+    heroes.each('save')
+    quests.each('save')
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -37,6 +39,17 @@ function createGame(params) {
   resources = {
     money: variable(0, 'money'),
     time: variable(0, 'time')
+  }
+  
+  matchHeroAndQuest = function() {
+    var hero = heroes.find(h => h.selected)
+    var quest = quests.find(q => q.selected)
+    if (hero && quest) {
+      hero.quest = quest
+      quest.hero = hero
+      hero.selected = false
+      quest.selected = false
+    }
   }
   
   heroes = []
@@ -55,6 +68,9 @@ function createGame(params) {
       quests.push(quest())
     }
   }
+  
+  heroes.forEach(h => h.quest = quests[h.questIndex])
+  quests.forEach(q => q.hero = heroes[q.heroIndex])
 
   spellcaster = {
     paint: function() {

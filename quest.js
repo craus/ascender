@@ -11,10 +11,11 @@ quest = (params={}) => {
     select: function() {
       quests.each('deselect')
       this.selected = true
+      matchHeroAndQuest()
     },
     status: function() {
       if (this.hero) {
-        return "In Progress"
+        return "In Progress — " + this.hero.name
       }
       if (this.selected) {
         return "Waiting for a hero"
@@ -26,11 +27,13 @@ quest = (params={}) => {
       enable(panel.find('.select'), !this.selected && !this.hero)
     },
     save: function() {
-      this.heroIndex = heroes.indexOf(hero)
+      savedata.quests.push({
+        name: this.name,
+        selected: this.selected,
+        heroIndex: heroes.indexOf(this.hero)
+      })
     }
-  }, params, {
-    hero: params.heroIndex ? heroes[params.heroIndex] : null
-  })
+  }, params)
   
   setFormattedText(panel.find('.name'), quest.name)
   panel.find('.select').click(() => quest.select())
