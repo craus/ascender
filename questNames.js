@@ -25,4 +25,15 @@ Swept Away
 Vampyre Slayer
 What's Mine is Yours
 Wolf Whistle`.split(`
-`)
+`).concat(`
+Black Eyes
+When There's No Light
+The Sacrifice
+Before The Fall
+Victim Of Ritual
+She is a Killer
+A Thin Disguise
+The Darkest Night
+The Darkest Knight
+`.split(`
+`)).filter(x => x.length > 0)

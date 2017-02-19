@@ -6,6 +6,9 @@ quest = (params={}) => {
     name: questNames.rnd(),
     selected: false,
     duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
+    danger: Math.pow(2, params.level + gaussianRandom(0, 0.5)),
+    experience: Math.round(5*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
+    gold: Math.round(10*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     deselect: function() {
       this.selected = false
     },
@@ -59,19 +62,18 @@ quest = (params={}) => {
       } else {
         setFormattedText(panel.find('.duration'), Format.time(this.duration))
       }
+      setFormattedText(panel.find('.danger'), large(this.danger))
+      setFormattedText(panel.find('.experience'), this.experience)
+      setFormattedText(panel.find('.gold'), this.gold)
       enable(panel.find('.select'), !this.selected && !this.hero)
       panel.find('.select').toggle(this.idle())
       panel.find('.abandon').toggle(this.inProgress())
       panel.find('.claimReward').toggle(this.completed())
     },
     save: function() {
-      savedata.quests.push({
-        name: this.name,
-        selected: this.selected,
-        startedAt: this.startedAt,
-        duration: this.duration,
+      savedata.quests.push(Object.assign({
         heroIndex: heroes.indexOf(this.hero)
-      })
+      }, _.omit(this, 'hero', 'heroIndex')))
     },
     claimReward: function() {
       this.abandon()

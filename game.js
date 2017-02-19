@@ -37,7 +37,7 @@ function createGame(params) {
   }
   
   resources = {
-    money: variable(0, 'money'),
+    gold: variable(0, 'gold'),
     time: variable(0, 'time')
   }
   
