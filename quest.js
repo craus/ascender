@@ -35,16 +35,22 @@ quest = (params={}) => {
       return "Idle"
     },
     spentDuration: function() {
+      if (!this.startedAt) {
+        return 0
+      }
       return (Date.now() - this.startedAt)/1000
     },
     remainingDuration: function() {
       return Math.max(0,this.duration - this.spentDuration())
     },
+    idle: function() {
+      return !this.hero
+    },
     completed: function() {
       return this.remainingDuration() <= 0
     },
     inProgress: function() {
-      return this.hero && !this.completed()
+      return !!this.hero && !this.completed()
     },
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
@@ -54,8 +60,9 @@ quest = (params={}) => {
         setFormattedText(panel.find('.duration'), Format.time(this.duration))
       }
       enable(panel.find('.select'), !this.selected && !this.hero)
-      panel.find('.select').toggle(!this.hero)
-      panel.find('.abandon').toggle(!!this.hero)
+      panel.find('.select').toggle(this.idle())
+      panel.find('.abandon').toggle(this.inProgress())
+      panel.find('.claimReward').toggle(this.completed())
     },
     save: function() {
       savedata.quests.push({
@@ -65,12 +72,21 @@ quest = (params={}) => {
         duration: this.duration,
         heroIndex: heroes.indexOf(this.hero)
       })
+    },
+    claimReward: function() {
+      this.abandon()
+      this.destroy()
+    },
+    destroy: function() {
+      panel.remove()
+      quests.splice(quests.indexOf(this), 1)
     }
   }, params)
   
   setFormattedText(panel.find('.name'), quest.name)
   panel.find('.select').click(() => quest.select())
   panel.find('.abandon').click(() => quest.abandon())
+  panel.find('.claimReward').click(() => quest.claimReward())
   
   return quest
 }
