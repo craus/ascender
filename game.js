@@ -61,6 +61,8 @@ function createGame(params) {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
+      heroes.each('paint')
+      quests.each('paint')
       
       debug.unprofile('paint')
     },
