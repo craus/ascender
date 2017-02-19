@@ -24,6 +24,9 @@ quest = (params={}) => {
     },
     status: function() {
       if (this.hero) {
+        if (this.completed()) {
+          return "Completed — " + this.hero.name
+        }
         return "In Progress — " + this.hero.name
       }
       if (this.selected) {
@@ -35,7 +38,13 @@ quest = (params={}) => {
       return (Date.now() - this.startedAt)/1000
     },
     remainingDuration: function() {
-      return this.duration - this.spentDuration()
+      return Math.max(0,this.duration - this.spentDuration())
+    },
+    completed: function() {
+      return this.remainingDuration() <= 0
+    },
+    inProgress: function() {
+      return this.hero && !this.completed()
     },
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
