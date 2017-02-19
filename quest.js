@@ -77,10 +77,13 @@ quest = (params={}) => {
       }, _.omit(this, 'hero', 'heroIndex')))
     },
     claimReward: function() {
-      this.abandon()
-      this.destroy()
       quests.push(quest({level: this.level}))
       quests.push(quest({level: this.level+1}))
+      resources.gold.value += this.gold
+      this.hero.learn(this.experience)
+      this.abandon()
+      this.destroy()
+      
     },
     destroy: function() {
       panel.remove()
