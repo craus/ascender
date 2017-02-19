@@ -49,5 +49,14 @@ border-color: #3ab68b;
 }
 .label-wisdom {
 background: #ca950f; color: #fff; }
+.questLimitExceeded{
+  position: fixed;
 
+  top: 0px;
+  margin-left: 25%;
+  width: 50%;
+}
+.questLimitExceeded .modal-content{
+  background-color: #d9534f
+}
 

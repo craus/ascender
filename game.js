@@ -52,6 +52,7 @@ function createGame(params) {
       hero.selected = false
       quest.selected = false
       quest.start()
+      refreshSelected()
     }
   }
   
