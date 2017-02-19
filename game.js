@@ -22,6 +22,8 @@ function createGame(params) {
     }
     savedata = {}
     Object.values(resources).each('save')
+    savedata.quests = quests
+    savedata.heroes = heroes
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -41,6 +43,18 @@ function createGame(params) {
   $('.newHero').click(() => {
     heroes.push(hero())
   })
+  if (savedata.heroes) {
+    heroes = savedata.heroes.map(h => hero(h))
+  }
+  
+  quests = []
+  if (savedata.quests) {
+    quests = savedata.quests.map(q => quest(q))
+  } else {
+    for (var i = 0; i < 4; i++) {
+      quests.push(quest())
+    }
+  }
 
   spellcaster = {
     paint: function() {

@@ -1,7 +1,7 @@
 hero = (params={}) => {
-  var hero = {
+  var hero = Object.assign({
     name: names.rnd()
-  }
+  }, params)
 
   var panel = instantiate('heroSample')
   $('.heroes').append(panel)
