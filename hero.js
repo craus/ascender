@@ -13,6 +13,10 @@ hero = (params={}) => {
       this.selected = true
       matchHeroAndQuest()
     },
+    abandon: function() {
+      this.quest.hero = null
+      this.quest = null
+    },
     status: function() {
       if (this.quest) {
         return "On a quest — " + this.quest.name
@@ -25,6 +29,8 @@ hero = (params={}) => {
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
       enable(panel.find('.select'), !this.selected && !this.quest)
+      panel.find('.select').toggle(!this.quest)
+      panel.find('.abandon').toggle(!!this.quest)
     },
     save: function() {
       savedata.heroes.push({
@@ -37,6 +43,7 @@ hero = (params={}) => {
   
   setFormattedText(panel.find('.name'), hero.name)
   panel.find('.select').click(() => hero.select())
+  panel.find('.abandon').click(() => hero.abandon())
 
   return hero
 }
