@@ -49,6 +49,7 @@ function createGame(params) {
       quest.hero = hero
       hero.selected = false
       quest.selected = false
+      quest.start()
     }
   }
   
@@ -65,7 +66,7 @@ function createGame(params) {
     quests = savedata.quests.map(q => quest(q))
   } else {
     for (var i = 0; i < 4; i++) {
-      quests.push(quest())
+      quests.push(quest({level: 0}))
     }
   }
   

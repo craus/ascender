@@ -14,8 +14,7 @@ hero = (params={}) => {
       matchHeroAndQuest()
     },
     abandon: function() {
-      this.quest.hero = null
-      this.quest = null
+      this.quest.abandon()
     },
     status: function() {
       if (this.quest) {

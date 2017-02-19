@@ -5,6 +5,7 @@ quest = (params={}) => {
   var quest = Object.assign({
     name: questNames.rnd(),
     selected: false,
+    duration: Math.round(20 * Math.pow(2, params.level + gaussianRandom(0, 1))),
     deselect: function() {
       this.selected = false
     },
@@ -13,9 +14,13 @@ quest = (params={}) => {
       this.selected = true
       matchHeroAndQuest()
     },
+    start: function() {
+      this.startedAt = Date.now()
+    },
     abandon: function() {
       this.hero.quest = null
       this.hero = null
+      this.startedAt = null
     },
     status: function() {
       if (this.hero) {
@@ -26,8 +31,19 @@ quest = (params={}) => {
       }
       return "Idle"
     },
+    spentDuration: function() {
+      return (Date.now() - this.startedAt)/1000
+    },
+    remainingDuration: function() {
+      return this.duration - this.spentDuration()
+    },
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
+      if (this.startedAt) {
+        setFormattedText(panel.find('.duration'), "#{0} / #{1}".i(Format.time(Math.ceil(this.remainingDuration())), Format.time(this.duration)))
+      } else {
+        setFormattedText(panel.find('.duration'), Format.time(this.duration))
+      }
       enable(panel.find('.select'), !this.selected && !this.hero)
       panel.find('.select').toggle(!this.hero)
       panel.find('.abandon').toggle(!!this.hero)
@@ -36,6 +52,8 @@ quest = (params={}) => {
       savedata.quests.push({
         name: this.name,
         selected: this.selected,
+        startedAt: this.startedAt,
+        duration: this.duration,
         heroIndex: heroes.indexOf(this.hero)
       })
     }
