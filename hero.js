@@ -16,10 +16,12 @@ hero = (params={}) => {
     experience: 0,
     deselect: function() {
       this.selected = false
+      refreshSelected()
     },
     select: function() {
       heroes.each('deselect')
       this.selected = true
+      refreshSelected()
       matchHeroAndQuest()
     },
     abandon: function() {

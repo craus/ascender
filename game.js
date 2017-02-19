@@ -73,6 +73,14 @@ function createGame(params) {
   heroes.forEach(h => h.quest = quests[h.questIndex])
   quests.forEach(q => q.hero = heroes[q.heroIndex])
 
+  selectedHero = heroes.find(h => h.selected)
+  selectedQuest = quests.find(q => q.selected)
+  
+  refreshSelected = function() {
+    selectedHero = heroes.find(h => h.selected)
+    selectedQuest = quests.find(q => q.selected)
+  }
+  
   spellcaster = {
     paint: function() {
       debug.profile('paint')
