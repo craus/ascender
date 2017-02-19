@@ -17,6 +17,20 @@ Array.prototype.each = function(method) {
   }
 }
 
+Array.prototype.rnd = function() {
+  return this[Math.floor(Math.random() * this.length)]
+}
+
+Array.prototype.rndSubset = function(cnt) {
+  var result = []
+  for (var i = 0; i < this.length; i++) {
+    if (rndEvent((cnt - result.length) / (this.length - i))) {
+      result.push(this[i])
+    }
+  }
+  return result
+}
+
 Array.prototype.find = function(criteria) {
   for (var i = 0; i < this.length; i++) {
     if (criteria(this[i])) {

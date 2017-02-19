@@ -57,17 +57,12 @@ function createGame(params) {
   var power = () => effects.reduce((acc, cur) => acc + cur.power(), 0)
   wisdomMultiplier = () => Math.pow(2, power())
   
-  spells = {
-    headbang: spell({
-      name: 'Headbang',
-      reward: 300,
-      power: 4,
-      decay: 10,
-      cooldowns: {
-        fire: 2,
-        water: 6
-      },      
-    })
+  spells = []
+  for (var i = 0; i < 4; i++) {
+    spells.push(createSpell({
+      level: i,
+      hotkey: String.fromCharCode('1'.charCodeAt()+i)
+    }))
   }
 
   spellcaster = {
@@ -77,9 +72,9 @@ function createGame(params) {
       effects.each('paint')
       Object.values(resources).each('paint')
       Object.values(cooldowns).each('paint')
-      Object.values(spells).each('paint')
+      spells.each('paint')
       
-      setFormattedText($(".power"), large(power()))
+      setFormattedText($(".power"), (large(noSmall(power()))))
       setFormattedText($(".wisdomMultiplier"), large(wisdomMultiplier()))
       
       debug.unprofile('paint')
