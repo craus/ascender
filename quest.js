@@ -108,13 +108,16 @@ quest = (params={}) => {
       }, _.omit(this, 'hero', 'heroIndex')))
     },
     claimReward: function() {
-      quests.push(quest({level: this.level}))
-      quests.push(quest({level: this.level+1}))
       resources.gold.value += this.effectiveGold()
       this.hero.learn(this.effectiveExperience())
       this.abandon()
       this.destroy()
-      
+      if (quests.length < resources.questLimit()) {
+        quests.push(quest({level: this.level}))
+      }
+      if (quests.length < resources.questLimit()) {
+        quests.push(quest({level: this.level+1}))
+      }
     },
     destroy: function() {
       panel.remove()
