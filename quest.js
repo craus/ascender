@@ -5,7 +5,7 @@ quest = (params={}) => {
   var quest = Object.assign({
     name: questNames.rnd(),
     selected: false,
-    duration: Math.round(20 * Math.pow(2, params.level + gaussianRandom(0, 1))),
+    duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     deselect: function() {
       this.selected = false
     },
