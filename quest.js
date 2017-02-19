@@ -65,6 +65,7 @@ quest = (params={}) => {
       setFormattedText(panel.find('.danger'), large(this.danger))
       setFormattedText(panel.find('.experience'), this.experience)
       setFormattedText(panel.find('.gold'), this.gold)
+      setFormattedText(panel.find('.level'), this.level)
       enable(panel.find('.select'), !this.selected && !this.hero)
       panel.find('.select').toggle(this.idle())
       panel.find('.abandon').toggle(this.inProgress())
@@ -78,6 +79,8 @@ quest = (params={}) => {
     claimReward: function() {
       this.abandon()
       this.destroy()
+      quests.push(quest({level: this.level}))
+      quests.push(quest({level: this.level+1}))
     },
     destroy: function() {
       panel.remove()
