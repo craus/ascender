@@ -2,7 +2,7 @@ function createGame(params) {
   
   // Rules common things
     
-  var gameName = "heroes"
+  var gameName = "experimental"
   var saveName = gameName+"SaveData"
 
   if (localStorage[saveName] != undefined) {
@@ -22,10 +22,6 @@ function createGame(params) {
     }
     savedata = {}
     Object.values(resources).each('save')
-    savedata.quests = []
-    savedata.heroes = []
-    heroes.each('save')
-    quests.each('save')
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -37,99 +33,52 @@ function createGame(params) {
   }
   
   resources = {
-    gold: variable(0, 'gold'),
+    money: variable(0, 'money'),
     time: variable(0, 'time'),
-    questLimit: variable(2, 'questLimit'),
-    heroLimit: variable(1, 'heroLimit')
+    m2: variable(0, 'm2'),
+    m3: variable(0, 'm3'),
+    m5: variable(0, 'm5'),
   }
   
-  matchHeroAndQuest = function() {
-    var hero = heroes.find(h => h.selected)
-    var quest = quests.find(q => q.selected)
-    if (hero && quest) {
-      hero.quest = quest
-      quest.hero = hero
-      hero.selected = false
-      quest.selected = false
-      quest.start()
-      refreshSelected()
-    }
-  }
-  
-  heroes = []
-  $('.newHero').click(() => {
-    heroes.push(hero())
-  })
-  if (savedata.heroes) {
-    heroes = savedata.heroes.map(h => hero(h))
-  } else {
-    heroes.push(hero())
-  }
-  
-  quests = []
-  if (savedata.quests) {
-    quests = savedata.quests.map(q => quest(q))
-  } else {
-    for (var i = 0; i < 1; i++) {
-      quests.push(quest({level: 0}))
-    }
-  }
-  
-  heroes.forEach(h => h.quest = quests[h.questIndex])
-  quests.forEach(q => q.hero = heroes[q.heroIndex])
-
-  selectedHero = heroes.find(h => h.selected)
-  selectedQuest = quests.find(q => q.selected)
-  
-  refreshSelected = function() {
-    selectedHero = heroes.find(h => h.selected)
-    selectedQuest = quests.find(q => q.selected)
-  }
-  
+  resources.money.income = () => Math.pow(2, resources.m2()) * Math.pow(3, resources.m3()) * Math.pow(5, resources.m5())
   buys = {
-    buyQuestSlot: buy({
-      id: 'buyQuestSlot',
+    m2: buy({
+      id: 'buyM2',
       cost: {
-        gold: () => 25 * (Math.pow(2, resources.questLimit()))
+        money: () => Math.pow(8, resources.m2()+1)
       }, 
       reward: {
-        questLimit: () => 1
+        m2: () => 1
       }
     }),
-    buyHeroSlot: buy({
-      id: 'buyHeroSlot',
+    m3: buy({
+      id: 'buyM3',
       cost: {
-        gold: () => 25 * (Math.pow(2, resources.heroLimit()))
+        money: () => Math.pow(27, resources.m3()+1)
       }, 
       reward: {
-        heroLimit: () => 1
+        m3: () => 1
       }
-    })
+    }),
+    m5: buy({
+      id: 'buyM5',
+      cost: {
+        money: () => Math.pow(125, resources.m5()+1)
+      }, 
+      reward: {
+        m5: () => 1
+      }
+    }),
   }
   
   //limitExceeded
   
-  heroesArrival = poisson({
-    trigger: function() {
-      if (heroes.length < resources.heroLimit()) {
-        heroes.push(hero())
-      }
-    },
-    period: () => heroes.length < resources.heroLimit() ? 10 * Math.pow(1.2, heroes.length) : Number.POSITIVE_INFINITY
-  })
-  
-  spellcaster = {
+  game = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-      heroes.each('paint')
-      quests.each('paint')
-      setFormattedText($('.heroCount'), heroes.length)
-      setFormattedText($('.questCount'), quests.length)
       Object.values(buys).each('paint')
-      
-      setFormattedText($('.heroesArrival.period'), Format.time(heroesArrival.period()))
       
       debug.unprofile('paint')
     },
@@ -139,11 +88,11 @@ function createGame(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
       resources.time.value += deltaTime
-      heroesArrival.tick(deltaTime)
+      Object.values(resources).each('tick', deltaTime)
       
       save(currentTime)
       debug.unprofile('tick')
     }
   }
-  return spellcaster
+  return game
 }
