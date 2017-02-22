@@ -7,7 +7,7 @@ variable = function(initialValue, id, params) {
     initialValue = savedata[id]
   }
   var formatter = params.formatter || (function(x) { return large(Math.floor(x+eps)) })
-  var incomeFormatter = params.incomeFormatter || (function(x) { return noZero(signed(large(Math.floor(x+eps)))) })
+  var incomeFormatter = params.incomeFormatter || (function(x) { return (signed(large(x))) })
 
   var result = () => {
     return result.value

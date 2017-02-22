@@ -33,20 +33,38 @@ function createGame(params) {
   }
   
   resources = {
-    money: variable(0, 'money'),
+    money: variable(1e9, 'money'),
     time: variable(0, 'time'),
+    m1: variable(0, 'm1'),
     m2: variable(0, 'm2'),
     m3: variable(0, 'm3'),
+    m4: variable(0, 'm4'),
     m5: variable(0, 'm5'),
+    m6: variable(0, 'm6'),
   }
   
   var c = 10
-  resources.money.income = () => 10 * Math.pow(2, resources.m2()) * Math.pow(11, resources.m3()) * Math.pow(89, resources.m5())
+  resources.money.income = () => 1e-3 * 
+    Math.pow(2, resources.m1()) * 
+    Math.pow(3, resources.m2()) * 
+    Math.pow(5, resources.m3()) *
+    Math.pow(7, resources.m4()) *
+    Math.pow(11, resources.m5()) *
+    Math.pow(13, resources.m6())
   buys = {
+    m1: buy({
+      id: 'buyM1',
+      cost: {
+        money: () => 1 * Math.pow(Math.pow(2, 6), resources.m1())
+      }, 
+      reward: {
+        m1: () => 1
+      }
+    }),
     m2: buy({
       id: 'buyM2',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(2,1.0 / 0.5), resources.m2()+1)
+        money: () => 1 * Math.pow(Math.pow(3, 6), resources.m2())
       }, 
       reward: {
         m2: () => 1
@@ -55,19 +73,37 @@ function createGame(params) {
     m3: buy({
       id: 'buyM3',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(11,1.0 / 0.3), resources.m3()+1)
+        money: () => 1 * Math.pow(Math.pow(5, 6), resources.m3())
       }, 
       reward: {
         m3: () => 1
       }
     }),
+    m4: buy({
+      id: 'buyM4',
+      cost: {
+        money: () => 1 * Math.pow(Math.pow(7, 6), resources.m4())
+      }, 
+      reward: {
+        m4: () => 1
+      }
+    }),
     m5: buy({
       id: 'buyM5',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(89,1.0 / 0.2), resources.m5()+1)
+        money: () => 1 * Math.pow(Math.pow(11, 6), resources.m5())
       }, 
       reward: {
         m5: () => 1
+      }
+    }),
+    m6: buy({
+      id: 'buyM6',
+      cost: {
+        money: () => 1 * Math.pow(Math.pow(13, 6), resources.m6())
+      }, 
+      reward: {
+        m6: () => 1
       }
     }),
   }
