@@ -52,7 +52,7 @@ function createGame(params) {
       }, 
       reward: {
         moneyIncome: () => resources.money() / resources.fatique(),
-        fatique: () => 1
+        fatique: () => 0.1
       }
     })
   }
@@ -76,14 +76,14 @@ function createGame(params) {
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
       timeSpeed /= Math.pow(1000, deltaTime)
+      if (timeSpeed < 1) {
+        timeSpeed = 1
+      }
       deltaTime *= timeSpeed
       resources.time.value += deltaTime
       resources.fatique.value /= Math.pow(2, deltaTime / 100)
       if (resources.fatique.value < 1e-100) {
         resources.fatique.value = 1e-100
-      }
-      if (timeSpeed < 1) {
-        timeSpeed = 1
       }
       Object.values(resources).each('tick', deltaTime)
       
