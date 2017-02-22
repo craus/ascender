@@ -58,7 +58,7 @@
 <div class="container">
   <br>
   <div class="row centered">
-    <div class="col-sm-4">       
+    <div class="col-sm-3">       
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Time</span></h2></div>
         <div class="panel-body big">
@@ -66,7 +66,7 @@
         </div>
       </div>   
     </div>
-    <div class="col-sm-4">       
+    <div class="col-sm-3">       
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Money</span></h2></div>
         <div class="panel-body big">
@@ -74,69 +74,55 @@
         </div>
       </div>   
     </div>
-    <div class="col-sm-4">       
+    <div class="col-sm-3">       
       <div class="panel panel-default panel-readiness">
         <div class="panel-heading"><h2><span class="name">Income</span></h2></div>
         <div class="panel-body big">
-          <span class="money income">?</span>
+          <span class="moneyIncome value">?</span>
+        </div>
+      </div>   
+    </div>    
+    <div class="col-sm-3">       
+      <div class="panel panel-default panel-readiness">
+        <div class="panel-heading"><h2><span class="name">Fatique</span></h2></div>
+        <div class="panel-body big">
+          <span class="fatique value">?</span>
         </div>
       </div>   
     </div>
   </div>
   <div class="row centered">
+    <div class="col-sm-4"> 
+    </div> 
     <div class="col-sm-4">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Income x2</span></h2></div>
-        <div class="panel-body big"> 
-          <button tabindex=-1 class="btn btn-danger nohover btn-lg buyM1">Buy (<span class="cost money">?</span> money)</button>
+        <div class="panel-heading"><h2><span class="name">Upgrade</span></h2></div>
+        <div class="panel-body"> 
+          <ul class="list-group">
+            <li class="list-group-item">-ALL money</li>
+            <li class="list-group-item">+(money / fatique) income</li>
+            <li class="list-group-item">
+              <button tabindex=-1 class="btn btn-danger nohover btn-lg buy">
+                Buy (+<span class="moneyIncome reward">?</span> income)
+              </button>
+            </li>
+          </ul>
         </div>
       </div>   
-    </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Income x3</span></h2></div>
-        <div class="panel-body big"> 
-          <button tabindex=-1 class="btn btn-danger nohover btn-lg buyM2">Buy (<span class="cost money">?</span> money)</button>
-        </div>
-      </div>   
-    </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Income x5</span></h2></div>
-        <div class="panel-body big"> 
-          <button tabindex=-1 class="btn btn-danger nohover btn-lg buyM3">Buy (<span class="cost money">?</span> money)</button>
-        </div>
-      </div>   
-    </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Income x7</span></h2></div>
-        <div class="panel-body big"> 
-          <button tabindex=-1 class="btn btn-danger nohover btn-lg buyM4">Buy (<span class="cost money">?</span> money)</button>
-        </div>
-      </div>   
-    </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Income x11</span></h2></div>
-        <div class="panel-body big"> 
-          <button tabindex=-1 class="btn btn-danger nohover btn-lg buyM5">Buy (<span class="cost money">?</span> money)</button>
-        </div>
-      </div>   
-    </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Income x13</span></h2></div>
-        <div class="panel-body big"> 
-          <button tabindex=-1 class="btn btn-danger nohover btn-lg buyM6">Buy (<span class="cost money">?</span> money)</button>
-        </div>
-      </div>   
-    </div>
+    </div>    
+    <div class="col-sm-4"> 
+    </div> 
   </div>
 
   <div class="row centered">
-    <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
-    <br>
+    <ul class="list-group">
+      <li class="list-group-item">
+        <button class="btn btn-warning btn-lg boost">Boost</button>
+      </li>    
+      <li class="list-group-item">
+        <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
+      </li>
+    </ul>    
   </div>
 </div>
   

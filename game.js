@@ -2,7 +2,7 @@ function createGame(params) {
   
   // Rules common things
     
-  var gameName = "experimental"
+  var gameName = "fatique"
   var saveName = gameName+"SaveData"
 
   if (localStorage[saveName] != undefined) {
@@ -33,80 +33,32 @@ function createGame(params) {
   }
   
   resources = {
-    money: variable(1e9, 'money'),
+    money: variable(0, 'money'),
     time: variable(0, 'time'),
-    m1: variable(0, 'm1'),
-    m2: variable(0, 'm2'),
-    m3: variable(0, 'm3'),
-    m4: variable(0, 'm4'),
-    m5: variable(0, 'm5'),
-    m6: variable(0, 'm6'),
+    moneyIncome: variable(1, 'moneyIncome'),
+    fatique: variable(1, 'fatique', {
+      formatter: large
+    }),
+    lastClick: variable(1, 'lastClick'),
   }
   
-  var c = 10
-  resources.money.income = () => 1e-3 * 
-    Math.pow(2, resources.m1()) * 
-    Math.pow(3, resources.m2()) * 
-    Math.pow(5, resources.m3()) *
-    Math.pow(7, resources.m4()) *
-    Math.pow(11, resources.m5()) *
-    Math.pow(13, resources.m6())
+  resources.money.income = resources.moneyIncome
+  
   buys = {
-    m1: buy({
-      id: 'buyM1',
+    buy: buy({
+      id: 'buy',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(2, 6), resources.m1())
+        money: () => resources.money()
       }, 
       reward: {
-        m1: () => 1
+        moneyIncome: () => resources.money() / resources.fatique(),
+        fatique: () => 1
       }
-    }),
-    m2: buy({
-      id: 'buyM2',
-      cost: {
-        money: () => 1 * Math.pow(Math.pow(3, 6), resources.m2())
-      }, 
-      reward: {
-        m2: () => 1
-      }
-    }),
-    m3: buy({
-      id: 'buyM3',
-      cost: {
-        money: () => 1 * Math.pow(Math.pow(5, 6), resources.m3())
-      }, 
-      reward: {
-        m3: () => 1
-      }
-    }),
-    m4: buy({
-      id: 'buyM4',
-      cost: {
-        money: () => 1 * Math.pow(Math.pow(7, 6), resources.m4())
-      }, 
-      reward: {
-        m4: () => 1
-      }
-    }),
-    m5: buy({
-      id: 'buyM5',
-      cost: {
-        money: () => 1 * Math.pow(Math.pow(11, 6), resources.m5())
-      }, 
-      reward: {
-        m5: () => 1
-      }
-    }),
-    m6: buy({
-      id: 'buyM6',
-      cost: {
-        money: () => 1 * Math.pow(Math.pow(13, 6), resources.m6())
-      }, 
-      reward: {
-        m6: () => 1
-      }
-    }),
+    })
   }
+  
+  var timeSpeed = 1
+  $('.boost').click(() => timeSpeed *= 10)
   
   //limitExceeded
   
@@ -123,8 +75,16 @@ function createGame(params) {
       debug.profile('tick')
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
-      
+      timeSpeed /= Math.pow(1000, deltaTime)
+      deltaTime *= timeSpeed
       resources.time.value += deltaTime
+      resources.fatique.value /= Math.pow(2, deltaTime / 100)
+      if (resources.fatique.value < 1e-100) {
+        resources.fatique.value = 1e-100
+      }
+      if (timeSpeed < 1) {
+        timeSpeed = 1
+      }
       Object.values(resources).each('tick', deltaTime)
       
       save(currentTime)
