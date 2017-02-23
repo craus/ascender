@@ -32,91 +32,38 @@ function createGame(params) {
     location.reload()
   }
   
+  var waiting = () => 1 / Math.random()
+  
   resources = {
     money: variable(0, 'money'),
     time: variable(0, 'time'),
-    m1: variable(0, 'm1'),
-    m2: variable(0, 'm2'),
-    m3: variable(0, 'm3'),
-    m4: variable(0, 'm4'),
-    m5: variable(0, 'm5'),
-    m6: variable(0, 'm6'),
+    power: variable(waiting(), 'power', {formatter: large}),
+    moneyIncome: variable(1, 'moneyIncome')
+  }
+  resources.cost = variable(resources.power(), 'cost')
+  
+  var nextUpgrade = () => {
+    resources.power.value = waiting()
+    resources.cost.value *= resources.power()
   }
   
-  var c = 10
-  resources.money.income = () => 1 * 
-    Math.pow(1.23, resources.m1()) * 
-    Math.pow(1.29, resources.m2()) * 
-    Math.pow(1.31, resources.m3()) *
-    Math.pow(1.37, resources.m4()) *
-    Math.pow(1.41, resources.m5()) *
-    Math.pow(1.43, resources.m6())
-  buys = {
-    m1: buy({
-      id: 'buyM1',
-      cost: {
-        money: () => 1 * Math.pow(Math.pow(1.23, 6), resources.m1())
-      }, 
-      reward: {
-        m1: () => 1
-      }
-    }),
-    m2: buy({
-      id: 'buyM2',
-      cost: {
-        money: () => 3 * Math.pow(Math.pow(1.29, 6), resources.m2())
-      }, 
-      reward: {
-        m2: () => 1
-      }
-    }),
-    m3: buy({
-      id: 'buyM3',
-      cost: {
-        money: () => 10 * Math.pow(Math.pow(1.31, 6), resources.m3())
-      }, 
-      reward: {
-        m3: () => 1
-      }
-    }),
-    m4: buy({
-      id: 'buyM4',
-      cost: {
-        money: () => 30 * Math.pow(Math.pow(1.37, 6), resources.m4())
-      }, 
-      reward: {
-        m4: () => 1
-      }
-    }),
-    m5: buy({
-      id: 'buyM5',
-      cost: {
-        money: () => 100 * Math.pow(Math.pow(1.41, 6), resources.m5())
-      }, 
-      reward: {
-        m5: () => 1
-      }
-    }),
-    m6: buy({
-      id: 'buyM6',
-      cost: {
-        money: () => 3000 * Math.pow(Math.pow(1.43, 6), resources.m6())
-      }, 
-      reward: {
-        m6: () => 1
-      }
-    }),
-  }
+  resources.money.income = resources.moneyIncome
   
-  //limitExceeded
+  $('.upgrade>.buy').click(() => {
+    resources.moneyIncome.value *= resources.power()
+    resources.money.value -= resources.cost()
+    nextUpgrade()
+    game.paint()
+    skipAnimation($('.availability'))
+  })
   
   game = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-      Object.values(buys).each('paint')
-      
+      enable($('.upgrade>.buy'), resources.money() >= resources.cost())
+      setProgress($('.availability'), Math.clamp(resources.money() / resources.cost(), 0, 1) * 100)
       debug.unprofile('paint')
     },
     tick: function() {
@@ -131,5 +78,7 @@ function createGame(params) {
       debug.unprofile('tick')
     }
   }
+  game.paint()
+  skipAnimation($('.availability'))
   return game
 }
