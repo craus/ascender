@@ -33,7 +33,7 @@ function createGame(params) {
   }
   
   resources = {
-    money: variable(1e9, 'money'),
+    money: variable(0, 'money'),
     time: variable(0, 'time'),
     m1: variable(0, 'm1'),
     m2: variable(0, 'm2'),
@@ -44,18 +44,18 @@ function createGame(params) {
   }
   
   var c = 10
-  resources.money.income = () => 1e-3 * 
-    Math.pow(2, resources.m1()) * 
-    Math.pow(3, resources.m2()) * 
-    Math.pow(5, resources.m3()) *
-    Math.pow(7, resources.m4()) *
-    Math.pow(11, resources.m5()) *
-    Math.pow(13, resources.m6())
+  resources.money.income = () => 1 * 
+    Math.pow(1.23, resources.m1()) * 
+    Math.pow(1.29, resources.m2()) * 
+    Math.pow(1.31, resources.m3()) *
+    Math.pow(1.37, resources.m4()) *
+    Math.pow(1.41, resources.m5()) *
+    Math.pow(1.43, resources.m6())
   buys = {
     m1: buy({
       id: 'buyM1',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(2, 6), resources.m1())
+        money: () => 1 * Math.pow(Math.pow(1.23, 6), resources.m1())
       }, 
       reward: {
         m1: () => 1
@@ -64,7 +64,7 @@ function createGame(params) {
     m2: buy({
       id: 'buyM2',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(3, 6), resources.m2())
+        money: () => 3 * Math.pow(Math.pow(1.29, 6), resources.m2())
       }, 
       reward: {
         m2: () => 1
@@ -73,7 +73,7 @@ function createGame(params) {
     m3: buy({
       id: 'buyM3',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(5, 6), resources.m3())
+        money: () => 10 * Math.pow(Math.pow(1.31, 6), resources.m3())
       }, 
       reward: {
         m3: () => 1
@@ -82,7 +82,7 @@ function createGame(params) {
     m4: buy({
       id: 'buyM4',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(7, 6), resources.m4())
+        money: () => 30 * Math.pow(Math.pow(1.37, 6), resources.m4())
       }, 
       reward: {
         m4: () => 1
@@ -91,7 +91,7 @@ function createGame(params) {
     m5: buy({
       id: 'buyM5',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(11, 6), resources.m5())
+        money: () => 100 * Math.pow(Math.pow(1.41, 6), resources.m5())
       }, 
       reward: {
         m5: () => 1
@@ -100,7 +100,7 @@ function createGame(params) {
     m6: buy({
       id: 'buyM6',
       cost: {
-        money: () => 1 * Math.pow(Math.pow(13, 6), resources.m6())
+        money: () => 3000 * Math.pow(Math.pow(1.43, 6), resources.m6())
       }, 
       reward: {
         m6: () => 1
