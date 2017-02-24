@@ -117,7 +117,7 @@ function createGame(params) {
     period: () => 60 * Math.pow(4, heroes.length-resources.heroLimit())
   })
   
-  questChance = () => chances(Math.pow(2, resources.questLimit()), 2 * Math.pow(2, quests.length))
+  questChance = () => chances(Math.pow(4, resources.questLimit()), Math.pow(4, quests.length))
   
   spellcaster = {
     paint: function() {

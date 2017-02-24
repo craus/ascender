@@ -15,7 +15,7 @@ quest = (params={}) => {
   var result = Object.assign({
     name: name,
     duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
-    danger: Math.pow(2, params.level + gaussianRandom(0, 0.5)),
+    danger: 0.1*Math.pow(2, params.level + gaussianRandom(0, 0.5)),
     experience: Math.round(5*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     gold: Math.round(10*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     deselect: function() {
@@ -138,6 +138,7 @@ quest = (params={}) => {
       panel.find('.abandon').toggle(this.inProgress())
       panel.find('.buryHero').toggle(this.failed())
       panel.find('.claimReward').toggle(this.completed())
+      panel.find('.discard').toggle(this.idle() && this.level > 0)
     },
     tick: function() {
       if (!this.hero) {
@@ -187,6 +188,7 @@ quest = (params={}) => {
   panel.find('.abandon').click(() => result.abandon())
   panel.find('.claimReward').click(() => result.claimReward())
   panel.find('.buryHero').click(() => result.hero.destroy())
+  panel.find('.discard').click(() => result.destroy())
   
   tab.find('a').click(() => result.select())
   return result
