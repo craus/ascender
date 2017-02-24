@@ -43,8 +43,9 @@ function createGame(params) {
   resources.cost = variable(resources.power(), 'cost')
   
   var nextUpgrade = () => {
-    resources.power.value = waiting()
-    resources.cost.value *= resources.power()
+    var t = waiting()
+    resources.power.value = Math.pow(2, t / 60)
+    resources.cost.value = resources.moneyIncome() * t
   }
   
   resources.money.income = resources.moneyIncome
@@ -63,7 +64,9 @@ function createGame(params) {
       
       Object.values(resources).each('paint')
       enable($('.upgrade>.buy'), resources.money() >= resources.cost())
-      setProgress($('.availability'), Math.clamp(resources.money() / resources.cost(), 0, 1) * 100)
+      setProgress($('.availability'), Math.clamp(resources.money() / resources.cost(), 0, 1) * 100, {
+        text: Format.time(Math.max(0, resources.cost()-resources.money()) / resources.money.income())
+      })
       debug.unprofile('paint')
     },
     tick: function() {

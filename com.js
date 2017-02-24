@@ -166,7 +166,7 @@ noSmall = function(x) {
 }
 const Format = {
   time: function(x) {
-    return '#{0} s'.i(large(x))
+    return '#{0}&nbsp;s'.i(large(x))
   },
   percent: function(x) {
     return '#{0}&nbsp;%'.i(Math.round(x*100))
@@ -212,7 +212,7 @@ setProgress = function(el, value, params = {}) {
   if (old != value) {
     el.attr('aria-valuenow', value)
     el.css("width", value+"%")
-    el.text(Math.floor(value)+"%")
+    el.html(params.text || Math.floor(value)+"%")
     if (params.noAnimation) {
       skipAnimation(el)
     }

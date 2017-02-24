@@ -61,6 +61,9 @@ background: #ca950f; color: #fff; }
   
 }
 
+.progress-bar{
+  text-shadow: 1px 1px #000;
+}
 .notransition {
   -webkit-transition: none !important;
   -moz-transition: none !important;
