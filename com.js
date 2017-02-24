@@ -24,8 +24,11 @@ function dist(x1, y1, x2, y2) {
 function rnd(min, max) {
   return min + Math.random()*(max-min)
 }
+function chances(p, q) {
+  return p/(p+q)
+}
 function rndEvent(p,q=1-p) {
-  return Math.random() < p/(p+q)
+  return Math.random() < chances(p, q)
 }
 
 identityMatrix = [1,0,0,1,0,0]
@@ -169,7 +172,7 @@ const Format = {
     return '#{0} s'.i(large(x))
   },
   percent: function(x) {
-    return '#{0}&nbsp;%'.i(Math.round(x*100))
+    return '#{0}%'.i(Math.round(x*100))
   }
 }
 

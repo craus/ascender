@@ -86,6 +86,13 @@ function createGame(params) {
     selectedQuest = quests.find(q => q.selected)
   }
   
+  if (!!selectedHero) {
+    selectedHero.select()
+  }
+  if (!!selectedQuest) {
+    selectedQuest.select()
+  }
+  
   buys = {
     buyQuestSlot: buy({
       id: 'buyQuestSlot',
@@ -111,8 +118,10 @@ function createGame(params) {
     trigger: function() {
       heroes.push(hero())
     },
-    period: () => 60 * Math.pow(1.2, heroes.length-resources.heroLimit())
+    period: () => 60 * Math.pow(4, heroes.length-resources.heroLimit())
   })
+  
+  questChance = () => chances(Math.pow(2, quests.length), 2 * Math.pow(2, resources.questLimit()))
   
   spellcaster = {
     paint: function() {
@@ -126,6 +135,7 @@ function createGame(params) {
       Object.values(buys).each('paint')
       
       setFormattedText($('.heroesArrival.period'), Format.time(heroesArrival.period()))
+      setFormattedText($('.questChance'), Format.percent(questChance()))
       
       debug.unprofile('paint')
     },

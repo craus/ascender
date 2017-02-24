@@ -1,9 +1,19 @@
 quest = (params={}) => {
   var panel = instantiate('questSample')
   $('.quests').append(panel)
+  var tab = instantiate('questTabSample')
+  $('.questTabs').append(tab)
+  
+  var name = questNames.rnd()
+  for (var i = 0; i < 100; i++) {
+    if (quests.every(q => q.name != name)) {
+      break
+    }
+    name = questNames.rnd()
+  }
   
   var result = Object.assign({
-    name: questNames.rnd(),
+    name: name,
     selected: false,
     duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     danger: Math.pow(2, params.level + gaussianRandom(0, 0.5)),
@@ -12,10 +22,17 @@ quest = (params={}) => {
     deselect: function() {
       this.selected = false
       refreshSelected()
+      tab.removeClass('active')
+      panel.removeClass('active')
+      panel.removeClass('in')
     },
     select: function() {
       quests.each('deselect')
       this.selected = true
+      tab.addClass('active')
+      panel.addClass('active')
+      panel.addClass('in')
+      
       refreshSelected()
       matchHeroAndQuest()
     },
@@ -113,20 +130,23 @@ quest = (params={}) => {
       this.abandon()
       this.destroy()
       quests.push(quest({level: this.level}))
-      if (rndEvent(Math.pow(1.2, quests.length), 2 * Math.pow(1.2, resources.questLimit()))) {
+      if (rndEvent(questChance())) {
         quests.push(quest({level: this.level+1}))
       }
     },
     destroy: function() {
       panel.remove()
+      tab.remove()
       quests.splice(quests.indexOf(this), 1)
     }
   }, params)
   
   setFormattedText(panel.find('.name'), result.name)
+  setFormattedText(tab.find('.name'), result.name)
   panel.find('.select').click(() => result.select())
   panel.find('.abandon').click(() => result.abandon())
   panel.find('.claimReward').click(() => result.claimReward())
   
+  tab.find('a').click(() => result.select())
   return result
 }

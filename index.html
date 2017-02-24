@@ -76,201 +76,175 @@
     </div>
   </div>
   <div class="row centered">
-    <h2><span class="name">Heroes</span></h2>
-    <span class="heroes">
-      <div class="col-sm-3 heroSample hidden">       
-        <div class="panel panel-default panel-readiness">
-          <div class="panel-heading"><h2><span class="name">?</span></h2></div>
-          <div class="panel-body">            
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td colspan=2 class="status text-right col-md-12">?</td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Level</b></td>
-                  <td class="text-right">
-                    <span class="level">?</span>
-                    <span class="skillPointsNotZero">
-                      (<span class="skillPoints">?</span>&nbsp;skill&nbsp;points)
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Experience</b></td>
-                  <td class="text-right"><span class="experience">?</span> / <span class = "experienceToLevelUp">?</span></td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Speed</b></td>
-                  <td class="text-right">
-                    <span class="speed">?</span>
-                    <a><b class="speedUp">+</b></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Defense</b></td>
-                  <td class="text-right">
-                    <span class="defense">?</span>
-                    <a><b class="defenseUp">+</b></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Wealth</b></td>
-                  <td class="text-right">
-                    <span class="wealth">?</span>
-                    <a><b class="wealthUp">+</b></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Intelligence</b></td>
-                  <td class="text-right">
-                    <span class="intelligence">?</span>
-                    <a><b class="intelligenceUp">+</b></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="panel-body">
-            <div class="btn-group btn-group-justified">
-              <div class="btn-group">
-                <button tabindex="-1" class="btn btn-default nohover select">Send to quest</button>
-                <button tabindex="-1" class="btn btn-default nohover abandon">Abandon</button>
-              </div>
-            </div>
-          </div>
-        </div>   
-      </div>   
-    </span>
-    <div class="col-sm-3 heroLimitPanel">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Hero Limit</span></h2></div>
-        <div class="panel-body">
-          <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover disabled status">
-                Heroes: <span class="heroCount">3</span> / <span class="heroLimit value">5</span>
-              </button>
-            </div>
-          </div>  
-        </div>
-        <div class="panel-body">
-          <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover disabled status">
-                +1 Hero each ~<span class="heroesArrival period">?</span>
-              </button>
-            </div>
-          </div>  
-        </div>
-        <div class="panel-body">
-          <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover buyHeroSlot">
-                Buy Hero Slot (<span class="gold cost">?</span> gold)
-              </button>
-            </div>
-          </div>          
-        </div>
-      </div>   
-    </div>  
-  </div> 
-  <div class="row centered">
-    <h2><span class="name">Quests</span></h2>
-    <span class="quests">
-      <div class="col-sm-3 questSample hidden">       
-        <div class="panel panel-default panel-readiness">
-          <div class="panel-heading vcentered" style="min-height: 120"><h2 class="vcentered"><span class="name">?</span></h2></div>
-          <div class="panel-body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td colspan=2 class="status text-right col-md-12">?</td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Level</b></td>
-                  <td class="level text-right">?</td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Duration</b></td>
-                  <td class="text-right">
-                    <span class="started">
-                      <span class = "remainingDuration">?</span> / <span class = "effectiveDuration">?</span>
-                    </span>
-                    <span class="notStarted">
-                      <span class="duration">?</span>
-                      <span class="man">
-                        (<span class = "effectiveDuration">?</span>)
-                      </span>
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Danger</b></td>
-                  <td class="text-right">
-                    <span class="danger">?</span>
-                    <span class="man">
-                      (<span class = "deathChance">?</span>)
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Experience</b></td>
-                  <td class="text-right">
-                    <span class="experience">?</span>
-                    <span class="man">
-                      (<span class = "effectiveExperience">?</span>)
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-md-4"><b>Gold</b></td>    
-                  <td class="text-right">
-                    <span class="gold">?</span>
-                    <span class="man">
-                      (<span class = "effectiveGold">?</span>)
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="panel-body">
-            <div class="btn-group btn-group-justified">
-              <div class="btn-group">
-                <button tabindex="-1" class="btn btn-default nohover select">Start</button>
-                <button tabindex="-1" class="btn btn-default nohover abandon">Abandon</button>
-                <button tabindex="-1" class="btn btn-default nohover claimReward">Claim Reward</button>
-              </div>
-            </div>          
-          </div>
-        </div>   
-      </div>   
-    </span>
-    <div class="col-sm-3 questLimitPanel">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Quest Limit</span></h2></div>
-        <div class="panel-body">
-          <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover disabled status">
-                Quests: <span class="questCount">3</span> / <span class="questLimit value">5</span>
-              </button>
-            </div>
-          </div>  
-        </div>
-        <div class="panel-body">
-          <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button tabindex="-1" class="btn btn-default nohover buyQuestSlot">
-                Buy Quest Slot (<span class="gold cost">?</span> gold)
-              </button>
-            </div>
-          </div>          
-        </div>
-      </div>   
+    <div class="col-sm-2">
+      <h2><span class="name">Heroes</span></h2>
+      <ul class="nav nav-pills nav-stacked heroTabs">
+        <li class="heroTabSample hidden"><a><span class="name">?</span></a></li>
+      </ul>
+      <button tabindex="-1" class="btn btn-default nohover disabled status btn-block wordwrap">
+        +1 Hero each ~<span class="heroesArrival period">?</span>
+      </button>
+      <button tabindex="-1" class="btn btn-default nohover buyHeroSlot btn-block">
+        More heroes (<span class="gold cost">?</span> gold)
+      </button>     
     </div>    
-  </div> 
+    <div class="col-sm-4">
+      <div class="tab-content heroes">
+        <div class="tab-pane fade heroSample hidden">
+          <div class="panel panel-default panel-readiness">
+            <div class="panel-heading"><h2><span class="name">?</span></h2></div>
+            <div class="panel-body">            
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td colspan=2 class="status text-right col-md-12">?</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Level</b></td>
+                    <td class="text-right">
+                      <span class="level">?</span>
+                      <span class="skillPointsNotZero">
+                        (<span class="skillPoints">?</span>&nbsp;skill&nbsp;points)
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Experience</b></td>
+                    <td class="text-right"><span class="experience">?</span> / <span class = "experienceToLevelUp">?</span></td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Speed</b></td>
+                    <td class="text-right">
+                      <span class="speed">?</span>
+                      <a><b class="speedUp">+</b></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Defense</b></td>
+                    <td class="text-right">
+                      <span class="defense">?</span>
+                      <a><b class="defenseUp">+</b></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Wealth</b></td>
+                    <td class="text-right">
+                      <span class="wealth">?</span>
+                      <a><b class="wealthUp">+</b></a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Intelligence</b></td>
+                    <td class="text-right">
+                      <span class="intelligence">?</span>
+                      <a><b class="intelligenceUp">+</b></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel-body">
+              <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button tabindex="-1" class="btn btn-default nohover select">Send to quest</button>
+                  <button tabindex="-1" class="btn btn-default nohover abandon">Abandon</button>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="tab-content quests">
+        <div class="tab-pane fade questSample hidden">
+          <div class="panel panel-default panel-readiness">
+            <div class="panel-heading vcentered" style="min-height: 120">
+              <h2 class="vcentered">
+                <span class="name">?</span>
+              </h2>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td colspan=2 class="status text-right col-md-12">?</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Level</b></td>
+                    <td class="level text-right">?</td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Duration</b></td>
+                    <td class="text-right">
+                      <span class="started">
+                        <span class = "remainingDuration">?</span> / <span class = "effectiveDuration">?</span>
+                      </span>
+                      <span class="notStarted">
+                        <span class="duration">?</span>
+                        <span class="man">
+                          (<span class = "effectiveDuration">?</span>)
+                        </span>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Danger</b></td>
+                    <td class="text-right">
+                      <span class="danger">?</span>
+                      <span class="man">
+                        (<span class = "deathChance">?</span>)
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Experience</b></td>
+                    <td class="text-right">
+                      <span class="experience">?</span>
+                      <span class="man">
+                        (<span class = "effectiveExperience">?</span>)
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-4"><b>Gold</b></td>    
+                    <td class="text-right">
+                      <span class="gold">?</span>
+                      <span class="man">
+                        (<span class = "effectiveGold">?</span>)
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel-body">
+              <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button tabindex="-1" class="btn btn-default nohover select">Start</button>
+                  <button tabindex="-1" class="btn btn-default nohover abandon">Abandon</button>
+                  <button tabindex="-1" class="btn btn-default nohover claimReward">Claim Reward</button>
+                </div>
+              </div>          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <h2><span class="name">Quests</span></h2>
+      <ul class="nav nav-pills nav-stacked questTabs">
+        <li class="questTabSample hidden"><a><span class="name">?</span></a></li>
+      </ul>
+      <button tabindex="-1" class="btn btn-default nohover disabled status btn-block wordwrap">
+        <span class="questChance">?</span> extra quest chance
+      </button>
+      <button tabindex="-1" class="btn btn-default nohover buyQuestSlot btn-block">
+        More quests (<span class="gold cost">?</span> gold)
+      </button>      
+    </div>  
+  </div>
+  
   <div class="row centered">
     <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
     <br>
