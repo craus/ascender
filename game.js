@@ -93,7 +93,7 @@ function createGame(params) {
     buyQuestSlot: buy({
       id: 'buyQuestSlot',
       cost: {
-        gold: () => 25 * (Math.pow(2, resources.questLimit()))
+        gold: () => 25 * (Math.pow(4, resources.questLimit()))
       }, 
       reward: {
         questLimit: () => 1
@@ -102,7 +102,7 @@ function createGame(params) {
     buyHeroSlot: buy({
       id: 'buyHeroSlot',
       cost: {
-        gold: () => 25 * (Math.pow(2, resources.heroLimit()))
+        gold: () => 25 * (Math.pow(4, resources.heroLimit()))
       }, 
       reward: {
         heroLimit: () => 1
@@ -114,7 +114,7 @@ function createGame(params) {
     trigger: function() {
       heroes.push(hero())
     },
-    period: () => 60 * Math.pow(4, heroes.length-resources.heroLimit())
+    period: () => 120 * Math.pow(4, heroes.length-resources.heroLimit())
   })
   
   questChance = () => chances(Math.pow(4, resources.questLimit()), Math.pow(4, quests.length))
