@@ -24,8 +24,8 @@ function dist(x1, y1, x2, y2) {
 function rnd(min, max) {
   return min + Math.random()*(max-min)
 }
-function rndEvent(p) {
-  return Math.random() < p
+function rndEvent(p,q=1-p) {
+  return Math.random() < p/(p+q)
 }
 
 identityMatrix = [1,0,0,1,0,0]

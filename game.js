@@ -107,15 +107,11 @@ function createGame(params) {
     })
   }
   
-  //limitExceeded
-  
   heroesArrival = poisson({
     trigger: function() {
-      if (heroes.length < resources.heroLimit()) {
-        heroes.push(hero())
-      }
+      heroes.push(hero())
     },
-    period: () => heroes.length < resources.heroLimit() ? 10 * Math.pow(1.2, heroes.length) : Number.POSITIVE_INFINITY
+    period: () => 60 * Math.pow(1.2, heroes.length-resources.heroLimit())
   })
   
   spellcaster = {

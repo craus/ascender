@@ -112,10 +112,8 @@ quest = (params={}) => {
       this.hero.learn(this.effectiveExperience())
       this.abandon()
       this.destroy()
-      if (quests.length < resources.questLimit()) {
-        quests.push(quest({level: this.level}))
-      }
-      if (quests.length < resources.questLimit()) {
+      quests.push(quest({level: this.level}))
+      if (rndEvent(Math.pow(1.2, quests.length), 2 * Math.pow(1.2, resources.questLimit()))) {
         quests.push(quest({level: this.level+1}))
       }
     },
