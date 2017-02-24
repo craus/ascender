@@ -14,27 +14,23 @@ quest = (params={}) => {
   
   var result = Object.assign({
     name: name,
-    selected: false,
     duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     danger: Math.pow(2, params.level + gaussianRandom(0, 0.5)),
     experience: Math.round(5*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     gold: Math.round(10*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
     deselect: function() {
-      this.selected = false
-      refreshSelected()
       tab.removeClass('active')
       panel.removeClass('active')
       panel.removeClass('in')
     },
     select: function() {
-      quests.each('deselect')
-      this.selected = true
+      if (!!selectedQuest) {
+        selectedQuest.deselect()
+      }
+      selectedQuest = this
       tab.addClass('active')
       panel.addClass('active')
       panel.addClass('in')
-      
-      refreshSelected()
-      matchHeroAndQuest()
     },
     start: function() {
       this.startedAt = Date.now()
@@ -46,7 +42,6 @@ quest = (params={}) => {
       this.hero.quest = null
       this.hero = null
       this.startedAt = null
-      refreshSelected()
     },
     status: function() {
       if (this.hero) {
@@ -114,8 +109,8 @@ quest = (params={}) => {
       setFormattedText(panel.find('.experience'), large(this.experience))
       setFormattedText(panel.find('.gold'), large(this.gold))
       setFormattedText(panel.find('.level'), this.level)
-      enable(panel.find('.select'), !this.selected && !this.hero)
-      panel.find('.select').toggle(this.idle())
+      enable(panel.find('.start'), matchable())
+      panel.find('.start').toggle(this.idle())
       panel.find('.abandon').toggle(this.inProgress())
       panel.find('.claimReward').toggle(this.completed())
     },
@@ -138,12 +133,15 @@ quest = (params={}) => {
       panel.remove()
       tab.remove()
       quests.splice(quests.indexOf(this), 1)
+      if (selectedQuest == this) {
+        selectedQuest = null
+      }
     }
   }, params)
   
   setFormattedText(panel.find('.name'), result.name)
   setFormattedText(tab.find('.name'), result.name)
-  panel.find('.select').click(() => result.select())
+  panel.find('.start').click(matchHeroAndQuest)
   panel.find('.abandon').click(() => result.abandon())
   panel.find('.claimReward').click(() => result.claimReward())
   

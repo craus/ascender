@@ -26,6 +26,8 @@ function createGame(params) {
     savedata.heroes = []
     heroes.each('save')
     quests.each('save')
+    savedata.selectedHeroIndex = heroes.indexOf(selectedHero)
+    savedata.selectedQuestIndex = quests.indexOf(selectedQuest)
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -43,17 +45,16 @@ function createGame(params) {
     heroLimit: variable(1, 'heroLimit')
   }
   
+  matchable = () => {
+    return !!selectedHero && !!selectedQuest && !selectedHero.quest && !selectedQuest.hero
+  }
   matchHeroAndQuest = function() {
-    var hero = heroes.find(h => h.selected)
-    var quest = quests.find(q => q.selected)
-    if (hero && quest) {
-      hero.quest = quest
-      quest.hero = hero
-      hero.selected = false
-      quest.selected = false
-      quest.start()
-      refreshSelected()
+    if (!matchable()) {
+      return
     }
+    selectedHero.quest = selectedQuest
+    selectedQuest.hero = selectedHero
+    selectedQuest.start()
   }
   
   heroes = []
@@ -78,13 +79,8 @@ function createGame(params) {
   heroes.forEach(h => h.quest = quests[h.questIndex])
   quests.forEach(q => q.hero = heroes[q.heroIndex])
 
-  selectedHero = heroes.find(h => h.selected)
-  selectedQuest = quests.find(q => q.selected)
-  
-  refreshSelected = function() {
-    selectedHero = heroes.find(h => h.selected)
-    selectedQuest = quests.find(q => q.selected)
-  }
+  selectedHero = heroes[savedata.selectedHeroIndex]
+  selectedQuest = quests[savedata.selectedQuestIndex]
   
   if (!!selectedHero) {
     selectedHero.select()
@@ -121,7 +117,7 @@ function createGame(params) {
     period: () => 60 * Math.pow(4, heroes.length-resources.heroLimit())
   })
   
-  questChance = () => chances(Math.pow(2, quests.length), 2 * Math.pow(2, resources.questLimit()))
+  questChance = () => chances(Math.pow(2, resources.questLimit()), 2 * Math.pow(2, quests.length))
   
   spellcaster = {
     paint: function() {

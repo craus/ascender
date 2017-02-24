@@ -14,7 +14,6 @@ hero = (params={}) => {
   
   var hero = Object.assign({
     name: name,
-    selected: false,
     skills: {
       defense: 1,
       speed: 1,
@@ -25,21 +24,18 @@ hero = (params={}) => {
     skillPoints: 0,
     experience: 0,
     deselect: function() {
-      this.selected = false
-      refreshSelected()
       tab.removeClass('active')
       panel.removeClass('active')
       panel.removeClass('in')
     },
     select: function() {
-      heroes.each('deselect')
-      this.selected = true
+      if (!!selectedHero) {
+        selectedHero.deselect()
+      }
+      selectedHero = this
       tab.addClass('active')
       panel.addClass('active')
       panel.addClass('in')
-      
-      refreshSelected()
-      matchHeroAndQuest()
     },
     abandon: function() {
       this.quest.abandon()
@@ -86,9 +82,10 @@ hero = (params={}) => {
       setFormattedText(panel.find('.wealth'), this.skills.wealth)
       setFormattedText(panel.find('.experience'), large(this.experience))
       setFormattedText(panel.find('.experienceToLevelUp'), this.experienceToLevelUp())
-      enable(panel.find('.select'), !this.selected && !this.quest)
-      panel.find('.select').toggle(!this.quest)
-      panel.find('.abandon').toggle(!!this.quest)
+      enable(panel.find('.start'), matchable())
+      panel.find('.start').toggle(!this.quest)
+      panel.find('.abandon').toggle(!!this.quest && !this.quest.completed())
+      panel.find('.claimReward').toggle(!!this.quest && this.quest.completed())
     },
     save: function() {
       savedata.heroes.push(Object.assign({
@@ -99,18 +96,22 @@ hero = (params={}) => {
       panel.remove()
       tab.remove()
       heroes.splice(heroes.indexOf(this), 1)
+      if (selectedHero == this) {
+        selectedHero = null
+      }
     }
   }, params)
   
   setFormattedText(panel.find('.name'), hero.name)
   setFormattedText(tab.find('.name'), hero.name)
-  panel.find('.select').click(() => hero.select())
+  panel.find('.start').click(matchHeroAndQuest)
   panel.find('.abandon').click(() => hero.abandon())
   panel.find('.speedUp').click(() => hero.skillUp('speed'))
   panel.find('.defenseUp').click(() => hero.skillUp('defense'))
   panel.find('.intelligenceUp').click(() => hero.skillUp('intelligence'))
   panel.find('.wealthUp').click(() => hero.skillUp('wealth'))
-
+  panel.find('.claimReward').click(() => hero.quest.claimReward())
+  
   tab.find('a').click(() => hero.select())
   return hero
 }
