@@ -42,7 +42,10 @@ hero = (params={}) => {
     },
     status: function() {
       if (this.quest) {
-        return "On a quest — " + this.quest.name
+        if (this.quest.completed()) {
+          return "Completed — " + this.quest.name
+        }
+        return "On a quest — #{0} (#{1})".i(this.quest.name, Format.percent(this.quest.progress()))
       }
       if (this.selected) {
         return "Waiting for a quest"
@@ -69,7 +72,9 @@ hero = (params={}) => {
     },
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
+      setFormattedText(tab.find('.status'), this.status())
       setFormattedText(panel.find('.level'), this.level)
+      setFormattedText(tab.find('.level'), this.level)
       setFormattedText(panel.find('.skillPoints'), this.skillPoints)
       panel.find('.skillPointsNotZero').toggle(this.skillPoints > 0)
       panel.find('.speedUp').toggle(this.skillPoints > 0)

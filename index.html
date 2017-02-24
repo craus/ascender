@@ -58,19 +58,10 @@
 <div class="container">
   <br>
   <div class="row centered">
-    <div class="col-sm-6">       
+    <div class="col-sm-12">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Time</span></h2></div>
-        <div class="panel-body big">
-          <span class="time value">?</span> 
-        </div>
-      </div>   
-    </div>
-    <div class="col-sm-6">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Gold</span></h2></div>
-        <div class="panel-body big">
-          <span class="gold value">?</span>
+        <div class="panel-body big right">
+          <span class="gold value">?</span> <span class="name">Gold</span>
         </div>
       </div>   
     </div>
@@ -79,7 +70,27 @@
     <div class="col-sm-2">
       <h2><span class="name">Heroes</span></h2>
       <ul class="nav nav-pills nav-stacked heroTabs">
-        <li class="heroTabSample hidden"><a><span class="name">?</span></a></li>
+        <li class="heroTabSample hidden">
+          <a class="left">
+            <div>
+              <table>
+                <tr>
+                  <td width="25%">
+                    <span class="badge big level">5</span>
+                  </td>
+                  <td>
+                    <div>
+                      <span class="name">?</span>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <small class="status">In progress</small>
+            </div>
+          </a>
+        </li>
       </ul>
       <button tabindex="-1" class="btn btn-default nohover disabled status btn-block wordwrap">
         +1 Hero each ~<span class="heroesArrival period">?</span>
@@ -235,7 +246,23 @@
     <div class="col-sm-2">
       <h2><span class="name">Quests</span></h2>
       <ul class="nav nav-pills nav-stacked questTabs">
-        <li class="questTabSample hidden"><a><span class="name">?</span></a></li>
+        <li class="questTabSample hidden">
+          <a class="left">
+            <table>
+              <tr>
+                <td width="25%">
+                  <span class="badge big level">5</span>
+                </td>
+                <td>
+                  <div>
+                    <span class="name">?</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <small class="centered status">In progress</small>
+          </a>
+        </li>
       </ul>
       <button tabindex="-1" class="btn btn-default nohover disabled status btn-block wordwrap">
         <span class="questChance">?</span> extra quest chance

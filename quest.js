@@ -48,7 +48,7 @@ quest = (params={}) => {
         if (this.completed()) {
           return "Completed — " + this.hero.name
         }
-        return "In Progress — " + this.hero.name
+        return "In Progress — #{0} (#{1})".i(this.hero.name, Format.percent(this.progress()))
       }
       if (this.selected) {
         return "Waiting for a hero"
@@ -63,6 +63,9 @@ quest = (params={}) => {
     },
     remainingDuration: function() {
       return Math.max(0,this.effectiveDuration() - this.spentDuration())
+    },
+    progress: function() {
+      return this.spentDuration() / this.effectiveDuration()
     },
     idle: function() {
       return !this.hero
@@ -93,6 +96,7 @@ quest = (params={}) => {
     },
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
+      setFormattedText(tab.find('.status'), this.status())
       setFormattedText(panel.find('.duration'), Format.time(this.duration))
       setFormattedText(panel.find('.remainingDuration'), Format.time(Math.ceil(this.remainingDuration())))
       
@@ -109,6 +113,7 @@ quest = (params={}) => {
       setFormattedText(panel.find('.experience'), large(this.experience))
       setFormattedText(panel.find('.gold'), large(this.gold))
       setFormattedText(panel.find('.level'), this.level)
+      setFormattedText(tab.find('.level'), this.level)
       enable(panel.find('.start'), matchable())
       panel.find('.start').toggle(this.idle())
       panel.find('.abandon').toggle(this.inProgress())

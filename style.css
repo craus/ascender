@@ -59,7 +59,16 @@ background: #ca950f; color: #fff; }
 .questLimitExceeded .modal-content{
   background-color: #d9534f
 }
+.badge-level{
+  background-color: #737232
+}
 .wordwrap {
   word-wrap: break-word;
   white-space: normal;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
 }
