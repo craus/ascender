@@ -14,10 +14,10 @@ quest = (params={}) => {
   
   var result = Object.assign({
     name: name,
-    duration: Math.round(10 * Math.pow(2, params.level + gaussianRandom(0, 0.5))),
-    danger: 0.1*Math.pow(2, params.level + gaussianRandom(0, 0.5)),
-    experience: Math.round(5*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
-    gold: Math.round(10*Math.pow(2, params.level + gaussianRandom(0, 0.5))),
+    duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5))),
+    danger: 0.1*Math.pow(2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5)),
+    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.5, 0.3) + gaussianRandom(0, 0.5))),
+    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.5, 0.3) + gaussianRandom(0, 0.5))),
     deselect: function() {
       tab.removeClass('active')
       panel.removeClass('active')
@@ -117,7 +117,7 @@ quest = (params={}) => {
       setFormattedText(panel.find('.status'), this.status())
       setFormattedText(tab.find('.status'), this.status())
       setFormattedText(panel.find('.duration'), Format.time(this.duration))
-      setFormattedText(panel.find('.remainingDuration'), Format.time(Math.ceil(this.remainingDuration())))
+      setFormattedText(panel.find('.spentDuration'), Format.time(Math.floor(this.spentDuration())))
       
       panel.find('.started').toggle(this.inProgress() || this.failed())
       panel.find('.notStarted').toggle(!this.inProgress() && !this.failed())
