@@ -142,6 +142,7 @@ function createGame(params) {
       
       resources.time.value += deltaTime
       heroesArrival.tick(deltaTime)
+      quests.each('tick', deltaTime)
       
       save(currentTime)
       debug.unprofile('tick')

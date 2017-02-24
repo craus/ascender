@@ -34,6 +34,10 @@ quest = (params={}) => {
     },
     start: function() {
       this.startedAt = Date.now()
+      this.lastSavePoint = 0
+    },
+    fail: function(t) {
+      this.failedAt = t
     },
     started: function() {
       return !!this.startedAt
@@ -44,9 +48,12 @@ quest = (params={}) => {
       this.startedAt = null
     },
     status: function() {
-      if (this.hero) {
+      if (this.hero) {  
         if (this.completed()) {
           return "Completed — " + this.hero.name
+        }      
+        if (this.failed()) {
+          return "Failed — " + this.hero.name
         }
         return "In Progress — #{0} (#{1})".i(this.hero.name, Format.percent(this.progress()))
       }
@@ -59,6 +66,9 @@ quest = (params={}) => {
       if (!this.startedAt) {
         return 0
       }
+      if (this.failed()) {
+        return this.lastSavePoint
+      }
       return (Date.now() - this.startedAt)/1000
     },
     remainingDuration: function() {
@@ -70,11 +80,14 @@ quest = (params={}) => {
     idle: function() {
       return !this.hero
     },
+    failed: function() {
+      return !!this.hero && !this.hero.alive
+    },
     completed: function() {
-      return this.remainingDuration() <= 0
+      return !!this.hero && !this.failed() && this.remainingDuration() <= 0
     },
     inProgress: function() {
-      return !!this.hero && !this.completed()
+      return !!this.hero && !this.completed() && !this.failed()
     },
     man: function() {
       return this.hero || selectedHero
@@ -91,6 +104,12 @@ quest = (params={}) => {
     deathChance: function() {
       return this.danger / (this.danger + this.man().skills.defense)
     },
+    halfLife: function() {
+      return this.effectiveDuration() / Math.lg(1 - this.deathChance(), 0.5)
+    },    
+    lifeTime: function() {
+      return 2*this.halfLife()
+    },
     effectiveGold: function() {
       return this.gold * this.man().skills.wealth
     },
@@ -100,8 +119,8 @@ quest = (params={}) => {
       setFormattedText(panel.find('.duration'), Format.time(this.duration))
       setFormattedText(panel.find('.remainingDuration'), Format.time(Math.ceil(this.remainingDuration())))
       
-      panel.find('.started').toggle(this.started())
-      panel.find('.notStarted').toggle(!this.started())
+      panel.find('.started').toggle(this.inProgress() || this.failed())
+      panel.find('.notStarted').toggle(!this.inProgress() && !this.failed())
       panel.find('.man').toggle(!!this.man())
       if (this.man()) {
         setFormattedText(panel.find('.effectiveDuration'), Format.time(this.effectiveDuration()))
@@ -117,7 +136,22 @@ quest = (params={}) => {
       enable(panel.find('.start'), matchable())
       panel.find('.start').toggle(this.idle())
       panel.find('.abandon').toggle(this.inProgress())
+      panel.find('.buryHero').toggle(this.failed())
       panel.find('.claimReward').toggle(this.completed())
+    },
+    tick: function() {
+      if (!this.hero) {
+        return
+      }
+      var currentTime = Math.min(this.effectiveDuration(), this.spentDuration())
+      var t = currentTime - this.lastSavePoint
+      var sample = PoissonProcess.sample(this.lifeTime())
+      if (sample < t) {
+        console.log("dead")
+        this.hero.alive = false
+      } else {
+        this.lastSavePoint = currentTime
+      }
     },
     save: function() {
       savedata.quests.push(Object.assign({
@@ -138,6 +172,9 @@ quest = (params={}) => {
       panel.remove()
       tab.remove()
       quests.splice(quests.indexOf(this), 1)
+      if (!!this.hero) {
+        this.hero.quest = null
+      }
       if (selectedQuest == this) {
         selectedQuest = null
       }
@@ -149,6 +186,7 @@ quest = (params={}) => {
   panel.find('.start').click(matchHeroAndQuest)
   panel.find('.abandon').click(() => result.abandon())
   panel.find('.claimReward').click(() => result.claimReward())
+  panel.find('.buryHero').click(() => result.hero.destroy())
   
   tab.find('a').click(() => result.select())
   return result

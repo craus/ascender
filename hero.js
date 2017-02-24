@@ -23,6 +23,7 @@ hero = (params={}) => {
     level: 0,
     skillPoints: 0,
     experience: 0,
+    alive: true,
     deselect: function() {
       tab.removeClass('active')
       panel.removeClass('active')
@@ -44,6 +45,9 @@ hero = (params={}) => {
       if (this.quest) {
         if (this.quest.completed()) {
           return "Completed — " + this.quest.name
+        }
+        if (!this.alive) {
+          return "Dead — " + this.quest.name
         }
         return "On a quest — #{0} (#{1})".i(this.quest.name, Format.percent(this.quest.progress()))
       }
@@ -89,7 +93,8 @@ hero = (params={}) => {
       setFormattedText(panel.find('.experienceToLevelUp'), this.experienceToLevelUp())
       enable(panel.find('.start'), matchable())
       panel.find('.start').toggle(!this.quest)
-      panel.find('.abandon').toggle(!!this.quest && !this.quest.completed())
+      panel.find('.abandon').toggle(!!this.quest && this.quest.inProgress())
+      panel.find('.bury').toggle(!!this.quest && this.quest.failed())
       panel.find('.claimReward').toggle(!!this.quest && this.quest.completed())
     },
     save: function() {
@@ -101,6 +106,9 @@ hero = (params={}) => {
       panel.remove()
       tab.remove()
       heroes.splice(heroes.indexOf(this), 1)
+      if (this.quest) {
+        this.quest.hero = null
+      }
       if (selectedHero == this) {
         selectedHero = null
       }
@@ -111,6 +119,7 @@ hero = (params={}) => {
   setFormattedText(tab.find('.name'), hero.name)
   panel.find('.start').click(matchHeroAndQuest)
   panel.find('.abandon').click(() => hero.abandon())
+  panel.find('.bury').click(() => hero.destroy())
   panel.find('.speedUp').click(() => hero.skillUp('speed'))
   panel.find('.defenseUp').click(() => hero.skillUp('defense'))
   panel.find('.intelligenceUp').click(() => hero.skillUp('intelligence'))
