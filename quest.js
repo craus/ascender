@@ -1,8 +1,10 @@
 quest = (params={}) => {
   var panel = instantiate('questSample')
-  $('.quests').append(panel)
   var tab = instantiate('questTabSample')
-  $('.questTabs').append(tab)
+  if (params.instantiate != false) {
+    $('.quests').append(panel)
+    $('.questTabs').append(tab)
+  }
   
   var name = questNames.rnd()
   for (var i = 0; i < 100; i++) {
@@ -14,10 +16,10 @@ quest = (params={}) => {
   
   var result = Object.assign({
     name: name,
-    duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5))),
-    danger: 0.2*Math.pow(1.3, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5)),
-    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.1, 0.3) + gaussianRandom(0, 0.5))),
-    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.1, 0.3) + gaussianRandom(0, 0.5))),
+    duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 0.5) + gaussianRandom(0, 0.8))),
+    danger: 0.2*Math.pow(1.3, params.level*gaussianRandom(1, 0.5) + gaussianRandom(0, 0.8)),
+    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.1, 0.5) + gaussianRandom(0, 0.8))),
+    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.1, 0.5) + gaussianRandom(0, 0.8))),
     deselect: function() {
       selectedQuest = null
       tab.removeClass('active')
