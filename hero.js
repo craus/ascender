@@ -21,7 +21,7 @@ hero = (params={}) => {
       intelligence: 1
     },
     skillGrowth: {
-      defense: () => hero.skills.defense*1.3,
+      defense: () => hero.skills.defense*1.5,
       speed: () => hero.skills.speed*2,
       wealth: () => hero.skills.wealth*2,
       intelligence: () => hero.skills.intelligence * (2 + 0.2/hero.skills.intelligence)

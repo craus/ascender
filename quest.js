@@ -16,10 +16,10 @@ quest = (params={}) => {
   
   var result = Object.assign({
     name: name,
-    duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 0.5) + gaussianRandom(0, 0.8))),
-    danger: 0.2*Math.pow(1.3, params.level*gaussianRandom(1, 0.5) + gaussianRandom(0, 0.8)),
-    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.1, 0.5) + gaussianRandom(0, 0.8))),
-    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.1, 0.5) + gaussianRandom(0, 0.8))),
+    duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 1) + gaussianRandom(0, 0.6))),
+    danger: 0.2*Math.pow(1.5, params.level*gaussianRandom(1, 1) + gaussianRandom(0, 0.6)),
+    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.1, 1) + gaussianRandom(0, 0.6))),
+    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.1, 1) + gaussianRandom(0, 0.6))),
     deselect: function() {
       selectedQuest = null
       tab.removeClass('active')
@@ -64,7 +64,7 @@ quest = (params={}) => {
         if (this.failed()) {
           return "Failed — " + this.hero.name
         }
-        return "In Progress — #{0} (#{1})".i(this.hero.name, Format.percent(this.progress()))
+        return "In Progress — #{0}".i(this.hero.name)
       }
       if (this.selected) {
         return "Waiting for a hero"
@@ -128,6 +128,10 @@ quest = (params={}) => {
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
       setFormattedText(tab.find('.status'), this.status())
+      panel.find('.inProgress').toggle(this.inProgress())
+      tab.find('.inProgress').toggle(this.inProgress())
+      setFormattedText(panel.find('.percent'), Format.percent(this.progress()))
+      setFormattedText(tab.find('.percent'), Format.percent(this.progress()))
       setFormattedText(panel.find('.duration'), Format.time(this.duration))
       setFormattedText(panel.find('.spentDuration'), Format.time(Math.floor(this.spentDuration())))
       
