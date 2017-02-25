@@ -21,7 +21,7 @@ hero = (params={}) => {
       intelligence: 1
     },
     skillGrowth: {
-      defense: () => hero.skills.defense*1.2,
+      defense: () => hero.skills.defense*1.3,
       speed: () => hero.skills.speed*2,
       wealth: () => hero.skills.wealth*2,
       intelligence: () => hero.skills.intelligence * (2 + 0.2/hero.skills.intelligence)
@@ -31,6 +31,7 @@ hero = (params={}) => {
     experience: 0,
     alive: true,
     deselect: function() {
+      selectedHero = null
       tab.removeClass('active')
       panel.removeClass('active')
       panel.removeClass('in')
@@ -40,6 +41,12 @@ hero = (params={}) => {
         selectedHero.deselect()
       }
       selectedHero = this
+      if (!!this.quest && selectedQuest != this.quest) {
+        this.quest.select()
+      }
+      if (!this.quest && !!selectedQuest && !!selectedQuest.hero) {
+        selectedQuest.deselect()
+      }
       tab.addClass('active')
       panel.addClass('active')
       panel.addClass('in')

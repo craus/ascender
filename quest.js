@@ -15,10 +15,11 @@ quest = (params={}) => {
   var result = Object.assign({
     name: name,
     duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5))),
-    danger: 0.1*Math.pow(1.2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5)),
-    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.5, 0.3) + gaussianRandom(0, 0.5))),
-    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.5, 0.3) + gaussianRandom(0, 0.5))),
+    danger: 0.2*Math.pow(1.3, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5)),
+    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.1, 0.3) + gaussianRandom(0, 0.5))),
+    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.1, 0.3) + gaussianRandom(0, 0.5))),
     deselect: function() {
+      selectedQuest = null
       tab.removeClass('active')
       panel.removeClass('active')
       panel.removeClass('in')
@@ -28,6 +29,12 @@ quest = (params={}) => {
         selectedQuest.deselect()
       }
       selectedQuest = this
+      if (!!this.hero && selectedHero != this.hero) {
+        this.hero.select()
+      }
+      if (!this.hero && !!selectedHero && !!selectedHero.quest) {
+        selectedHero.deselect()
+      }
       tab.addClass('active')
       panel.addClass('active')
       panel.addClass('in')

@@ -110,14 +110,17 @@ function createGame(params) {
     })
   }
   
+  var heroesArrivalPeriod = (hl) => heroes.length * 30 * Math.pow(4, heroes.length-hl)
+  
   heroesArrival = poisson({
     trigger: function() {
       heroes.push(hero())
     },
-    period: () => heroes.length * 30 * Math.pow(4, heroes.length-resources.heroLimit())
+    period: () => heroesArrivalPeriod(resources.heroLimit())
   })
   
-  questChance = () => chances(Math.pow(4, resources.questLimit()), Math.pow(4, quests.length))
+  var questChanceByLimit = (ql) => chances(Math.pow(4, ql), Math.pow(quests.length,2)*0.125*Math.pow(4, quests.length))
+  questChance = () => questChanceByLimit(resources.questLimit())
   
   spellcaster = {
     paint: function() {
@@ -131,7 +134,9 @@ function createGame(params) {
       Object.values(buys).each('paint')
       
       setFormattedText($('.heroesArrival.period'), Format.time(heroesArrival.period()))
+      setFormattedText($('.heroesArrivalPeriodUp'), Format.time(heroesArrivalPeriod(resources.heroLimit()+1)))
       setFormattedText($('.questChance'), Format.percent(questChance()))
+      setFormattedText($('.questChanceUp'), Format.percent(questChanceByLimit(resources.questLimit()+1)))
       
       debug.unprofile('paint')
     },
