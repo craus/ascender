@@ -114,7 +114,7 @@ function createGame(params) {
     trigger: function() {
       heroes.push(hero())
     },
-    period: () => 120 * Math.pow(4, heroes.length-resources.heroLimit())
+    period: () => heroes.length * 30 * Math.pow(4, heroes.length-resources.heroLimit())
   })
   
   questChance = () => chances(Math.pow(4, resources.questLimit()), Math.pow(4, quests.length))

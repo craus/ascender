@@ -15,7 +15,7 @@ quest = (params={}) => {
   var result = Object.assign({
     name: name,
     duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5))),
-    danger: 0.1*Math.pow(2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5)),
+    danger: 0.1*Math.pow(1.2, params.level*gaussianRandom(1, 0.3) + gaussianRandom(0, 0.5)),
     experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.5, 0.3) + gaussianRandom(0, 0.5))),
     gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.5, 0.3) + gaussianRandom(0, 0.5))),
     deselect: function() {
@@ -105,6 +105,9 @@ quest = (params={}) => {
       return this.danger / (this.danger + this.man().skills.defense)
     },
     halfLife: function() {
+      if (this.deathChance() < eps) {
+        return Number.POSITIVE_INFINITY
+      }
       return this.effectiveDuration() / Math.lg(1 - this.deathChance(), 0.5)
     },    
     lifeTime: function() {

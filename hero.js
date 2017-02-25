@@ -21,10 +21,10 @@ hero = (params={}) => {
       intelligence: 1
     },
     skillGrowth: {
-      defense: () => 2,
-      speed: () => 2,
-      wealth: () => 2.1,
-      intelligence: () => 2.1
+      defense: () => hero.skills.defense*1.2,
+      speed: () => hero.skills.speed*2,
+      wealth: () => hero.skills.wealth*2,
+      intelligence: () => hero.skills.intelligence * (2 + 0.2/hero.skills.intelligence)
     },
     level: 0,
     skillPoints: 0,
@@ -78,7 +78,7 @@ hero = (params={}) => {
         return
       }
       this.skillPoints -= 1
-      this.skills[skill] *= this.skillGrowth[skill]()
+      this.skills[skill] = this.skillGrowth[skill]()
     },
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
@@ -87,14 +87,18 @@ hero = (params={}) => {
       setFormattedText(tab.find('.level'), this.level)
       setFormattedText(panel.find('.skillPoints'), this.skillPoints)
       panel.find('.skillPointsNotZero').toggle(this.skillPoints > 0)
-      panel.find('.speedUp').toggle(this.skillPoints > 0)
-      panel.find('.defenseUp').toggle(this.skillPoints > 0)
-      panel.find('.intelligenceUp').toggle(this.skillPoints > 0)
-      panel.find('.wealthUp').toggle(this.skillPoints > 0)
-      setFormattedText(panel.find('.speed'), large(this.skills.speed))
-      setFormattedText(panel.find('.defense'), large(this.skills.defense))
-      setFormattedText(panel.find('.intelligence'), large(this.skills.intelligence))
-      setFormattedText(panel.find('.wealth'), large(this.skills.wealth))
+      
+      panel.find('.skillUp').toggle(this.skillPoints > 0)
+      
+      setFormattedText(panel.find('.speed').find('.skillUpValue'), large(this.skillGrowth.speed()))
+      setFormattedText(panel.find('.defense').find('.skillUpValue'), large(this.skillGrowth.defense()))
+      setFormattedText(panel.find('.wealth').find('.skillUpValue'), large(this.skillGrowth.wealth()))
+      setFormattedText(panel.find('.intelligence').find('.skillUpValue'), large(this.skillGrowth.intelligence()))
+      
+      setFormattedText(panel.find('.speed').find('.value'), large(this.skills.speed))
+      setFormattedText(panel.find('.defense').find('.value'), large(this.skills.defense))
+      setFormattedText(panel.find('.intelligence').find('.value'), large(this.skills.intelligence))
+      setFormattedText(panel.find('.wealth').find('.value'), large(this.skills.wealth))
       setFormattedText(panel.find('.experience'), large(this.experience))
       setFormattedText(panel.find('.experienceToLevelUp'), large(this.experienceToLevelUp()))
       enable(panel.find('.start'), matchable())
@@ -106,7 +110,7 @@ hero = (params={}) => {
     save: function() {
       savedata.heroes.push(Object.assign({
         questIndex: quests.indexOf(this.quest)
-      }, _.omit(this, 'quest', 'questIndex')))
+      }, _.omit(this, 'quest', 'questIndex', 'skillGrowth')))
     },
     destroy: function() {
       panel.remove()
@@ -126,10 +130,10 @@ hero = (params={}) => {
   panel.find('.start').click(matchHeroAndQuest)
   panel.find('.abandon').click(() => hero.abandon())
   panel.find('.bury').click(() => hero.destroy())
-  panel.find('.speedUp').click(() => hero.skillUp('speed'))
-  panel.find('.defenseUp').click(() => hero.skillUp('defense'))
-  panel.find('.intelligenceUp').click(() => hero.skillUp('intelligence'))
-  panel.find('.wealthUp').click(() => hero.skillUp('wealth'))
+  panel.find('.speed').find('.skillUp').click(() => hero.skillUp('speed'))
+  panel.find('.defense').find('.skillUp').click(() => hero.skillUp('defense'))
+  panel.find('.wealth').find('.skillUp').click(() => hero.skillUp('wealth'))
+  panel.find('.intelligence').find('.skillUp').click(() => hero.skillUp('intelligence'))
   panel.find('.claimReward').click(() => hero.quest.claimReward())
   
   tab.find('a').click(() => hero.select())
