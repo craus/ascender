@@ -14,12 +14,17 @@ quest = (params={}) => {
     name = questNames.rnd()
   }
   
+  var power = gaussianRandom(0, 0.4)
+  var danger = gaussianRandom(0, 2)
+  var gold = gaussianRandom(0, 2)
+  var quality = gaussianRandom(0, 0.3)
+  
   var result = Object.assign({
     name: name,
-    duration: Math.round(10 * Math.pow(2, params.level*gaussianRandom(1, 1) + gaussianRandom(0, 0.6))),
-    danger: 0.2*Math.pow(1.5, params.level*gaussianRandom(1, 1) + gaussianRandom(0, 0.6)),
-    experience: Math.round(5*Math.pow(2, params.level*gaussianRandom(1.1, 1) + gaussianRandom(0, 0.6))),
-    gold: Math.round(10*Math.pow(2, params.level*gaussianRandom(1.1, 1) + gaussianRandom(0, 0.6))),
+    duration: Math.round(10 * Math.pow(2, params.level + power - danger)),
+    danger: 0.2*Math.pow(1.5, params.level + power + danger),
+    experience: Math.round(5*Math.pow(2.2, params.level + power + quality - gold)),
+    gold: Math.round(10*Math.pow(2.2, params.level + power + quality + gold)),
     deselect: function() {
       selectedQuest = null
       tab.removeClass('active')

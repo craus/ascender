@@ -169,7 +169,7 @@ noSmall = function(x) {
 }
 const Format = {
   time: function(x) {
-    return '#{0} s'.i(large(x))
+    return '#{0}&nbsp;s'.i(large(x))
   },
   percent: function(x) {
     return '#{0}%'.i(Math.round(x*100))
