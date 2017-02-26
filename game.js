@@ -110,7 +110,7 @@ function createGame(params) {
     })
   }
   
-  var heroesArrivalPeriod = (hl) => heroes.length * 30 * Math.pow(4, heroes.length-hl)
+  var heroesArrivalPeriod = (hl) => Math.pow(heroes.length, 2) * 30 * Math.pow(4, heroes.length-hl)
   
   heroesArrival = poisson({
     trigger: function() {
