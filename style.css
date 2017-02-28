@@ -62,12 +62,28 @@ background: #ca950f; color: #fff; }
 .badge-level{
   background-color: #737232
 }
+
 a.completed{
   background-color: rgba(0, 128, 0, 0.2)
 }
 .nav>li:not(.active)>a.completed:hover{
   background-color: rgba(64, 128, 64, 0.4)
 }
+
+a.inProgress{
+  background-color: rgba(128, 128, 0, 0.2)
+}
+.nav>li:not(.active)>a.inProgress:hover{
+  background-color: rgba(128, 128, 64, 0.4)
+}
+
+a.failed{
+  background-color: rgba(128, 0, 0, 0.2)
+}
+.nav>li:not(.active)>a.failed:hover{
+  background-color: rgba(128, 64, 64, 0.4)
+}
+
 .wordwrap {
   word-wrap: break-word;
   white-space: normal;

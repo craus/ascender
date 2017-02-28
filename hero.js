@@ -98,6 +98,8 @@ hero = (params={}) => {
       panel.find('.skillUp').toggle(this.skillPoints > 0)
       var a = tab.find('a')
       a.toggleClass('completed', !!this.quest && this.quest.completed())
+      a.toggleClass('inProgress', !!this.quest && this.quest.inProgress())
+      a.toggleClass('failed', !!this.quest && this.quest.failed())
       setFormattedText(panel.find('.speed').find('.skillUpValue'), large(this.skillGrowth.speed()))
       setFormattedText(panel.find('.defense').find('.skillUpValue'), large(this.skillGrowth.defense()))
       setFormattedText(panel.find('.wealth').find('.skillUpValue'), large(this.skillGrowth.wealth()))

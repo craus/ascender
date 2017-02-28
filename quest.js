@@ -134,12 +134,17 @@ quest = (params={}) => {
     paint: function() {
       setFormattedText(panel.find('.status'), this.status())
       setFormattedText(tab.find('.status'), this.status())
-      panel.find('.inProgress').toggle(this.inProgress())
-      tab.find('.inProgress').toggle(this.inProgress())
+      panel.find('.whenInProgress').toggle(this.inProgress())
+      tab.find('.whenInProgress').toggle(this.inProgress())
       setFormattedText(panel.find('.percent'), Format.percent(this.progress()))
       setFormattedText(tab.find('.percent'), Format.percent(this.progress()))
       setFormattedText(panel.find('.duration'), Format.time(this.duration))
       setFormattedText(panel.find('.spentDuration'), Format.time(Math.floor(this.spentDuration())))
+      
+      var a = tab.find('a')
+      a.toggleClass('completed', this.completed())
+      a.toggleClass('inProgress', this.inProgress())
+      a.toggleClass('failed', this.failed())
       
       panel.find('.started').toggle(this.inProgress() || this.failed())
       panel.find('.notStarted').toggle(!this.inProgress() && !this.failed())
