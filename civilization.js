@@ -40,6 +40,7 @@ function createCivilization(params) {
     science: variable(0, 'science'),
     totalTech: variable(0, 'totalTech'),
     scientists: variable(0, 'scientists'),
+    commands: variable(10, 'commands')
   }
   resources.science.income = resources.scientists
   resources.money.income = resources.population
@@ -68,6 +69,8 @@ function createCivilization(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
 
       Object.values(resources).each('tick', deltaTime)
+      resources.commands.value += deltaTime * 0.1
+      resources.commands.value = Math.min(10, resources.commands.value)
       
       save(currentTime)
       debug.unprofile('tick')

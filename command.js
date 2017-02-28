@@ -20,11 +20,14 @@ function command(id, change)
     check: function(zoom){
       var c = change(zoom)
       runChange(c)
-      var result = Object.keys(change).every(r => resources[r].value >= 0)
+      var result = Object.keys(c).every(r => resources[r].value >= 0)
       runChange(c, -1)
       return result
     },
     use: function() {
+      if (!this.canUse()) {
+        return
+      }
       this.run(this.zoom)
     },
     canUse: function() {
@@ -74,6 +77,8 @@ function command(id, change)
       enable(buy, this.canUse())
       setFormattedText(buttonGroup.find('.cost'), large(this.cost()))
       setFormattedText(buttonGroup.find('.reward'), large(this.reward()))
+    },
+    save: function() {
     }
   }, {})
   
