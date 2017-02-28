@@ -40,7 +40,7 @@ function createCivilization(params) {
     science: variable(0, 'science'),
     totalTech: variable(0, 'totalTech'),
     scientists: variable(0, 'scientists'),
-    commands: variable(10, 'commands')
+    commands: variable(10, 'commands', {formatter: x => x.toFixed(2)})
   }
   resources.science.income = resources.scientists
   resources.money.income = resources.population
@@ -48,6 +48,7 @@ function createCivilization(params) {
 
   commands = {
     hireScientists: command('hireScientists', z => ({
+      commands: -1,
       money: -Math.pow(10, z),
       scientists: +Math.pow(5, z)
     }))

@@ -34,7 +34,7 @@ function command(id, change)
       return this.check(this.zoom)
     },
     canZoomUp: function() {
-      return this.check(this.zoom+1)
+      return true//this.check(this.zoom+1)
     },
     canZoomDown: function() {
       return this.zoom > 0
@@ -65,8 +65,8 @@ function command(id, change)
     switchAlwaysTop: function() {
       this.alwaysTop = !this.alwaysTop
     },
-    cost: function() {
-      return -Object.values(change(this.zoom)).find(x => x < 0)
+    cost: function(resource) {
+      return -change(this.zoom)[resource]
     },
     reward: function() {
       return Object.values(change(this.zoom)).find(x => x > 0)
@@ -75,8 +75,9 @@ function command(id, change)
       enable(less, this.canZoomDown())
       enable(more, this.canZoomUp())
       enable(buy, this.canUse())
-      setFormattedText(buttonGroup.find('.cost'), large(this.cost()))
-      setFormattedText(buttonGroup.find('.reward'), large(this.reward()))
+      Object.entries(change(this.zoom)).forEach(c => {
+        setFormattedText(buttonGroup.find('.#{0}'.i(c[0])), large(Math.abs(c[1])))
+      })
     },
     save: function() {
     }

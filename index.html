@@ -56,59 +56,100 @@
 
 <body>
 
-<div class="container">
-  <br>
-  <div class="row centered">
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Time</span></h2></div>
-        <div class="panel-body big">
-          <span class="time value">?</span> 
-        </div>
-      </div>   
+
+
+<div class="container"> 
+  <br> 
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#population">Population</a></li>
+    <li><a data-toggle="tab" href="#industry">Industry</a></li>
+    <li><a data-toggle="tab" href="#economy">Economy</a></li>
+    <li><a data-toggle="tab" href="#science">Science</a></li>
+    <li><a data-toggle="tab" href="#military">Military</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="population" class="tab-pane fade in active">
+      <h3>HOME</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Money</span></h2></div>
-        <div class="panel-body big">
-          <span class="money value">?</span> <span class="label label-success money income">+?</span>
-        </div>
-      </div>   
+    <div id="industry" class="tab-pane fade">
+      <h3>Menu 1</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     </div>
-    <div class="col-sm-4">       
-      <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Population</span></h2></div>
-        <div class="panel-body big">
-          <span class="population value">?</span> <span class="label label-success population income">+?</span>
-        </div>
-      </div>   
+    <div id="economy" class="tab-pane fade">
+      <h3>Menu 2</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
     </div>
+    <div id="science" class="tab-pane fade">
+      <br>
+      <div class="row centered">
+        <div class="col-sm-6">    
+          <div class="panel panel-default panel-readiness">   
+            <div class="panel-body big science">
+              <span class="name">Science:</span>
+              <span class="value">?</span> 
+              <span class="label label-success income">+?</span>
+            </div>     
+          </div>   
+          <div class="panel panel-default panel-readiness">       
+            <div class="panel-body big scientists">
+              <span class="name">Scientists:</span>
+              <span class="value">?</span> 
+              <span class="label label-success income">+?</span>
+              <br>
+              <div class="btn-group btn-group-lg hireScientists">
+                <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
+                <button tab-index="-1" type="button" class="btn btn-primary buy nohover">
+                  Hire <span class="scientists">?</span> (<span class="money">?</span> money)
+                </button>
+                <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>
   </div>
-  <div class="row centered">
-    <div class="col-sm-6">       
+    <div id="military" class="tab-pane fade">
+      <h3>Menu 4</h3>
+      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+  </div>  
+  <div class="row centered"> 
+    <div class="col-sm-3">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Scientists</span></h2></div>
-        <div class="panel-body big scientists">
-          <span class="value">?</span> <span class="label label-success income">+?</span>
-        </div>
-        <div class="panel-body big scientists">
-          <div class="btn-group btn-group-lg hireScientists">
-            <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
-            <button tab-index="-1" type="button" class="btn btn-primary buy nohover">Hire <span class="reward">?</span> (<span class="cost">?</span> money)</button>
-            <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
-          </div>
+        <div class="panel-body big left">
+          <span class="name">Time:</span> <span class="time value">?</span> 
         </div>
       </div>   
     </div>
-    <div class="col-sm-6">       
+    <div class="col-sm-3">       
       <div class="panel panel-default panel-readiness">
-        <div class="panel-heading"><h2><span class="name">Science</span></h2></div>
-        <div class="panel-body big science">
-          <span class="value">?</span> <span class="label label-success income">+?</span>
+        <div class="panel-body big left">
+          <span class="name">Commands:</span> <span class="commands value">?</span> 
         </div>
       </div>   
     </div>
+    <div class="col-sm-3">       
+      <div class="panel panel-default panel-readiness">
+        <div class="panel-body big right">
+          <span class="name">Money:</span> 
+          <span class="money value">?</span> 
+          <span class="label label-success money income">+?</span>
+        </div>
+      </div>   
+    </div>  
+    <div class="col-sm-3">       
+      <div class="panel panel-default panel-readiness">
+        <div class="panel-body big right">
+          <span class="name">Population:</span> 
+          <span class="population value">?</span> 
+          <span class="label label-success population income">+?</span>
+        </div>
+      </div>   
+    </div>   
   </div>
+
+
   <div class="row centered">
     <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
     <br>
