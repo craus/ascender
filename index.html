@@ -96,12 +96,13 @@
   </div>  
   
   <ul class="nav nav-tabs sections">
-    <li class="active"><a data-toggle="tab" href="#population">Population</a></li>
+    <li><a data-toggle="tab" href="#population">Population</a></li>
     <li><a data-toggle="tab" href="#industry">Industry</a></li>
     <li><a data-toggle="tab" href="#economy">Economy</a></li>
     <li><a data-toggle="tab" href="#science">Science</a></li>
     <li><a data-toggle="tab" href="#tech">Technologies</a></li>
     <li><a data-toggle="tab" href="#military">Military</a></li>
+    <li><a data-toggle="tab" href="#settings">Settings</a></li>
   </ul>
   <div class="tab-content">
     <div id="population" class="tab-pane fade">
@@ -146,20 +147,102 @@
       </div>
     </div>
     <div id="tech" class="tab-pane fade">
-      
+      <br>
+      <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default panel-readiness">
+            <div class="panel-body big right">
+              <span class="name">Tech points:</span> 
+              <span class="tech value">?</span> 
+            </div>
+          </div>   
+        </div>
+      </div>
+ 
+      <div class="row">
+        <div class="col-sm-2">
+          <ul class="nav nav-pills nav-stacked techs">
+            <li><a data-toggle="tab" href="#minerals">Minerals</a></li>
+            <li><a data-toggle="tab" href="#farms">Farms</a></li>
+            <li><a data-toggle="tab" href="#mines">Mines</a></li>
+            <li><a data-toggle="tab" href="#marketplaces">Marketplaces</a></li>
+            <li><a data-toggle="tab" href="#labs">Labs</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-10">
+          <div class="tab-content">
+            <div id="minerals" class="tab-pane fade">
+              <h3>Minerals</h3>
+              <p><i><small>Studying natural resources — the first step of industrial progress.</small></i></p>
+              <p>Your people start gather minerals — 1 mineral/second each.</p>
+              <br>
+              <p><i><small>Strong stone-based construction is much better to live in.</small></i></p>
+              <p>Allows to build houses at a cost of minerals.</p>
+              <p>Each house gives +1 population.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg farmsTech btn-block">Pick</button>
+              </div>
+            </div>  
+            <div id="farms" class="tab-pane fade">
+              <h3>Farms</h3>
+              <p><i><small>The more food you produce, the faster population grows.</small></i></p>
+              <p>Allows to build farms at a cost of minerals.</p>
+              <p>Each farm gives +1 population/second.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg farmsTech btn-block">Pick</button>
+              </div>
+            </div>
+            <div id="mines" class="tab-pane fade">
+              <h3>Mines</h3>
+              <p><i><small>Mines are much more convenient way to gather minerals.</small></i></p>
+              <p>Allows to build mines at a cost of minerals.</p>
+              <p>Your minerals income is multiplied by (1 + Mines).</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg farmsTech btn-block">Pick</button>
+              </div>
+            </div>
+            <div id="marketplaces" class="tab-pane fade">
+              <h3>Marketplaces</h3>
+              <p><i><small>Trading is the engine of economy.</small></i></p>
+              <p>Allows to build marketplaces at a cost of minerals.</p>
+              <p>Your money income is multiplied by (1 + Marketplaces).</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg farmsTech btn-block">Pick</button>
+              </div>
+            </div>
+            <div id="labs" class="tab-pane fade">
+              <h3>Labs</h3>
+              <p><i><small>Stationary places, specifically equipped to conduct research.</small></i></p>
+              <p>Allows to build labs at a cost of minerals.</p>
+              <p>Your science income is multiplied by (1 + Labs).</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg farmsTech btn-block">Pick</button>
+              </div>
+            </div>
+            <div id="warfare" class="tab-pane fade">
+              <h3>Menu 3</h3>
+              <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="military" class="tab-pane fade">
       <h3>Menu 4</h3>
       <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
     </div>
+    <div id="settings" class="tab-pane fade">
+      <br>
+      <div class="row centered">
+        <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
+      </div>
+    </div>
   </div>  
 
 
 
-  <div class="row centered">
-    <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
-    <br>
-  </div>
 </div>
   
 <div class="modal fade" id="confirm-wipe-save" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -25,6 +25,7 @@ function createCivilization(params) {
       savedata[resource.id] = resource.value
     })
     savedata.activeTab = $('.sections>.active>a').attr('href')
+    savedata.activeTechTab = $('.techs>.active>a').attr('href')
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -40,6 +41,7 @@ function createCivilization(params) {
     population: variable(1, 'population'),
     science: variable(0, 'science'),
     totalTech: variable(0, 'totalTech'),
+    tech: variable(0, 'tech'),
     scientists: variable(0, 'scientists'),
     commands: variable(10, 'commands', {formatter: x => x.toFixed(2)})
   }
@@ -54,8 +56,11 @@ function createCivilization(params) {
       scientists: +Math.pow(5, z)
     }))
   }
+  savedata.activeTab = savedata.activeTab || '#population'
+  savedata.activeTechTab = savedata.activeTechTab || '#farms'
   
   $('a[href="' + savedata.activeTab + '"]').tab('show')
+  $('a[href="' + savedata.activeTechTab + '"]').tab('show')
   
   civilization = {
     paint: function() {
