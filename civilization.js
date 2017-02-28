@@ -24,6 +24,7 @@ function createCivilization(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
+    savedata.activeTab = $('.sections>.active>a').attr('href')
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -53,6 +54,8 @@ function createCivilization(params) {
       scientists: +Math.pow(5, z)
     }))
   }
+  
+  $('a[href="' + savedata.activeTab + '"]').tab('show')
   
   civilization = {
     paint: function() {
