@@ -57,7 +57,6 @@ function createCivilization(params) {
     }))
   }
   savedata.activeTab = savedata.activeTab || '#population'
-  savedata.activeTechTab = savedata.activeTechTab || '#farms'
   
   $('a[href="' + savedata.activeTab + '"]').tab('show')
   $('a[href="' + savedata.activeTechTab + '"]').tab('show')
