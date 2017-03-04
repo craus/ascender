@@ -17,7 +17,7 @@ quest = (params={}) => {
   var randomness = 0.3 + 0.7 * Math.pow(params.level, 0.3)
   var power = gaussianRandom(0, 0.4 * randomness)
   var danger = gaussianRandom(0, 2 * randomness)
-  var gold = gaussianRandom(0, 2 * randomness)
+  var gold = gaussianRandom(0, 0.3 * randomness)
   var quality = gaussianRandom(0, 0.3 * randomness)
   
   var result = Object.assign({
