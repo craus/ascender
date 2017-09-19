@@ -24,6 +24,9 @@ function createCivilization(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
+    Object.values(techs).forEach(function(resource) {
+      savedata[resource.id] = resource.value
+    })
     savedata.activeTab = $('.sections>.active>a').attr('href')
     savedata.activeTechTab = $('.techs>.active>a').attr('href')
     savedata.realTime = timestamp || Date.now()
@@ -42,12 +45,26 @@ function createCivilization(params) {
     science: variable(0, 'science'),
     totalTech: variable(0, 'totalTech'),
     tech: variable(0, 'tech'),
+    minerals: variable(0, 'minerals'),
+    farms: variable(0, 'farms'),
+    mines: variable(0, 'mines'),
+    marketplaces: variable(0, 'marketplaces'),
+    labs: variable(0, 'labs'),
     scientists: variable(0, 'scientists'),
     commands: variable(10, 'commands', {formatter: x => x.toFixed(2)})
+  }
+  techs = {
+    minerals: variable(0, 'mineralsTech'),
+    farms: variable(0, 'farmsTech'),
+    mines: variable(0, 'minesTech'),
+    marketplaces: variable(0, 'marketplacesTech'),
+    labs: variable(0, 'labsTech')
   }
   resources.science.income = resources.scientists
   resources.money.income = resources.population
   resources.time.income = (() => 1)
+  
+  techCost = (() => Math.pow(100, resources.totalTech()+1))
 
   commands = {
     hireScientists: command('hireScientists', z => ({
@@ -56,6 +73,9 @@ function createCivilization(params) {
       scientists: +Math.pow(5, z)
     }))
   }
+  
+  
+  
   savedata.activeTab = savedata.activeTab || '#population'
   
   $('a[href="' + savedata.activeTab + '"]').tab('show')
@@ -68,6 +88,7 @@ function createCivilization(params) {
       Object.values(resources).each('paint')
       Object.values(commands).each('paint')
       setFormattedText($('.populationIncome'), noZero(signed(0)))
+      setFormattedText($('.techCost'), large(techCost()))
 
       debug.unprofile('paint')
     },
@@ -79,6 +100,12 @@ function createCivilization(params) {
       Object.values(resources).each('tick', deltaTime)
       resources.commands.value += deltaTime * 0.1
       resources.commands.value = Math.min(10, resources.commands.value)
+      
+      while (resources.science() > techCost()) {
+        resources.science.value -= techCost()
+        resources.totalTech.value += 1
+        resources.tech.value += 1
+      }
       
       save(currentTime)
       debug.unprofile('tick')
