@@ -20,13 +20,14 @@ function createCivilization(params) {
     if (saveWiped) {
       return
     }
-    savedata = {}
+    savedata = {} 
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
     Object.values(techs).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
+    Object.values(commands).each('save')
     savedata.activeTab = $('.sections>.active>a').attr('href')
     savedata.activeTechTab = $('.techs>.active>a').attr('href')
     savedata.realTime = timestamp || Date.now()
@@ -54,11 +55,11 @@ function createCivilization(params) {
     commands: variable(10, 'commands', {formatter: x => x.toFixed(2)})
   }
   techs = {
-    minerals: variable(0, 'mineralsTech'),
-    farms: variable(0, 'farmsTech'),
-    mines: variable(0, 'minesTech'),
-    marketplaces: variable(0, 'marketplacesTech'),
-    labs: variable(0, 'labsTech')
+    minerals: tech(0, 'mineralsTech'),
+    farms: tech(0, 'farmsTech'),
+    mines: tech(0, 'minesTech'),
+    marketplaces: tech(0, 'marketplacesTech'),
+    labs: tech(0, 'labsTech')
   }
   resources.science.income = resources.scientists
   resources.money.income = resources.population
@@ -74,7 +75,14 @@ function createCivilization(params) {
     }))
   }
   
-  
+  Object.values(techs).forEach(function(t) {
+    $('.#{0} .pick'.i(t.id)).click(() => {
+      if (t.value != 1 && resources.tech.value >= 1) {
+        t.value = 1
+        resources.tech.value -= 1
+      }
+    })
+  })
   
   savedata.activeTab = savedata.activeTab || '#population'
   
@@ -86,6 +94,7 @@ function createCivilization(params) {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
+      Object.values(techs).each('paint')
       Object.values(commands).each('paint')
       setFormattedText($('.populationIncome'), noZero(signed(0)))
       setFormattedText($('.techCost'), large(techCost()))

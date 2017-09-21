@@ -10,6 +10,7 @@ function command(id, change)
   var buy = buttonGroup.find('.buy')
 
 
+
   var result = $.extend({
     zoom: 0,
     onZoomChanged: function(){},
@@ -80,12 +81,19 @@ function command(id, change)
       })
     },
     save: function() {
+      savedata[id] = {
+        zoom: this.zoom
+      }
     }
   }, {})
   
   buy.click(function() { result.use() })
   more.click(function() { result.zoomUp() })
   less.click(function() { result.zoomDown() })
+  
+  if (savedata[id] != undefined) {
+    result.zoom = savedata[id].zoom
+  }
   
   return result
 }
