@@ -109,7 +109,7 @@ function createCivilization(params) {
     div([10,15,20,30,50,70,100]),
   ]
   
-  frac = ((x,y) => {
+  var frac = ((x,y) => {
     var res = [1]
     var cur = 1
     var index = 0
@@ -123,36 +123,40 @@ function createCivilization(params) {
     return div(res)
   })
   
+  var arc = function(q0, z, d) {
+    return Math.floor(round(Math.pow(10, q0*z/log(d*z+2, 2)), 2))
+  }
+  
   commands = {
     hireScientists: command('hireScientists', z => ({
       commands: -1,
       money: -Math.pow(10, z),
-      scientists: +round(Math.pow(5, z))
+      scientists: +arc(0.813, z, 0)
     })),
     buildHouses: command('buildHouses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      population: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
+      population: +arc(1, z, 0.5)
     })),
     buildFarms: command('buildFarms', z => ({
       commands: -1,
-      minerals: -10000*Math.pow(10, z),
-      farms: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
+      minerals: -1e5*Math.pow(10, z),
+      farms: +arc(1, z, 1)
     })),
     buildMines: command('buildMines', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      mines: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
+      mines: +arc(1, z, 0.5)
     })),
     buildMarketplaces: command('buildMarketplaces', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      marketplaces: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
+      marketplaces: +arc(1, z, 0.5)
     })),
     buildLabs: command('buildLabs', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      labs: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
+      labs: +arc(1, z, 0.5)
     }))
   }
   
@@ -179,6 +183,7 @@ function createCivilization(params) {
       Object.values(commands).each('paint')
       setFormattedText($('.populationIncome'), noZero(signed(0)))
       setFormattedText($('.techCost'), large(techCost()))
+      setFormattedText($('.sciencePercent'), '#{0}%'.i((resources.science() / techCost()*100).toFixed(2)))
       $('.populationTab').toggle(techs.minerals()>0)
       $('.industryTab').toggle(techs.minerals()>0)
       $('.economyTab').toggle(techs.minerals()>0)

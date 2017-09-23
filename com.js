@@ -188,14 +188,16 @@ noSmall = function(x) {
   return Math.abs(x) < eps ? 0 : x
 }
 const Format = {
-  round: function(x) {
-    return large(Math.round(x))
+  round: function(x, s) {
+    s = s || 0
+    p = Math.pow(10, s)
+    return Math.round(x*p)/p
   },
   time: function(x) {
     if (x >= Number.POSITIVE_INFINITY) {
       return '#{0}&nbsp;s'.i(large(x))
     }
-    return moment.duration(x,'s').format("d [days] hh:mm:ss", { trim: false, precision: 1 })
+    return moment.duration(x,'s').format("d [days] hh:mm:ss", { trim: true, precision: 1 })
   },
   percent: function(x) {
     return '#{0}%'.i(Math.round(x*100))
