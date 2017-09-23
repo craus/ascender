@@ -40,7 +40,7 @@ function createCivilization(params) {
     location.reload()
   }
   resources = {
-    time: variable(0, 'time'),
+    time: variable(0, 'time', {formatter: x => x.toFixed(1)}),
     money: variable(0, 'money'),
     population: variable(1, 'population'),
     science: variable(0, 'science'),
@@ -84,15 +84,54 @@ function createCivilization(params) {
   
   techCost = (() => Math.pow(100, resources.totalTech()+1))
 
+  array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))
+  var prod = ((a) => {
+    for (var i = 1; i < a.length; i++) {
+      a[i] *= a[i-1]
+    }
+    return a
+  })
+  var div = ((a) => {
+    var b = []
+    for (var i = 1; i < a.length; i++) {
+      b.push(a[i]/a[i-1])
+    }
+    return b
+  })
+  
+  var powerSlopes = [
+    [],
+    div([1,10]),
+    div([1,3,10]),
+    div([1,2,5,10]),
+    div([1,2,3,5,10]),
+    div([1,2,3,5,7,10]),
+    div([10,15,20,30,50,70,100]),
+  ]
+  
+  frac = ((x,y) => {
+    var res = [1]
+    var cur = 1
+    var index = 0
+    for (var i = 0; i < y; i++) {
+      for (var j = 0; j < x; j++) {
+        cur *= powerSlopes[y][index]
+        index = (index+1)%y
+      }
+      res.push(cur)
+    }
+    return div(res)
+  })
+  
   commands = {
     hireScientists: command('hireScientists', z => ({
       commands: -1,
       money: -Math.pow(10, z),
-      scientists: +Math.pow(5, z)
+      scientists: +array(prod([1].concat(frac(2,5).repeat(3))), 2, z)
     })),
     buildHouses: command('buildHouses', z => ({
       commands: -1,
-      minerals: -Math.pow(10, z),
+      minerals: -10*Math.pow(10, z),
       population: +Math.pow(5, z)
     })),
     buildFarms: command('buildFarms', z => ({

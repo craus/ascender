@@ -17,6 +17,17 @@ Array.prototype.each = function(method) {
   }
 }
 
+Array.prototype.repeat = function(n) {
+  var len = this.length
+  var res = []
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < len; j++) {
+      res.push(this[j])
+    }
+  }
+  return res
+}
+
 Array.prototype.find = function(criteria) {
   for (var i = 0; i < this.length; i++) {
     if (criteria(this[i])) {
