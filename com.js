@@ -24,6 +24,24 @@ function dist(x1, y1, x2, y2) {
 function rnd(min, max) {
   return min + Math.random()*(max-min)
 }
+function chances(p, q) {
+  return p/(p+q)
+}
+function rndEvent(p,q=1-p) {
+  return Math.random() < chances(p, q)
+}
+function rndSplit(x, n) {
+  var splitters = [0,x]
+  for (var i = 0; i < n-1; i++) {
+    splitters.push(rnd(0,x))
+  }
+  splitters.sort((a,b)=>a-b)
+  var result = []
+  for (var i = 0; i < n; i++) {
+    result.push(splitters[i+1]-splitters[i])
+  }
+  return result
+}
 
 identityMatrix = [1,0,0,1,0,0]
 function transform(old, x,y,z,ang) {
@@ -158,6 +176,22 @@ round = function(x) {
 noZero = function(x, func = x => x) {
   return x == 0 || x == null ? "" : func(x)
 }
+noSmall = function(x) {
+  return Math.abs(x) < eps ? 0 : x
+}
+const Format = {
+  time: function(x) {
+    if (x >= Number.POSITIVE_INFINITY) {
+      return '#{0}&nbsp;s'.i(large(x))
+    }
+    return moment.duration(x,'s').format("d [days] hh:mm:ss", { trim: false, precision: 1 })
+  },
+  percent: function(x) {
+    return '#{0}%'.i(Math.round(x*100))
+  }
+}
+
+
 setTitle = function(el, title) {
   el.attr('data-original-title', title)
 }
@@ -172,7 +206,7 @@ setFormattedText = function(el, text, text1) {
   var t = formatText(el, text, text1)
   if (el.length > 0 && el.text() != t) {
     //console.log("setting text", el, "was: ", el.text(), "is: ", t)
-    el.text(t)
+    el.html(t)
   }
 }
 needResort = false

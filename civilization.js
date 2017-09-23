@@ -40,7 +40,7 @@ function createCivilization(params) {
     location.reload()
   }
   resources = {
-    time: variable(0, 'time', {formatter: x => x.toFixed(1)}),
+    time: variable(0, 'time', {formatter: Format.time}),
     money: variable(0, 'money'),
     population: variable(1, 'population'),
     science: variable(0, 'science'),
