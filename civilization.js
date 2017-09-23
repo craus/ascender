@@ -59,10 +59,27 @@ function createCivilization(params) {
     farms: tech(0, 'farmsTech'),
     mines: tech(0, 'minesTech'),
     marketplaces: tech(0, 'marketplacesTech'),
-    labs: tech(0, 'labsTech')
+    labs: tech(0, 'labsTech'),
+    military: tech(0, 'militaryTech')
   }
-  resources.science.income = resources.scientists
-  resources.money.income = resources.population
+  techs.farms.require(techs.minerals)
+  techs.mines.require(techs.minerals)
+  techs.marketplaces.require(techs.minerals)
+  techs.labs.require(techs.minerals)
+  resources.science.income = (() => 
+    resources.scientists() *
+    (1+resources.labs())
+  )
+  resources.money.income = (() => 
+    resources.population() *
+    (1+resources.marketplaces())
+  )
+  resources.minerals.income = (() => 
+    techs.minerals() * 
+    resources.population() *
+    (1+resources.mines())
+  )
+  resources.population.income = resources.farms
   resources.time.income = (() => 1)
   
   techCost = (() => Math.pow(100, resources.totalTech()+1))
@@ -72,6 +89,31 @@ function createCivilization(params) {
       commands: -1,
       money: -Math.pow(10, z),
       scientists: +Math.pow(5, z)
+    })),
+    buildHouses: command('buildHouses', z => ({
+      commands: -1,
+      minerals: -Math.pow(10, z),
+      population: +Math.pow(5, z)
+    })),
+    buildFarms: command('buildFarms', z => ({
+      commands: -1,
+      minerals: -Math.pow(10, z),
+      farms: +Math.pow(5, z)
+    })),
+    buildMines: command('buildMines', z => ({
+      commands: -1,
+      minerals: -Math.pow(10, z),
+      mines: +Math.pow(5, z)
+    })),
+    buildMarketplaces: command('buildMarketplaces', z => ({
+      commands: -1,
+      minerals: -Math.pow(10, z),
+      marketplaces: +Math.pow(5, z)
+    })),
+    buildLabs: command('buildLabs', z => ({
+      commands: -1,
+      minerals: -Math.pow(10, z),
+      labs: +Math.pow(5, z)
     }))
   }
   
@@ -98,6 +140,11 @@ function createCivilization(params) {
       Object.values(commands).each('paint')
       setFormattedText($('.populationIncome'), noZero(signed(0)))
       setFormattedText($('.techCost'), large(techCost()))
+      $('.populationTab').toggle(techs.minerals()>0)
+      $('.industryTab').toggle(techs.minerals()>0)
+      $('.economyTab').toggle(techs.minerals()>0)
+      $('.militaryTab').toggle(techs.military()>0)
+      $('.techTab').toggle(resources.totalTech()>0)
 
       debug.unprofile('paint')
     },
