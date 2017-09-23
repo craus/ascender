@@ -127,32 +127,32 @@ function createCivilization(params) {
     hireScientists: command('hireScientists', z => ({
       commands: -1,
       money: -Math.pow(10, z),
-      scientists: +array(prod([1].concat(frac(2,5).repeat(3))), 2, z)
+      scientists: +round(Math.pow(5, z))
     })),
     buildHouses: command('buildHouses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      population: +Math.pow(5, z)
+      population: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
     })),
     buildFarms: command('buildFarms', z => ({
       commands: -1,
-      minerals: -Math.pow(10, z),
-      farms: +Math.pow(5, z)
+      minerals: -10000*Math.pow(10, z),
+      farms: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
     })),
     buildMines: command('buildMines', z => ({
       commands: -1,
-      minerals: -Math.pow(10, z),
-      mines: +Math.pow(5, z)
+      minerals: -10*Math.pow(10, z),
+      mines: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
     })),
     buildMarketplaces: command('buildMarketplaces', z => ({
       commands: -1,
-      minerals: -Math.pow(10, z),
-      marketplaces: +Math.pow(5, z)
+      minerals: -10*Math.pow(10, z),
+      marketplaces: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
     })),
     buildLabs: command('buildLabs', z => ({
       commands: -1,
-      minerals: -Math.pow(10, z),
-      labs: +Math.pow(5, z)
+      minerals: -10*Math.pow(10, z),
+      labs: +Math.floor(round(Math.pow(5, z/Math.log(z+2)), 2))
     }))
   }
   

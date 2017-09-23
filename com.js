@@ -4,6 +4,17 @@ toType = function(obj) {
   return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
 }
 
+log = function(x, y) {
+  return Math.log(x) / Math.log(y)
+}
+
+round = function(x, s) {
+  s = s || 1
+  var p = Math.pow(10, Math.floor(log(x, 10))-s+1)
+  
+  return Math.round(x/p)*p
+}
+
 function normAng(ang)
 {
   while (ang >= Math.PI) ang -= 2 * Math.PI;
@@ -170,9 +181,6 @@ precision = function(x, p = 4) {
   if (x == 0) return 0
   return x.toPrecision(p).replace('+','') 
 }
-round = function(x) {
-  return large(Math.round(x))
-}
 noZero = function(x, func = x => x) {
   return x == 0 || x == null ? "" : func(x)
 }
@@ -180,6 +188,9 @@ noSmall = function(x) {
   return Math.abs(x) < eps ? 0 : x
 }
 const Format = {
+  round: function(x) {
+    return large(Math.round(x))
+  },
   time: function(x) {
     if (x >= Number.POSITIVE_INFINITY) {
       return '#{0}&nbsp;s'.i(large(x))
