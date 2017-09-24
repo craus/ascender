@@ -109,6 +109,7 @@
   
   <ul class="nav nav-tabs sections">
     <li><a data-toggle="tab" href="#population" class="populationTab">Population</a></li>
+    <li><a data-toggle="tab" href="#happiness" class="happinessTab">Happiness</a></li>
     <li><a data-toggle="tab" href="#industry" class="industryTab">Industry</a></li>
     <li><a data-toggle="tab" href="#economy" class="economyTab">Economy</a></li>
     <li><a data-toggle="tab" href="#science" class="scienceTab">
@@ -119,7 +120,14 @@
       Technologies
       <span class="label label-default tech value hideIfZero">+?</span>
     </a></li>
-    <li><a data-toggle="tab" href="#military" class="militaryTab">Military</a></li>
+    <li><a data-toggle="tab" href="#military" class="militaryTab">
+      Military
+      <span class="label label-default conquestPercent">+?</span>
+    </a></li>
+    <li><a data-toggle="tab" href="#conquests" class="conquestsTab">
+      Conquests
+      <span class="label label-default conquests value hideIfZero">+?</span>
+    </a></li>
     <li><a data-toggle="tab" href="#settings">Settings</a></li>
   </ul>
   <div class="tab-content">
@@ -157,6 +165,48 @@
                 <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
                 <button tab-index="-1" type="button" class="btn btn-primary buy nohover">
                   Build <span class="farms">?</span> (<span class="minerals">?</span> minerals)
+                </button>
+                <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>     
+    </div>
+    <div id="happiness" class="tab-pane fade">
+      <br>
+      <div class="row centered">
+        <div class="col-sm-6">    
+          <div class="panel panel-default panel-readiness">   
+            <div class="panel-body big happiness">
+              <span class="name">Happiness:</span>
+              <span class="value">?</span>
+              <span class="label label-success income">+?</span>
+            </div>   
+          </div>   
+          <div class="panel panel-default panel-readiness mineralsTechRequired">       
+            <div class="panel-body big">
+              <span class="name">Organize a celebration (+1 happiness)</span>
+              <br>
+              <div class="btn-group btn-group-lg organizeCelebrations">
+                <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
+                <button tab-index="-1" type="button" class="btn btn-primary buy nohover">
+                  Organize <span class="happiness">?</span> (<span class="money">?</span> money)
+                </button>
+                <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default panel-readiness circusesTechRequired">       
+            <div class="panel-body big circuses">
+              <span class="name">Circuses:</span>
+              <span class="value">?</span> 
+              <span class="label label-success income">+?</span>
+              <br>
+              <div class="btn-group btn-group-lg buildCircuses">
+                <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
+                <button tab-index="-1" type="button" class="btn btn-primary buy nohover">
+                  Build <span class="circuses">?</span> (<span class="minerals">?</span> minerals)
                 </button>
                 <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
               </div>
@@ -289,17 +339,20 @@
       <div class="row">
         <div class="col-sm-2">
           <ul class="nav nav-pills nav-stacked techs">
-            <li><a data-toggle="tab" href="#minerals" class="mineralsTechUnlocked">Minerals</a></li>
-            <li><a data-toggle="tab" href="#farms" class="farmsTechUnlocked">Farms</a></li>
-            <li><a data-toggle="tab" href="#mines" class="minesTechUnlocked">Mines</a></li>
-            <li><a data-toggle="tab" href="#marketplaces" class="marketplacesTechUnlocked">Marketplaces</a></li>
+            <li><a data-toggle="tab" href="#minerals" class="mineralsTechUnlocked">Geology</a></li>
+            <li><a data-toggle="tab" href="#sociology" class="happinessTechUnlocked">Sociology</a></li>
+            <li><a data-toggle="tab" href="#circuses" class="circusesTechUnlocked">Applied Entertainment</a></li>
+            <li><a data-toggle="tab" href="#farms" class="farmsTechUnlocked">Agriculture</a></li>
+            <li><a data-toggle="tab" href="#mines" class="minesTechUnlocked">Mining</a></li>
+            <li><a data-toggle="tab" href="#marketplaces" class="marketplacesTechUnlocked">Economy</a></li>
             <li><a data-toggle="tab" href="#labs" class="labsTechUnlocked">Labs</a></li>
+            <li><a data-toggle="tab" href="#militaryTech" class="militaryTechUnlocked">Military</a></li>
           </ul>
         </div>
         <div class="col-sm-10">
           <div class="tab-content">
             <div id="minerals" class="tab-pane mineralsTech fade">
-              <h3>Minerals</h3>
+              <h3>Geology</h3>
               <p><i><small>Studying natural resources — the first step of industrial progress.</small></i></p>
               <p>Your people start gather minerals — 1 mineral/second each.</p>
               <br>
@@ -310,6 +363,28 @@
                 <button class="btn btn-primary btn-lg pick btn-block">Pick</button>
               </div>
             </div>  
+            <div id="sociology" class="tab-pane happinessTech fade">
+              <h3>Happiness</h3>
+              <p><i><small>People work better when you understand how they do.</small></i></p>
+              <p>Unlocks concept of <i>happiness</i>: the happier your people are, the faster they work. </p>
+              <p>Your money, minerals and research income is multiplied by (1 + Happiness).</p>
+              <br>
+              <p><i><small>Have a happy holiday!</small></i></p>
+              <p>Allows to organize celebrations at a cost of money.</p>
+              <p>Each celebration gives +1 happiness.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg pick btn-block">Pick</button>
+              </div>
+            </div>  
+            <div id="circuses" class="tab-pane circusesTech fade">
+              <h3>Circuses</h3>
+              <p><i><small>Professional way to manage hearts of people.</small></i></p>
+              <p>Allows to build circuses at a cost of minerals.</p>
+              <p>Each circus gives +1 happiness/second.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg pick btn-block">Pick</button>
+              </div>
+            </div> 
             <div id="farms" class="tab-pane farmsTech fade">
               <h3>Farms</h3>
               <p><i><small>The more food you produce, the faster population grows.</small></i></p>
@@ -346,17 +421,200 @@
                 <button class="btn btn-primary btn-lg pick btn-block">Pick</button>
               </div>
             </div>
-            <div id="warfare" class="tab-pane militaryTech fade">
-              <h3>Menu 3</h3>
-              <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <div id="militaryTech" class="tab-pane militaryTech fade">
+              <h3>Military</h3>
+              <p><i><small>Murder people in other countries, take their possessions!</small></i></p>
+              <p>Allows to hire soldiers at a cost of money.</p>
+              <p>Soldiers produce warpower, which eventually transmutes to conquests.</p>
+              <p>Each completed conquest gives you an area of your choise to expand your territory.</p>
+              <p>Different areas provide different bonuses.</p>
+              <p>Unlock more areas via research.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg pick btn-block">Pick</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div id="military" class="tab-pane fade">
-      <h3>Menu 4</h3>
-      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+      <br>
+      <div class="row centered">
+        <div class="col-sm-6">    
+          <div class="panel panel-default panel-readiness">   
+            <div class="panel-body big warpower">
+              <span class="name">Warpower:</span>
+              <span class="value">?</span>
+              <span class="label label-success income">+?</span>
+            </div>  
+            <div class="panel-body big">
+              <span class="name">Next conquest cost:</span>
+              <span class="conquestCost value">?</span> warpower
+            </div>  
+            <div class="panel-body big">
+              <span class="name">Each next conquest cost <span class="conquestPenalty">?</span> times more</span>
+            </div>  
+          </div>   
+          <div class="panel panel-default panel-readiness">       
+            <div class="panel-body big soldiers">
+              <span class="name">Soldiers:</span>
+              <span class="value">?</span> 
+              <span class="label label-success income">+?</span>
+              <br>
+              <div class="btn-group btn-group-lg hireSoldiers">
+                <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
+                <button tab-index="-1" type="button" class="btn btn-primary buy nohover">
+                  Hire <span class="soldiers">?</span> (<span class="money">?</span> money)
+                </button>
+                <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
+              </div>
+            </div> 
+          </div>  
+          <div class="panel panel-default panel-readiness barracksTechRequired">       
+            <div class="panel-body big barracks">
+              <span class="name">Barracks:</span>
+              <span class="value">?</span> 
+              <span class="label label-success income">+?</span>
+              <br>
+              <div class="btn-group btn-group-lg buildBarracks">
+                <button tab-index="-1" type="button" class="btn btn-primary less nohover">&lt;</button>
+                <button tab-index="-1" type="button" class="btn btn-primary buy nohover">
+                  Build <span class="barracks">?</span> (<span class="minerals">?</span> minerals)
+                </button>
+                <button tab-index="-1" type="button" class="btn btn-primary more nohover">&gt;</button>
+              </div>
+            </div>
+          </div>   
+        </div>
+      </div>
+    </div>
+    <div id="conquests" class="tab-pane fade">
+      <br>
+      <div class="row">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default panel-readiness">
+            <div class="panel-body big right">
+              <span class="name">Conquests:</span> 
+              <span class="conquests value">?</span> 
+            </div>
+          </div>   
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <ul class="nav nav-pills nav-stacked areas">
+            <li><a data-toggle="tab" href="#planes" class="farmsTechRequired">
+              Planes
+              <span class="label label-default planes value hideIfZero">+?</span>
+            </a></li>
+            <li><a data-toggle="tab" href="#forests" class="moneyTechRequired">
+              Forests
+              <span class="label label-default forests value hideIfZero">+?</span>
+            </a></li>
+            <li><a data-toggle="tab" href="#mountains" class="mineralsTechRequired">
+              Mountains
+              <span class="label label-default mountains value hideIfZero">+?</span>
+            </a></li>
+            <li><a data-toggle="tab" href="#swamps" class="militaryTechRequired">
+              Swamps
+              <span class="label label-default swamps value hideIfZero">+?</span>
+            </a></li>
+            <li><a data-toggle="tab" href="#islands" class="scientistsTechRequired">
+              Islands
+              <span class="label label-default islands value hideIfZero">+?</span>
+            </a></li>
+          </ul>
+        </div>
+        <div class="col-sm-10">
+          <div class="tab-content">
+            <div id="planes" class="tab-pane planesConquest fade">      
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="panel panel-default panel-readiness">
+                    <div class="panel-body big right">
+                      <span class="name">Planes:</span> 
+                      <span class="planes value">?</span> 
+                    </div>
+                  </div>   
+                </div>
+              </div>
+              <p><i><small>Ideal place for growing crops.</small></i></p>
+              <p>Each plane doubles population income.</p>
+              <p>Effects from each plane stack multiplicatively.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg conquest btn-block">Conquest</button>
+              </div>
+            </div>  
+            <div id="forests" class="tab-pane forestsConquest fade">      
+              <div class="col-sm-4">
+                <div class="panel panel-default panel-readiness">
+                  <div class="panel-body big right">
+                    <span class="name">Forests:</span> 
+                    <span class="forests value">?</span> 
+                  </div>
+                </div>   
+              </div>
+              <p><i><small>A lot of useful things can be gathered in forests.</small></i></p>
+              <p>Each forest doubles money income.</p>
+              <p>Effects from each forest stack multiplicatively.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg conquest btn-block">Conquest</button>
+              </div>
+            </div>
+            <div id="mountains" class="tab-pane mountainsConquest fade">      
+              <div class="col-sm-4">
+                <div class="panel panel-default panel-readiness">
+                  <div class="panel-body big right">
+                    <span class="name">Mountains:</span> 
+                    <span class="mountains value">?</span> 
+                  </div>
+                </div>   
+              </div>
+              <p><i><small>Large pieces of rocks, waiting to be mined.</small></i></p>
+              <p>Each moutain doubles minerals income.</p>
+              <p>Effects from each moutain stack multiplicatively.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg conquest btn-block">Conquest</button>
+              </div>
+            </div>
+            <div id="swamps" class="tab-pane swampsConquest fade">      
+              <div class="col-sm-4">
+                <div class="panel panel-default panel-readiness">
+                  <div class="panel-body big right">
+                    <span class="name">Swamps:</span> 
+                    <span class="swamps value">?</span> 
+                  </div>
+                </div>   
+              </div>
+              <p><i><small>Gigantic, nearly impassable, swamps reasonably increase your defense potential.</small></i></p>
+              <p>Currently each next conquest costs <span class="conquestPenalty">?</span> times more warpower.</p>
+              <p>Each swamp halves this number, then addes 1 to it.</p>
+              <p>Effects from each swamp applied successively, one by one.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg conquest btn-block">Conquest</button>
+              </div>
+            </div>
+            <div id="islands" class="tab-pane mineralsTech fade">      
+              <div class="col-sm-4">
+                <div class="panel panel-default panel-readiness">
+                  <div class="panel-body big right">
+                    <span class="name">Conquests:</span> 
+                    <span class="planes value">?</span> 
+                  </div>
+                </div>   
+              </div>
+              <p><i><small>A beautiful and lone place, suitable for thinking.</small></i></p>
+              <p>Each island doubles research speed.</p>
+              <p>Effects from each island stack multiplicatively.</p>
+              <div class="row centered">
+                <button class="btn btn-primary btn-lg conquest btn-block">Conquest</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="settings" class="tab-pane fade">
       <br>
