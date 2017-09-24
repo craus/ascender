@@ -110,6 +110,7 @@ function createCivilization(params) {
   techs.marketplaces.require(techs.minerals)
   techs.labs.require(techs.minerals)
   techs.circuses.require(techs.happiness)
+  techs.circuses.require(techs.minerals)
   resources.science.income = (() => 
     resources.scientists() *
     (1+resources.labs()) *
@@ -281,6 +282,7 @@ function createCivilization(params) {
       $('.industryTab').toggle(techs.mines()>0)
       $('.economyTab').toggle(techs.marketplaces()>0)
       $('.militaryTab').toggle(techs.military()>0)
+      $('.conquestsTab').toggle(techs.military()>0)
       $('.techTab').toggle(resources.totalTech()>0)
 
       debug.unprofile('paint')
