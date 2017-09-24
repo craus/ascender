@@ -82,7 +82,7 @@ function createCivilization(params) {
   resources.population.income = resources.farms
   resources.time.income = (() => 1)
   
-  techCost = (() => Math.pow(100, resources.totalTech()+1))
+  techCost = (() => Math.pow(1000, resources.totalTech()+1))
 
   array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))
   var prod = ((a) => {
@@ -123,40 +123,40 @@ function createCivilization(params) {
     return div(res)
   })
   
-  var arc = function(q0, z, d) {
-    return Math.floor(round(Math.pow(10, q0*z/log(d*z+2, 2)), 2))
+  var arc = function(p) {
+    return Math.floor(round(Math.pow(10, p), 2))
   }
   
   commands = {
     hireScientists: command('hireScientists', z => ({
       commands: -1,
       money: -Math.pow(10, z),
-      scientists: +arc(0.813, z, 0)
+      scientists: +arc(0.813*z)
     })),
     buildHouses: command('buildHouses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      population: +arc(1, z, 0.5)
+      population: +arc(0.574*Math.pow(z, 0.9))
     })),
     buildFarms: command('buildFarms', z => ({
       commands: -1,
       minerals: -1e5*Math.pow(10, z),
-      farms: +arc(1, z, 1)
+      farms: +Math.floor(arc(0.87*Math.pow(z, 0.6)))
     })),
     buildMines: command('buildMines', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      mines: +arc(1, z, 0.5)
+      mines: +arc(0.574*Math.pow(z, 0.9))
     })),
     buildMarketplaces: command('buildMarketplaces', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      marketplaces: +arc(1, z, 0.5)
+      marketplaces: +arc(0.574*Math.pow(z, 0.9))
     })),
     buildLabs: command('buildLabs', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      labs: +arc(1, z, 0.5)
+      labs: +arc(0.574*Math.pow(z, 0.9))
     }))
   }
   
