@@ -115,7 +115,7 @@ function createCivilization(params) {
     resources.scientists() *
     (1+resources.labs()) *
     (1+resources.happiness()) *
-    (Math.pow(2, resources.islands()))
+    (Math.pow(10, resources.islands()))
   ) 
   resources.warpower.income = (() => 
     resources.soldiers() *
@@ -125,14 +125,14 @@ function createCivilization(params) {
     resources.population() *
     (1+resources.marketplaces()) *
     (1+resources.happiness()) *
-    (Math.pow(2, resources.forests()))
+    (Math.pow(10, resources.forests()))
   )
   resources.minerals.income = (() => 
     techs.minerals() * 
     resources.population() *
     (1+resources.mines()) *
     (1+resources.happiness()) *
-    (Math.pow(2, resources.mountains()))
+    (Math.pow(10, resources.mountains()))
   )  
   resources.happiness.income = (() => 
     resources.circuses()
@@ -144,11 +144,11 @@ function createCivilization(params) {
   resources.population.income = (() => 
     resources.farms() *
     (1+resources.tractors()) *
-    (Math.pow(2, resources.planes()))
+    (Math.pow(10, resources.planes()))
   )
   resources.time.income = (() => 1)
   
-  techCost = (() => Math.pow(100, resources.totalTech()+1))
+  techCost = (() => Math.pow(1000, resources.totalTech()+1))
   conquestPenalty = (() => 100*Math.pow(0.5, resources.swamps()) + 2 - Math.pow(2, 1-resources.swamps()))
 
   array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))
@@ -218,12 +218,12 @@ function createCivilization(params) {
     organizeCelebrations: command('organizeCelebrations', z => ({
       commands: -1,
       money: -10*Math.pow(10, z),
-      happiness: +arc(0.321*Math.pow(z, 0.7))
+      happiness: +arc(0.621*Math.pow(z, 0.7))
     })),
     buildCircuses: command('buildCircuses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      circuses: +Math.floor(arc(0.513*Math.pow(z, 0.4)))
+      circuses: +Math.floor(arc(0.583*Math.pow(z, 0.55)))
     })),
     buildMines: command('buildMines', z => ({
       commands: -1,
