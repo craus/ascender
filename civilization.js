@@ -148,7 +148,7 @@ function createCivilization(params) {
   )
   resources.time.income = (() => 1)
   
-  techCost = (() => Math.pow(1000, resources.totalTech()+1))
+  techCost = (() => Math.pow(10000, resources.totalTech()+1))
   conquestPenalty = (() => 100*Math.pow(0.5, resources.swamps()) + 2 - Math.pow(2, 1-resources.swamps()))
 
   array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))
@@ -203,27 +203,27 @@ function createCivilization(params) {
     hireSoldiers: command('hireSoldiers', z => ({
       commands: -1,
       money: -Math.pow(10, z),
-      soldiers: +arc(0.913*Math.pow(z, 0.85))
+      soldiers: +arc(2.113*z/Math.pow(z+5, 0.3))
     })),
     buildHouses: command('buildHouses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      population: +arc(0.774*Math.pow(z, 0.7))
+      population: +arc(0.774*Math.pow(z, 0.8))
     })),
     buildFarms: command('buildFarms', z => ({
       commands: -1,
       minerals: -1e4*Math.pow(10, z),
-      farms: +Math.floor(arc(0.87*Math.pow(z, 0.5)))
+      farms: +arc(0.87*Math.pow(z, 0.6))
     })),
     organizeCelebrations: command('organizeCelebrations', z => ({
       commands: -1,
       money: -10*Math.pow(10, z),
-      happiness: +arc(0.621*Math.pow(z, 0.65))
+      happiness: +arc(0.621*Math.pow(z, 0.75))
     })),
     buildCircuses: command('buildCircuses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      circuses: +Math.floor(arc(0.583*Math.pow(z, 0.55)))
+      circuses: +Math.floor(arc(0.583*Math.pow(z, 0.6)))
     })),
     buildMines: command('buildMines', z => ({
       commands: -1,
@@ -238,7 +238,7 @@ function createCivilization(params) {
     buildLabs: command('buildLabs', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      labs: +arc(0.574*Math.pow(z, 0.55))
+      labs: +arc(0.574*Math.pow(z, 0.6))
     }))
   }
   
@@ -299,7 +299,7 @@ function createCivilization(params) {
       
       Object.values(resources).each('tick', deltaTime)
       resources.commands.value += deltaTime * 0.1
-      resources.commands.value = Math.min(10, resources.commands.value)
+      //resources.commands.value = Math.min(10, resources.commands.value)
       
       while (resources.science() > techCost()) {
         resources.science.value -= techCost()
