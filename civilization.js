@@ -208,7 +208,7 @@ function createCivilization(params) {
     buildHouses: command('buildHouses', z => ({
       commands: -1,
       minerals: -10*Math.pow(10, z),
-      population: +arc(0.574*Math.pow(z, 0.8))
+      population: +arc(0.774*Math.pow(z, 0.7))
     })),
     buildFarms: command('buildFarms', z => ({
       commands: -1,
@@ -218,7 +218,7 @@ function createCivilization(params) {
     organizeCelebrations: command('organizeCelebrations', z => ({
       commands: -1,
       money: -10*Math.pow(10, z),
-      happiness: +arc(0.621*Math.pow(z, 0.7))
+      happiness: +arc(0.621*Math.pow(z, 0.65))
     })),
     buildCircuses: command('buildCircuses', z => ({
       commands: -1,
@@ -293,6 +293,10 @@ function createCivilization(params) {
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
 
+      if (input.contains('f')) {
+        deltaTime *= 10
+      }
+      
       Object.values(resources).each('tick', deltaTime)
       resources.commands.value += deltaTime * 0.1
       resources.commands.value = Math.min(10, resources.commands.value)

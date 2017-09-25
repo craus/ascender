@@ -28,6 +28,18 @@ Array.prototype.repeat = function(n) {
   return res
 }
 
+Array.prototype.contains = function(x) {
+  return this.indexOf(x) != -1
+}
+
+Array.prototype.remove = function(x) {
+  var ind = this.indexOf(x)
+  if (ind != -1) {
+    this.splice(ind, 1)
+  }
+  return this
+}
+
 Array.prototype.find = function(criteria) {
   for (var i = 0; i < this.length; i++) {
     if (criteria(this[i])) {

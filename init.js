@@ -20,6 +20,7 @@ var init = function() {
   // } 
 
   game = createCivilization()
+  input = []
   
   realTime = 0
   var secondTime = 0
@@ -47,6 +48,15 @@ var init = function() {
   
   window.onkeydown = function(e) {
     console.log(e)
+    if (!input.contains(e.key)) {
+      input.push(e.key)
+    }
+    console.log(input)
+  }
+  window.onkeyup = function(e) {
+    console.log(e)
+    input.remove(e.key)
+    console.log(input)
   }
   
   game.paint()
