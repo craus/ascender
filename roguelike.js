@@ -38,7 +38,7 @@ function createRoguelike(params) {
   }
   
   resources = {
-    farm: variable(10, 'farm'),
+    farm: variable(1, 'farm', {formatter: large}),
     level: variable(0, 'level'),
     life: variable(3, 'life'),
     activeLife: variable(1, 'activeLife'),
