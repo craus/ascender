@@ -203,7 +203,7 @@ function createCivilization(params) {
     hireSoldiers: command('hireSoldiers', z => ({
       commands: -1,
       money: -Math.pow(10, z),
-      soldiers: +arc(2.113*z/Math.pow(z+5, 0.3))
+      soldiers: +arc(2*Math.pow(z, 0.5))
     })),
     buildHouses: command('buildHouses', z => ({
       commands: -1,
@@ -217,8 +217,8 @@ function createCivilization(params) {
     })),
     organizeCelebrations: command('organizeCelebrations', z => ({
       commands: -1,
-      money: -10*Math.pow(10, z),
-      happiness: +arc(0.621*Math.pow(z, 0.75))
+      money: -100*Math.pow(10, z),
+      happiness: +arc(0.421*Math.pow(z, 0.7))
     })),
     buildCircuses: command('buildCircuses', z => ({
       commands: -1,
@@ -294,7 +294,10 @@ function createCivilization(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
 
       if (input.contains('f')) {
-        deltaTime *= 10
+        deltaTime *= 10   
+        if (input.contains('Shift')) {
+          deltaTime *= 10
+        }
       }
       
       Object.values(resources).each('tick', deltaTime)
