@@ -1,3 +1,4 @@
+
 quest = function(params = {}) {
   var result = params
   if (!result.difficulty) {
@@ -39,7 +40,7 @@ quest = function(params = {}) {
     },
     paint: function() {
       setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
-      panel.find('.choose').toggleClass('disabled', resources.idle() < 3)
+      panel.find('.choose').toggleClass('disabled', resources.idle() < minIdleForQuest)
     },
     save: function() {
       savedata.quests.push(Object.assign({

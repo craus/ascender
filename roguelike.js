@@ -37,6 +37,8 @@ function createRoguelike(params) {
     location.reload()
   }
   
+  minIdleForQuest = 1
+  
   resources = {
     farm: variable(1, 'farm', {formatter: large}),
     level: variable(0, 'level'),
@@ -79,8 +81,8 @@ function createRoguelike(params) {
       $('.panel-life').toggleClass('panel-danger', resources.life() <= 1)
       $('.panel-life').toggleClass('panel-primary', resources.life() > 1)
       
-      $('.panel-idle').toggleClass('panel-warning', resources.idle() <= 3)
-      $('.panel-idle').toggleClass('panel-primary', resources.idle() > 3)
+      $('.panel-idle').toggleClass('panel-warning', resources.idle() <= minIdleForQuest)
+      $('.panel-idle').toggleClass('panel-primary', resources.idle() > minIdleForQuest)
       
       quests.each('paint')
 
