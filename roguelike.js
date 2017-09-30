@@ -40,9 +40,15 @@ function createRoguelike(params) {
   resources = {
     farm: variable(10, 'farm'),
     level: variable(0, 'level'),
-    life: variable(3, 'life')
+    life: variable(3, 'life'),
+    activeLife: variable(1, 'activeLife'),
+    idle: variable(1, 'idle')
   }
   quests = []
+  
+  revive = function() {
+    resources.activeLife.value += 1
+  }
   
   refreshQuests = function() {
     if (!!quests) {
@@ -65,8 +71,18 @@ function createRoguelike(params) {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
-      $('.alive').toggle(resources.life() > 0)
-      $('.dead').toggle(resources.life() <= 0)
+      $('.alive').toggle(resources.activeLife() > 0)
+      $('.dead').toggle(resources.activeLife() <= 0)
+      $('.lifePositive').toggle(resources.life() > 0)
+      $('.lifeNonPositive').toggle(resources.life() <= 0)
+      
+      $('.panel-life').toggleClass('panel-danger', resources.life() <= 1)
+      $('.panel-life').toggleClass('panel-primary', resources.life() > 1)
+      
+      $('.panel-idle').toggleClass('panel-warning', resources.idle() <= 3)
+      $('.panel-idle').toggleClass('panel-primary', resources.idle() > 3)
+      
+      quests.each('paint')
 
       debug.unprofile('paint')
     },
@@ -74,6 +90,8 @@ function createRoguelike(params) {
       debug.profile('tick')
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
+      
+      resources.idle.value += deltaTime
       
       save(currentTime)
       debug.unprofile('tick')

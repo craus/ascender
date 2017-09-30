@@ -39,6 +39,7 @@ function chances(p, q) {
   return p/(p+q)
 }
 function rndEvent(p,q=1-p) {
+  console.log('randoming with chance', chances(p, q))
   return Math.random() < chances(p, q)
 }
 function rndSplit(x, n) {
@@ -199,8 +200,8 @@ const Format = {
     }
     return moment.duration(x,'s').format("d [days] hh:mm:ss", { trim: true, precision: 1 })
   },
-  percent: function(x) {
-    return '#{0}%'.i(Math.round(x*100))
+  percent: function(x, digits) {
+    return '#{0}%'.i((x*100).toFixed(digits))
   }
 }
 

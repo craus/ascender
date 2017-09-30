@@ -66,24 +66,43 @@
 <div class="container"> 
   <br> 
   <div class="row centered"> 
-    <div class="col-sm-5">       
-      <div class="panel panel-default panel-readiness">
+    <div class="col-sm-4">       
+      <div class="panel panel-primary panel-readiness">
+        <div class="panel-heading big left">
+          Farm
+        </div>
         <div class="panel-body big left">
-          <span class="name">Farm<br></span> <span class="farm value">?</span> 
+          <span class="farm value">?</span> 
         </div>
       </div>   
-    </div>
-    <div class="col-sm-5">       
-      <div class="panel panel-default panel-readiness">
+    </div>    
+    <div class="col-sm-4">       
+      <div class="panel panel-primary panel-idle">
+        <div class="panel-heading big left">
+          Idle Bonus 
+        </div>
         <div class="panel-body big left">
-          <span class="name">Level<br></span> <span class="level value">?</span> 
+          <span class="idle value">?</span> 
+        </div>
+      </div>     
+    </div>
+    <div class="col-sm-2">       
+      <div class="panel panel-primary panel-readiness">
+        <div class="panel-heading big left">
+          Level 
+        </div>
+        <div class="panel-body big left">
+          <span class="level value">?</span> 
         </div>
       </div>   
     </div>
     <div class="col-sm-2">       
-      <div class="panel panel-default panel-readiness">
+      <div class="panel panel-primary panel-life">
+        <div class="panel-heading big left">
+          Life 
+        </div>
         <div class="panel-body big left">
-          <span class="name">Life<br></span> <span class="life value">?</span> 
+          <span class="life value">?</span> 
         </div>
       </div>   
     </div>
@@ -112,13 +131,17 @@
       <div class="panel panel-danger panel-readiness">   
         <div class="panel-body big">
           YOU DEAD
+        </div>       
+        <div class="panel-body big lifePositive">
+          <button class="btn btn-warning" onclick="revive()">Revive (<span class="life value">?</span> remains)</button>
         </div>        
-        <div class="panel-body big">
+        <div class="panel-body big lifeNonPositive">
           <button class="btn btn-danger" onclick="wipeSave()">Restart</button>
         </div>  
       </div>   
     </div>
   </div> 
+  <button class="btn btn-danger" data-toggle="modal" data-target="#confirm-wipe-save">Wipe save</button>
 </div>
   
 <div class="modal fade" id="confirm-wipe-save" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
