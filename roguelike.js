@@ -12,6 +12,7 @@ function createRoguelike(params) {
       realTime: new Date().getTime()
     }
   }
+  loadedSave = savedata
   console.log("loaded " + gameName + " save: ", savedata)
   
   var saveWiped = false
@@ -24,6 +25,8 @@ function createRoguelike(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
+    savedata.quests = []
+    quests.each('save')
     savedata.realTime = timestamp || Date.now()
     localStorage[saveName] = JSON.stringify(savedata)
   } 
@@ -37,29 +40,37 @@ function createRoguelike(params) {
   resources = {
     farm: variable(10, 'farm'),
     level: variable(0, 'level'),
+    life: variable(3, 'life')
   }
+  quests = []
   
-  var refreshQuests = function() {
+  refreshQuests = function() {
+    if (!!quests) {
+      quests.each('destroy')
+    }
     quests = []
     for (var i = 0; i < 3; i++) {
       quests.push(quest())
     }
   }
   
-  quests = savedata.quests
-  if (!!quests) {
+  if (!!savedata.quests) {
+    quests = savedata.quests.map(q => quest(q))
+  } else {
+    refreshQuests()
   }
   
-  civilization = {
+  result = {
     paint: function() {
       debug.profile('paint')
       
       Object.values(resources).each('paint')
+      $('.alive').toggle(resources.life() > 0)
+      $('.dead').toggle(resources.life() <= 0)
 
       debug.unprofile('paint')
     },
     tick: function() {
-      if (resources.conquestCost.value < 100) resources.conquestCost.value = 100
       debug.profile('tick')
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
@@ -68,5 +79,5 @@ function createRoguelike(params) {
       debug.unprofile('tick')
     }
   }
-  return civilization
+  return result
 }
