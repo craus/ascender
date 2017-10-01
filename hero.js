@@ -1,18 +1,19 @@
-
-quest = function(params = {}) {
+hero = function(params = {}) {
   var result = params
-  if (!result.difficulty) {
-    var quality = gaussianRandom(0, 0.5 + 0.2 * log(resources.level()+7, 100))
-    var power = gaussianRandom(0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
-    var rewardPower = quality + power
-    result.difficulty = Math.pow(10, power + 0.01 * resources.level())    
-    result.reward = Math.pow(10, quality + power)
+  if (!result.farm) {
+    result = Object.assign(result, {
+      farm: 1,
+      idle: 0,
+      level: 0,
+      life: 3,
+      activeLife: 1
+    })
   }
   
-  var panel = instantiate('questSample')
+  var panel = instantiate('heroSample')
   
   if (params.instantiate != false) {
-    $('.quests').append(panel)
+    $('.heroes').append(panel)
   }
   
   result = Object.assign(result, {
@@ -20,7 +21,7 @@ quest = function(params = {}) {
       return this.difficulty/(resources.farm()*resources.idle()+this.difficulty)
     },
     choose: function() {
-      if (resources.idle() < minIdleForQuest) {
+      if (resources.idle() < 3) {
         return
       }
       win = rndEvent(1-this.deathChance())
