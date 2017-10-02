@@ -148,7 +148,7 @@ function createCivilization(params) {
   )
   resources.time.income = (() => 1)
   
-  techCost = (() => Math.pow(10000, resources.totalTech()+1))
+  techCost = (() => Math.pow(100, resources.totalTech()+1))
   conquestPenalty = (() => 100*Math.pow(0.5, resources.swamps()) + 2 - Math.pow(2, 1-resources.swamps()))
 
   array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))

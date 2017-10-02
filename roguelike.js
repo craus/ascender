@@ -41,6 +41,7 @@ function createRoguelike(params) {
   
   resources = {
     farm: variable(1, 'farm', {formatter: large}),
+    time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level'),
     life: variable(3, 'life'),
     activeLife: variable(1, 'activeLife'),
@@ -94,6 +95,10 @@ function createRoguelike(params) {
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
       resources.idle.value += deltaTime
+      if (resources.activeLife() < 1) {
+        resources.idle.value = 0
+      }
+      resources.time.value += deltaTime
       
       save(currentTime)
       debug.unprofile('tick')
