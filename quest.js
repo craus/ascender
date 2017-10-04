@@ -3,10 +3,10 @@ quest = function(params = {}) {
   var result = params
   if (!result.difficulty) {
     var quality = gaussianRandom(0, 0.5 + 0.2 * log(resources.level()+7, 100))
-    var power = gaussianRandom(0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
+    var power = gaussianRandom(3 + 0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
     var rewardPower = quality + power
-    result.difficulty = Math.pow(10, power + 0.03 * resources.level())    
-    result.reward = Math.pow(10, quality + power - 3)
+    result.difficulty = Math.floor(Math.pow(10, power + 0.03 * resources.level()))
+    result.reward = Math.floor(Math.pow(10, quality + power - 2))
   }
   
   var panel = instantiate('questSample')
