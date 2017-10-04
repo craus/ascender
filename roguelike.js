@@ -41,6 +41,7 @@ function createRoguelike(params) {
   
   resources = {
     farm: variable(1, 'farm', {formatter: large}),
+    farmIncome: variable(1, 'farmIncome', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
     level: variable(0, 'level'),
     life: variable(3, 'life'),
@@ -48,6 +49,8 @@ function createRoguelike(params) {
     idle: variable(1, 'idle')
   }
   quests = []
+
+  resources.farm.income = resources.farmIncome;
   
   revive = function() {
     resources.activeLife.value += 1
@@ -99,6 +102,8 @@ function createRoguelike(params) {
         resources.idle.value = 0
       }
       resources.time.value += deltaTime
+
+      Object.values(resources).each('tick', deltaTime)
       
       save(currentTime)
       debug.unprofile('tick')
