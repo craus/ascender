@@ -2,11 +2,16 @@
 quest = function(params = {}) {
   var result = params
   if (!result.difficulty) {
-    var quality = gaussianRandom(0, 0.5 + 0.2 * log(resources.level()+7, 100))
     var power = gaussianRandom(3 + 0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
-    var rewardPower = quality + power
-    result.difficulty = Math.floor(Math.pow(10, power + 0.03 * resources.level()))
-    result.reward = Math.floor(Math.pow(10, quality + power - 2))
+    console.log("power", power)
+    var baseQuality = -4+3*Math.pow((1+Math.cos(power/10))/2, 0.4)
+    var randomQuality = 0.6+0.2*Math.sin(power/14.19)
+    console.log("base quality", baseQuality)
+    console.log("random quality", randomQuality)
+    var quality = gaussianRandom(baseQuality, randomQuality)
+    console.log("quality", quality)
+    result.difficulty = Math.pow(10, power)    
+    result.reward = Math.pow(10, quality + power)
   }
   
   var panel = instantiate('questSample')
@@ -33,6 +38,7 @@ quest = function(params = {}) {
       } else {
         resources.life.value -= 1
         resources.activeLife.value -= 1
+        resources.lastDeathChance.value = this.deathChance()
       }
       resources.idle.value = 0
       refreshQuests()

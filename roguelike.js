@@ -46,7 +46,8 @@ function createRoguelike(params) {
     level: variable(0, 'level'),
     life: variable(3, 'life'),
     activeLife: variable(1, 'activeLife'),
-    idle: variable(1, 'idle')
+    idle: variable(1, 'idle'),
+    lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
   }
   quests = []
 
@@ -62,6 +63,7 @@ function createRoguelike(params) {
     }
     quests = []
     for (var i = 0; i < 3; i++) {
+      console.log("quest", i)
       quests.push(quest())
     }
   }
