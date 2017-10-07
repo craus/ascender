@@ -148,7 +148,12 @@ function createCivilization(params) {
   )
   resources.time.income = (() => 1)
   
-  techCost = (() => Math.pow(10000, resources.totalTech()+1))
+  
+  var arc = function(p) {
+    return Math.floor(round(Math.pow(10, p), 2))
+  }
+  
+  techCost = (() => arc((x => (0.3*x+2)*x+1)(resources.totalTech())))
   conquestPenalty = (() => 100*Math.pow(0.5, resources.swamps()) + 2 - Math.pow(2, 1-resources.swamps()))
 
   array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))
@@ -190,10 +195,6 @@ function createCivilization(params) {
     return div(res)
   })
   
-  var arc = function(p) {
-    return Math.floor(round(Math.pow(10, p), 2))
-  }
-  
   commands = {
     hireScientists: command('hireScientists', z => ({
       commands: -1,
@@ -217,8 +218,8 @@ function createCivilization(params) {
     })),
     organizeCelebrations: command('organizeCelebrations', z => ({
       commands: -1,
-      money: -100*Math.pow(10, z),
-      happiness: +arc(0.421*Math.pow(z, 0.7))
+      money: -10*Math.pow(10, z),
+      happiness: +arc(0.521*Math.pow(z, 0.7))
     })),
     buildCircuses: command('buildCircuses', z => ({
       commands: -1,
@@ -301,7 +302,7 @@ function createCivilization(params) {
       }
       
       Object.values(resources).each('tick', deltaTime)
-      resources.commands.value += deltaTime * 0.1
+      resources.commands.value += deltaTime * 0.3
       //resources.commands.value = Math.min(10, resources.commands.value)
       
       while (resources.science() > techCost()) {
