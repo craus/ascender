@@ -2,7 +2,7 @@
 quest = function(params = {}) {
   var result = params
   if (!result.difficulty) {
-    var power = gaussianRandom(3 + 0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
+    var power = gaussianRandom(0.1 * resources.level(), 0.5 * Math.pow(resources.level()+7, 0.25) - 0.1)
     console.log("power", power)
     var baseQuality = -4+3*Math.pow((1+Math.cos(power/10))/2, 0.4)
     var randomQuality = 0.6+0.2*Math.sin(power/14.19)
@@ -34,7 +34,7 @@ quest = function(params = {}) {
         if (resources.level() % 10 == 0) {
           resources.life.value += 1
         }
-        resources.farmIncome.value += this.reward
+        resources.farm.value += this.reward
       } else {
         resources.life.value -= 1
         resources.activeLife.value -= 1
