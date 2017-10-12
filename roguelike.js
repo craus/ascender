@@ -2,7 +2,7 @@ function createRoguelike(params) {
   
   // Rules common things
     
-  var gameName = "roguelike"
+  var gameName = "roguelikeNoIdle"
   var saveName = gameName+"SaveData"
 
   if (localStorage[saveName] != undefined) {
@@ -43,10 +43,11 @@ function createRoguelike(params) {
     farm: variable(1, 'farm', {formatter: large, incomeFormatter: x => noZero(signed(large(x)))}),
     farmIncome: variable(0, 'farmIncome', {formatter: large}),
     time: variable(0, 'time', {formatter: Format.time}),
+    realTime: variable(30, 'realTimeVar'),
     level: variable(0, 'level'),
     life: variable(3, 'life'),
     activeLife: variable(1, 'activeLife'),
-    idle: variable(1, 'idle'),
+    idle: variable(0, 'idle'),
     lastDeathChance: variable(1, 'lastDeathChance', {formatter: x => Format.percent(x, 2)})
   }
   quests = []
@@ -73,6 +74,27 @@ function createRoguelike(params) {
   } else {
     refreshQuests()
   }
+
+  createWaitButton = function(wait) {
+    $('.wait'+wait).click(function() {
+      if (resources.realTime.value < wait) {
+        return
+      }
+      resources.realTime.value -= wait
+      resources.idle.value += wait
+    })
+    return {
+      paint: function() {
+        $('.wait'+wait).toggleClass('disabled', resources.realTime() < wait)
+      }
+    }
+  }
+
+  waitButtons = []
+  waitButtons.push(createWaitButton(1))
+  waitButtons.push(createWaitButton(10))
+  waitButtons.push(createWaitButton(100))
+
   
   result = {
     paint: function() {
@@ -87,10 +109,11 @@ function createRoguelike(params) {
       $('.panel-life').toggleClass('panel-danger', resources.life() <= 1)
       $('.panel-life').toggleClass('panel-primary', resources.life() > 1)
       
-      $('.panel-idle').toggleClass('panel-warning', resources.idle() <= minIdleForQuest)
-      $('.panel-idle').toggleClass('panel-primary', resources.idle() > minIdleForQuest)
+      $('.panel-idle').toggleClass('panel-warning', resources.idle() <= minIdleForQuest-eps)
+      $('.panel-idle').toggleClass('panel-primary', resources.idle() > minIdleForQuest-eps)
       
       quests.each('paint')
+      waitButtons.each('paint')
 
       debug.unprofile('paint')
     },
@@ -99,11 +122,16 @@ function createRoguelike(params) {
       var currentTime = Date.now()
       var deltaTime = (currentTime - savedata.realTime) / 1000
       
-      resources.idle.value += deltaTime
-      if (resources.activeLife() < 1) {
-        resources.idle.value = 0
-      }
+      //resources.idle.value += deltaTime
+      // if (resources.activeLife() < 1) {
+      //   resources.idle.value = 0
+      // }
       resources.time.value += deltaTime
+
+      if (resources.idle.value < 1-eps) {
+        resources.idle.value += 1
+        resources.realTime.value -= 1
+      }
 
       Object.values(resources).each('tick', deltaTime)
       

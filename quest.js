@@ -45,6 +45,7 @@ quest = function(params = {}) {
           resources.life.value += 1
         }
         resources.farm.value += this.reward
+        resources.realTime.value += 30
       } else {
         resources.life.value -= 1
         resources.activeLife.value -= 1
@@ -56,7 +57,7 @@ quest = function(params = {}) {
     },
     paint: function() {
       setFormattedText(panel.find('.deathChance'), Format.percent(result.deathChance(), 2))
-      panel.find('.choose').toggleClass('disabled', resources.idle() < minIdleForQuest)
+      panel.find('.choose').toggleClass('disabled', resources.idle() < minIdleForQuest-eps)
     },
     save: function() {
       savedata.quests.push(Object.assign({
