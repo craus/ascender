@@ -20,7 +20,7 @@ quest = function(params = {}) {
     console.log("random quality", randomQuality)
     var quality = gaussianRandom(baseQuality, randomQuality)
     console.log("quality", quality)
-    result.difficulty = Math.pow(10, power)    
+    result.difficulty = Math.pow(10, power) / 20   
     result.reward = Math.pow(10, quality + power)
   }
   
@@ -32,7 +32,7 @@ quest = function(params = {}) {
   
   result = Object.assign(result, {
     deathChance: function() {
-      return this.difficulty/(resources.farm()*resources.idle()+this.difficulty)
+      return this.difficulty/(resources.farm()+this.difficulty)
     },
     choose: function() {
       if (resources.idle() < minIdleForQuest) {
