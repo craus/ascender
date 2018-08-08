@@ -19,7 +19,7 @@ var init = function() {
   //     // Sorry! No Web Storage support..
   // } 
 
-  game = createCivilization()
+  game = createMissionClicker()
   input = []
   
   realTime = 0
