@@ -11,8 +11,8 @@ mission = function(id, params) {
       setFormattedText($('.#{0}.name, .#{0} .name'.i(id)), this.name)
       setFormattedText($('.#{0}.desc, .#{0} .desc'.i(id)), this.desc())
       setProgress($('.#{0} .progressBar'.i(id)), this.progressPercent())
-      setFormattedText($('.#{0} .currentProgress'.i(id)), this.progress())
-      setFormattedText($('.#{0} .maxProgress'.i(id)), this.maxProgress())
+      setFormattedText($('.#{0} .currentProgress'.i(id)), Format.round(this.progress(), 2))
+      setFormattedText($('.#{0} .maxProgress'.i(id)), Format.round(this.maxProgress()))
       setFormattedText($('.#{0} .progressPercent'.i(id)), Format.round(this.progressPercent(), 2))
       setFormattedText($('.#{0} .progressPercent0'.i(id)), Format.percent(this.progress() / this.maxProgress()))
     },
@@ -30,8 +30,8 @@ mission = function(id, params) {
 		click: function() {
 		},
 		complete: function() {
-			this.level += 1
 			this.reset()
+			this.level += 1
 		},
 		reset: function() {
 		},

@@ -58,8 +58,14 @@ function createMissionClicker(params) {
 			maxProgress: function() { return this.level }
 		}),
 		idle: mission('idle', {
+			time: 0,
 			name: 'Idle',
 			desc: function() { return "Do not click THE BUTTON for #{0} seconds.".i(this.level) },
+			click: function() { this.time = 0 },
+			tick: function(t) { this.time += t; while (this.time >= this.level) this.complete() },
+			reset: function() { this.time -= this.level },
+			progress: function() { return this.time },
+			maxProgress: function() { return this.level }
 		}),
 	}
 	
