@@ -41,8 +41,8 @@ function createMissionClicker(params) {
     location.reload()
   }
   resources = {
-    time: variable(0, 'time', {formatter: x => precision(x, 4)}),
-    idleTime: variable(0, 'idleTime', {formatter: x => precision(x, 4)}),
+    time: variable(0, 'time', {formatter: x => x.toFixed(2)}),
+    idleTime: variable(0, 'idleTime', {formatter: x => x.toFixed(2)}),
   }
   resources.time.income = (() => 1)
   resources.idleTime.income = (() => 1)
@@ -67,6 +67,37 @@ function createMissionClicker(params) {
 			progress: function() { return this.time },
 			maxProgress: function() { return this.level }
 		}),
+		slowPlay: mission('slowPlay', {
+			clicks: 0,
+			name: 'Slowplay',
+			count: 1,
+			idle: 1,
+			desc: function() { 
+				return "Click THE BUTTON#{0} with idle time at least #{1} s.".i(
+					this.count > 1 ? " #{0} times".i(this.count) : '',
+					this.idle
+				) 
+			},
+			click: function() { 
+				if (resources.idleTime() < this.idle) return
+				this.clicks += 1; 
+				if (this.clicks == this.count) this.complete() 
+			},
+			complete: function() {
+				this.reset()
+				this.level += 1
+				if (this.idle > 1) {
+					this.count += 1
+					this.idle -= 1
+				} else {
+					this.idle = this.count + 1
+					this.count = 1
+				}
+			},
+			reset: function() { this.clicks = 0 },
+			progress: function() { return this.clicks },
+			maxProgress: function() { return this.count }
+		}),
 	}
 	
   savedata.activeTab = savedata.activeTab || '#population'
@@ -74,6 +105,8 @@ function createMissionClicker(params) {
   $('a[href="' + savedata.activeTab + '"]').tab('show')
   $('a[href="' + savedata.activeTechTab + '"]').tab('show')
   $('a[href="' + savedata.activeAreaTab + '"]').tab('show')
+	
+	$('.theButton').click(() => resources.idleTime.value = 0)
   
   game = {
     paint: function() {
