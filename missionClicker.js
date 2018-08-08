@@ -24,6 +24,9 @@ function createMissionClicker(params) {
     Object.values(resources).forEach(function(resource) {
       savedata[resource.id] = resource.value
     })
+    Object.values(missions).forEach(function(mission) {
+      savedata[mission.id] = mission.save()
+    })
 
     savedata.activeTab = $('.sections>.active>a').attr('href')
     savedata.activeTechTab = $('.techs>.active>a').attr('href')
@@ -46,8 +49,13 @@ function createMissionClicker(params) {
 	
 	missions = {
 		click: mission('click', {
+			clicks: 0,
 			name: 'Click',
 			desc: function() { return "Click THE BUTTON#{0}.".i(this.level > 1 ? " #{0} times".i(this.level) : '') },
+			click: function() { this.clicks += 1; if (this.clicks == this.level) this.complete() },
+			reset: function() { this.clicks = 0 },
+			progress: function() { return this.clicks },
+			maxProgress: function() { return this.level }
 		}),
 		idle: mission('idle', {
 			name: 'Idle',

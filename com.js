@@ -222,6 +222,9 @@ setFormattedText = function(el, text, text1) {
     el.html(t)
   }
 }
+setProgress = function(el, progress) {
+  el.css('width', progress+'%').attr('aria-valuenow', progress)
+}
 needResort = false
 setSortableValue = function(el, value) {
   var old = el.attr('data-value')
