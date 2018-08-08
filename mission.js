@@ -5,7 +5,13 @@ mission = function(id, params) {
   var result = Object.assign({
     id: id,
 		level: 1,
-    paint: function() {
+		ready: function() {
+			return true
+		},
+		waitTime: function() {
+			return 0
+		},
+    basePaint: function() {
       setFormattedText($('.#{0}.level, .#{0} .level'.i(id)), this.level)
       setFormattedText($('.#{0}.level1, .#{0} .level1'.i(id)), this.level == 1 ? '' : this.level)
       setFormattedText($('.#{0}.name, .#{0} .name'.i(id)), this.name)
@@ -15,7 +21,14 @@ mission = function(id, params) {
       setFormattedText($('.#{0} .maxProgress'.i(id)), Format.round(this.maxProgress()))
       setFormattedText($('.#{0} .progressPercent'.i(id)), Format.round(this.progressPercent(), 2))
       setFormattedText($('.#{0} .progressPercent0'.i(id)), Format.percent(this.progress() / this.maxProgress()))
+			
+			$('.#{0} .wait'.i(id)).toggle(!this.ready())
+			$('.#{0} .act'.i(id)).toggle(this.ready())
+			setFormattedText($('.#{0} .remainingTime'.i(id)), Format.round(this.waitTime(), 2))
     },
+		paint: function() {
+			this.basePaint()
+		},
     tick: function(deltaTime) {
     },
     save: function() {

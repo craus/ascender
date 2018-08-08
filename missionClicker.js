@@ -60,6 +60,8 @@ function createMissionClicker(params) {
 		idle: mission('idle', {
 			time: 0,
 			name: 'Idle',
+			ready: function() { return false },
+			waitTime: function() { return this.level - this.time },
 			desc: function() { return "Do not click THE BUTTON for #{0} seconds.".i(this.level) },
 			click: function() { this.time = 0 },
 			tick: function(t) { this.time += t; while (this.time >= this.level) this.complete() },
@@ -73,13 +75,16 @@ function createMissionClicker(params) {
 			count: 1,
 			idle: 1,
 			desc: function() { 
-				return "Click THE BUTTON#{0} with idle time at least #{1} s.".i(
+				return "Click THE BUTTON#{0} with idle time at least #{1} sec.".i(
 					this.count > 1 ? " #{0} times".i(this.count) : '',
 					this.idle
 				) 
 			},
+			ready: function() {
+				return resources.idleTime() >= this.idle
+			},
 			click: function() { 
-				if (resources.idleTime() < this.idle) return
+				if (!this.ready()) return
 				this.clicks += 1; 
 				if (this.clicks == this.count) this.complete() 
 			},
@@ -96,7 +101,8 @@ function createMissionClicker(params) {
 			},
 			reset: function() { this.clicks = 0 },
 			progress: function() { return this.clicks },
-			maxProgress: function() { return this.count }
+			maxProgress: function() { return this.count },
+			waitTime: function() { return this.idle - resources.idleTime() }
 		}),
 	}
 	
