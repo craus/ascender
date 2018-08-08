@@ -32,6 +32,7 @@ function createMissionClicker(params) {
     savedata.activeTechTab = $('.techs>.active>a').attr('href')
     savedata.activeTechTab = $('.areas>.active>a').attr('href')
     savedata.realTime = timestamp || Date.now()
+    savedata.idles = idles
     localStorage[saveName] = JSON.stringify(savedata)
   } 
   
@@ -46,6 +47,8 @@ function createMissionClicker(params) {
   }
   resources.time.income = (() => 1)
   resources.idleTime.income = (() => 1)
+	
+	idles = savedata.idles || []
 	
 	missions = {
 		click: mission('click', {
@@ -104,6 +107,162 @@ function createMissionClicker(params) {
 			maxProgress: function() { return this.count },
 			waitTime: function() { return this.idle - resources.idleTime() }
 		}),
+		criticalClick: mission('criticalClick', {
+			name: 'Critical Click',
+			idle: 1,
+			desc: function() { 
+				return "Click THE BUTTON with idle time EXACTLY #{0} sec.".i(
+					this.idle
+				) 
+			},
+			smallDesc: function() {
+				return "Absolute error must be at most 0.01 sec."
+			},
+			wait: function() {
+				return resources.idleTime() < this.idle - 0.01
+			},
+			ready: function() {
+				return Math.abs(resources.idleTime() - this.idle) < 0.01
+			},
+			late: function() {
+				return resources.idleTime() > this.idle + 0.01
+			},
+			click: function() { 
+				if (!this.ready()) return
+				this.complete() 
+			},
+			complete: function() {
+				this.reset()
+				this.level += 1
+				this.idle += 1
+			},
+			waitTime: function() { return this.idle - resources.idleTime() }
+		}),
+		acceleration: mission('acceleration', {
+			clicks: 0,
+			name: 'Acceleration',
+			count: 3,
+			time: 1,
+			desc: function() { 
+				return "Click THE BUTTON #{0} consecutive times, faster with each click.".i(
+					this.count > 1 ? " #{0} times".i(this.count) : '',
+					this.idle
+				) 
+			},
+			ready: function() {
+				return resources.idleTime() < this.time
+			},
+			late: function() {
+				return resources.idleTime() > this.time
+			},
+			click: function() { 
+				if (!this.ready()) {
+					this.reset()
+				} else {
+					this.clicks += 1; 
+					if (this.clicks == this.count) this.complete() 
+				}
+				this.time = resources.idleTime()
+			},
+			complete: function() {
+				this.reset()
+				this.level += 1
+				this.count += 1
+			},
+			reset: function() { this.clicks = 0 },
+			progress: function() { return this.clicks },
+			maxProgress: function() { return this.count },
+			paint: function() {
+				this.basePaint()
+				setFormattedText($('.#{0} .time'.i(this.id)), this.time.toFixed(2))
+			},
+			waitTime: function() { return this.time - resources.idleTime() }
+		}),
+		deceleration: mission('deceleration', {
+			clicks: 0,
+			name: 'Deceleration',
+			count: 3,
+			time: 1,
+			desc: function() { 
+				return "Click THE BUTTON #{0} consecutive times, slower with each click.".i(
+					this.count > 1 ? " #{0} times".i(this.count) : '',
+					this.idle
+				) 
+			},
+			ready: function() {
+				return resources.idleTime() > this.time
+			},
+			click: function() { 
+				if (!this.ready()) {
+					this.reset()
+				} else {
+					this.clicks += 1; 
+					if (this.clicks == this.count) this.complete() 
+				}
+				this.time = resources.idleTime()
+			},
+			complete: function() {
+				this.reset()
+				this.level += 1
+				this.count += 1
+			},
+			reset: function() { this.clicks = 0 },
+			progress: function() { return this.clicks },
+			maxProgress: function() { return this.count },
+			paint: function() {
+				this.basePaint()
+				setFormattedText($('.#{0} .time'.i(this.id)), this.time.toFixed(2))
+			},
+			waitTime: function() { return this.time - resources.idleTime() }
+		}),
+		rhythm: mission('rhythm', {
+			clicks: 0,
+			name: 'Rhythm',
+			count: 3,
+			time: 1,
+			eps: 0.2,
+			desc: function() { 
+				return "Click THE BUTTON #{0} consecutive times, with EXACTLY same idle time.".i(
+					this.count > 1 ? " #{0} times".i(this.count) : '',
+					this.idle
+				) 
+			},
+			smallDesc: function() {
+				return "Relative difference between two consecutive clicks must be at most #{0}%.".i(this.eps * 100)
+			},
+			wait: function() {
+				return resources.idleTime() < this.time - resources.idleTime() * this.eps
+			},
+			ready: function() {
+				return Math.abs(resources.idleTime() - this.time) < resources.idleTime() * this.eps
+			},
+			late: function() {
+				return resources.idleTime() > this.time + resources.idleTime() * this.eps
+			},
+			click: function() { 
+				if (!this.ready()) {
+					this.reset()
+				} else {
+					this.clicks += 1; 
+					if (this.clicks == this.count) this.complete() 
+				}
+				this.time = resources.idleTime()
+			},
+			complete: function() {
+				this.reset()
+				this.level += 1
+				this.count += 1
+			},
+			waitTime: function() { return this.idle - resources.idleTime() },
+			reset: function() { this.clicks = 0 },
+			progress: function() { return this.clicks },
+			maxProgress: function() { return this.count },
+			paint: function() {
+				this.basePaint()
+				setFormattedText($('.#{0} .time'.i(this.id)), this.time.toFixed(2))
+			},
+			waitTime: function() { return this.time - resources.idleTime() }
+		}),
 	}
 	
   savedata.activeTab = savedata.activeTab || '#population'
@@ -112,7 +271,12 @@ function createMissionClicker(params) {
   $('a[href="' + savedata.activeTechTab + '"]').tab('show')
   $('a[href="' + savedata.activeAreaTab + '"]').tab('show')
 	
-	$('.theButton').click(() => resources.idleTime.value = 0)
+	$('.theButton').click(() => {
+		game.tick()
+		Object.values(missions).each('click')
+		idles.push(resources.idleTime.value)
+		resources.idleTime.value = 0
+	})
   
   game = {
     paint: function() {
@@ -120,7 +284,7 @@ function createMissionClicker(params) {
       
       Object.values(resources).each('paint')
       Object.values(missions).each('paint')
-      //setFormattedText($('.conquestPercent'), '#{0}%'.i((resources.warpower() / resources.conquestCost()*100).toFixed(2)))
+      setFormattedText($('.lastIdleTime'), idles[idles.length-1].toFixed(2))
       //$('.populationTab').toggle(techs.minerals()>0)
 
       debug.unprofile('paint')

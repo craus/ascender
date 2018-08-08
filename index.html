@@ -93,6 +93,10 @@
     <li class="click"><a data-toggle="tab" href="#click">Click <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
     <li class="idle"><a data-toggle="tab" href="#idle">Idle <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
     <li class="slowPlay"><a data-toggle="tab" href="#slowPlay">Slowplay <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
+    <li class="criticalClick"><a data-toggle="tab" href="#criticalClick">Critical Click <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
+    <li class="acceleration"><a data-toggle="tab" href="#acceleration">Acceleration <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
+    <li class="deceleration"><a data-toggle="tab" href="#deceleration">Deceleration <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
+    <li class="rhythm"><a data-toggle="tab" href="#rhythm">Rhythm <span class="level1">?</span> <span class="badge badge-secondary progressPercent0">?</span></a></li>
     <li><a data-toggle="tab" href="#settings">Settings</a></li>
   </ul>
   <div class="tab-content">
@@ -147,6 +151,101 @@
 				<div class="panel-footer">Your idle time is high enough.</div>
 			</div>
     </div>
+		<div id="criticalClick" class="criticalClick tab-pane fade">
+			<h3>MISSION: <span class="name">?</span></h3>
+			<p class="desc">?</p>
+			<p class="smallDesc">?</p>
+			<div class="panel panel-primary">
+				<div class="panel-heading"><span class="lastIdleTime">?</span> sec</div>
+				<div class="panel-body">This is your last click idle time.</div>
+			</div>
+			<div class="panel panel-danger wait">
+				<div class="panel-heading panel-danger">DO NOT CLICK NOW</div>
+				<div class="panel-footer">Wait <span class="remainingTime">?</span> sec</div>
+			</div>
+			<div class="panel panel-success act">
+				<div class="panel-heading panel-success">CLICK NOW</div>
+				<div class="panel-footer">
+					Do not read this text! Just click! This is exactly the required moment!
+					There is not much time when you can see this label.
+					If you can read this, you are really fast reader.
+					But if you don't want to fail your critical click — CLICK already!
+				</div>
+			</div>
+			<div class="panel panel-warning late">
+				<div class="panel-heading">TOO LATE</div>
+				<div class="panel-footer">Your idle time is too high now. Click again to restart mission.</div>
+			</div>
+    </div>
+		<div id="acceleration" class="acceleration tab-pane fade">
+			<h3>MISSION: <span class="name">?</span></h3>
+			<p class="desc">?</p>
+			<div class="progress">
+				<div class="progress-bar progressBar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+					<span class="currentProgress">?</span>/<span class="maxProgress">?</span> (<span class="progressPercent">70</span>%)
+				</div>
+			</div>
+			<div class="panel panel-primary">
+				<div class="panel-heading"><span class="time">?</span> sec</div>
+				<div class="panel-body">This is your last click idle time. Click faster next time!</div>
+			</div>
+			<div class="panel panel-success act">
+				<div class="panel-heading panel-danger">CLICK NOW</div>
+				<div class="panel-footer">You have <span class="remainingTime">?</span> sec to click.</div>
+			</div>
+			<div class="panel panel-warning late">
+				<div class="panel-heading">TOO LATE</div>
+				<div class="panel-footer">Your idle time is too high now. Click again to restart mission.</div>
+			</div>
+    </div>
+		<div id="deceleration" class="deceleration tab-pane fade">
+			<h3>MISSION: <span class="name">?</span></h3>
+			<p class="desc">?</p>
+			<div class="progress">
+				<div class="progress-bar progressBar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+					<span class="currentProgress">?</span>/<span class="maxProgress">?</span> (<span class="progressPercent">70</span>%)
+				</div>
+			</div>
+			<div class="panel panel-primary">
+				<div class="panel-heading"><span class="time">?</span> sec</div>
+				<div class="panel-body">This is your last click idle time. Click slower next time!</div>
+			</div>
+			<div class="panel panel-success act">
+				<div class="panel-heading">CLICK NOW</div>
+				<div class="panel-footer">Your idle time is high enough.</div>
+			</div>
+			<div class="panel panel-danger wait">
+				<div class="panel-heading">DO NOT CLICK NOW</div>
+				<div class="panel-footer">Wait <span class="remainingTime">?</span> sec</div>
+			</div>
+    </div>
+		<div id="rhythm" class="rhythm tab-pane fade">
+			<h3>MISSION: <span class="name">?</span></h3>
+			<p class="desc">?</p>
+			<p class="smallDesc">?</p>
+			<div class="progress">
+				<div class="progress-bar progressBar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+					<span class="currentProgress">?</span>/<span class="maxProgress">?</span> (<span class="progressPercent">70</span>%)
+				</div>
+			</div>
+			<div class="panel panel-primary">
+				<div class="panel-heading"><span class="time">?</span> sec</div>
+				<div class="panel-body">This is your last click idle time. Click with EXACTLY this idle time!</div>
+			</div>
+			<div class="panel panel-danger wait">
+				<div class="panel-heading">DO NOT CLICK NOW</div>
+				<div class="panel-footer">Wait <span class="remainingTime">?</span> sec</div>
+			</div>
+			<div class="panel panel-success act">
+				<div class="panel-heading">CLICK NOW</div>
+				<div class="panel-footer">Your idle time is high enough.</div>
+			</div>
+			<div class="panel panel-warning late">
+				<div class="panel-heading">TOO LATE</div>
+				<div class="panel-footer">Your idle time is too high now. Click again to restart mission.</div>
+			</div>
+    </div>
+		
     <div id="settings" class="tab-pane fade">
       <br>
       <div class="row centered">

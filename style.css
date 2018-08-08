@@ -34,7 +34,10 @@ table {
   text-align: center;
 }
 .tooltip-inner {
-    white-space:pre-wrap;
+	white-space:pre-wrap;
+}
+.smallDesc {
+  font-size: 10px;
 }
 
 
