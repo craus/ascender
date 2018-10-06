@@ -26,7 +26,7 @@ var init = function() {
   var secondTime = 0
   
   setInterval(function() {
-    realTime += 0.1
+    realTime += 0.01
     secondTime += 1
     
     $('#realTime').text("real time: " + realTime)
@@ -44,7 +44,7 @@ var init = function() {
         $.bootstrapSortable({ applyLast: true })
       }
     }
-  }, 100)
+  }, 10)
   
   window.onkeydown = function(e) {
     console.log(e)

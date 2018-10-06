@@ -143,8 +143,9 @@ function createMissionClicker(params) {
 			name: 'Acceleration',
 			count: 3,
 			time: 1,
+			bestIdles: [],
 			desc: function() { 
-				return "Click THE BUTTON #{0} consecutive times, faster with each click.".i(
+				return "Click THE BUTTON #{0} times, faster with each click.".i(
 					this.count > 1 ? " #{0} times".i(this.count) : '',
 					this.idle
 				) 
