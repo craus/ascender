@@ -11,9 +11,9 @@ buy = (params={}) => {
       Object.entries(params.reward).forEach(c => resources[c[0]].value += c[1]())
     },
     paint: function() {
-      enable($('.'+params.id), this.available())
+      enable($('.#{0}, .#{0} .btn'.i(params.id)), this.available())
       Object.entries(params.cost).forEach(c => {
-        setFormattedText($('.#{0} > .cost.#{1}'.i(params.id, resources[c[0]].id)), large(c[1]()))
+        setFormattedText($('.#{0} .cost.#{1}'.i(params.id, resources[c[0]].id)), large(c[1]()))
       })
     }
   }, params)

@@ -33,5 +33,5 @@ variable = function(initialValue, id, params) {
     save: function() {
       savedata[id] = this.value
     }
-  })
+  }, params)
 }  
