@@ -153,7 +153,7 @@ function createCivilization(params) {
     return Math.floor(round(Math.pow(10, p), 2))
   }
   
-  techCost = (() => arc((x => (0.3*x+2)*x+1)(resources.totalTech())))
+  techCost = (() => arc((x => (0.3*x+2)*x+2)(resources.totalTech())))
   conquestPenalty = (() => 100*Math.pow(0.5, resources.swamps()) + 2 - Math.pow(2, 1-resources.swamps()))
 
   array = ((a, k, z) => a[Math.min(z,a.length-1)]*Math.pow(k,Math.max(0, z-a.length+1)))
