@@ -36,11 +36,23 @@ function createGame(params) {
 	var reputation = variable(0, 'reputation')
 	var experience = variable(0, 'experience')
 	var time = variable(0, 'time')
-	var mr = variable(0, 'mr', {eff: 0.19, mult: 3, costType: money})
-	var mm = variable(0, 'mm', {eff: 0.9, mult: 2, costType: money})
-	var rr = variable(0, 'rr', {eff: 0.9, mult: 7, costType: reputation})
-	var rm = variable(0, 'rm', {eff: 0.01, mult: 5, costType: reputation})
+	var mr = variable(0, 'mr', {eff: 1, mult: 3, costType: money})
+	var mm = variable(0, 'mm', {eff: 0.6, mult: 2, costType: money})
+	var rr = variable(0, 'rr', {eff: 0.6, mult: 7, costType: reputation})
+	var rm = variable(0, 'rm', {eff: 0.16, mult: 5, costType: reputation})
 	
+  var normalize = function(channel, priceMult) {
+    channel.mult = Math.exp(Math.log(priceMult) * channel.eff)
+  }
+  
+  normalize(mr, 1.07)
+  normalize(mm, 1.07)
+  normalize(rr, 1.07)
+  normalize(rm, 1.07)
+  
+  // balance: BC/(1-A)/(1-D) = 1
+  
+  
   resources = {
 		money: money,
 		reputation: reputation,
@@ -52,17 +64,17 @@ function createGame(params) {
     rm: rm,
   }
 	
-	var easy = 1
+	var hard = 10
   
-  money.income = () => Math.pow(rm.mult, rm()) * Math.pow(mm.mult, mm()) * easy
-  reputation.income = () => Math.pow(rr.mult, rr()) * Math.pow(mr.mult, mr()) * easy
+  money.income = () => Math.pow(rm.mult, rm()) * Math.pow(mm.mult, mm())
+  reputation.income = () => Math.pow(rr.mult, rr()) * Math.pow(mr.mult, mr())
 	
 
 	multerBuy = (multer) => {
 		var reward = {}
 		reward[multer.id] = () => 1
 		var cost = {}
-		cost[multer.costType.id] = () => Math.pow(multer.mult, (multer()+1)/multer.eff)
+		cost[multer.costType.id] = () => Math.pow(multer.mult, (multer()+1)/multer.eff) * hard
 		var result = buy({
 			id: 'buy_'+multer.id,
 			cost: cost, 
@@ -72,7 +84,7 @@ function createGame(params) {
 		var oldPaint = result.paint
 		result.paint = function() {
 			oldPaint.apply(this)
-			setFormattedText($('.#{0} .mult'.i(this.id)), multer.mult)
+			setFormattedText($('.#{0} .mult'.i(this.id)), large(multer.mult))
 		}
 		return result
 	}
@@ -95,16 +107,18 @@ function createGame(params) {
       
       debug.unprofile('paint')
     },
-    tick: function() {
-      debug.profile('tick')
-      var currentTime = Date.now()
-      var deltaTime = (currentTime - savedata.realTime) / 1000
-      
+
+    tick: function(deltaTime = undefined) {
+      if (deltaTime == undefined) {
+        debug.profile('tick')
+        var currentTime = Date.now()
+        deltaTime = (currentTime - savedata.realTime) / 1000
+        this.tick(deltaTime)
+        save(currentTime)
+        debug.unprofile('tick')
+      }
       resources.time.value += deltaTime
       Object.values(resources).each('tick', deltaTime)
-      
-      save(currentTime)
-      debug.unprofile('tick')
     }
   }
   return game
